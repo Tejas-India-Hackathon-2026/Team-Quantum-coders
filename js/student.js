@@ -84,6 +84,174 @@ function initEditProfileModal() {
 }
 
 /**
+ * Dynamic Skills Repository and Verification Engine
+ */
+const BASE_STUDENT_SKILLS = [
+  { id: 'sk_react', name: '⚛️ React & Next.js Architecture', category: 'engineering', testMapped: 'Full Stack Engineer Assessment' },
+  { id: 'sk_ts', name: '🔷 TypeScript & Modern JS', category: 'engineering', testMapped: 'Full Stack Engineer Assessment' },
+  { id: 'sk_node', name: '🟢 Node.js & Distributed Express', category: 'engineering', testMapped: 'Full Stack Engineer Assessment' },
+  { id: 'sk_python', name: '🤖 Python & Machine Learning', category: 'ai', testMapped: 'AI Systems & LLM Engineering Test' },
+  { id: 'sk_docker', name: '🐳 Docker & Kubernetes Infrastructure', category: 'cloud', testMapped: 'Cloud Infrastructure & DevOps Challenge' },
+  { id: 'sk_cloud', name: '☁️ Cloud Firestore & Secure REST APIs', category: 'cloud', testMapped: 'Cloud Infrastructure & DevOps Challenge' }
+];
+
+function getStudentVerifiedBadges(uid) {
+  try {
+    const raw = localStorage.getItem('lp_student_badges_' + uid);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveStudentVerifiedBadge(uid, badge) {
+  try {
+    const badges = getStudentVerifiedBadges(uid);
+    badges.unshift(badge);
+    localStorage.setItem('lp_student_badges_' + uid, JSON.stringify(badges));
+  } catch (e) {}
+}
+
+/**
+ * Dynamically renders student skills & calculates Readiness Score
+ * based EXCLUSIVELY on assessments actually passed by this user.
+ */
+function renderStudentSkillsAndReadiness(uid, user) {
+  const verifiedBadges = getStudentVerifiedBadges(uid);
+  const passedTestNames = verifiedBadges.map(b => b.testName);
+
+  const skillsGrid = document.getElementById('skillsGrid');
+  if (!skillsGrid) return;
+
+  skillsGrid.innerHTML = '';
+  let verifiedSkillsCount = 0;
+
+  BASE_STUDENT_SKILLS.forEach(skill => {
+    const isVerified = passedTestNames.includes(skill.testMapped);
+    if (isVerified) verifiedSkillsCount++;
+
+    const matchingBadge = verifiedBadges.find(b => b.testName === skill.testMapped);
+    const score = matchingBadge ? (matchingBadge.score || 100) : 0;
+    const proofHash = matchingBadge ? matchingBadge.proofHash : null;
+
+    const card = document.createElement('div');
+    card.className = `skill-item-card ${isVerified ? 'verified' : 'unverified'}`;
+    card.setAttribute('data-category', skill.category);
+
+    card.innerHTML = `
+      <div class="skill-item-header">
+        <span class="skill-name-title">${skill.name}</span>
+        ${isVerified 
+          ? `<span class="skill-verified-tag" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">✓ VERIFIED</span>`
+          : `<span class="skill-verified-tag" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.35);">⏳ UNVERIFIED (0%)</span>`
+        }
+      </div>
+      <div class="skill-bar-track" style="margin: 0.6rem 0;">
+        <div class="skill-bar-progress" style="width: ${isVerified ? '100%' : '0%'}; background: ${isVerified ? 'linear-gradient(90deg, #10b981, #06b6d4)' : '#fbbf24'};"></div>
+      </div>
+      <div class="skill-meta-footer" style="display: flex; align-items: center; justify-content: space-between; font-size: 0.78rem;">
+        ${isVerified
+          ? `<span style="color: #34d399; font-weight: 700;">Score: ${score}% (Passed)</span>
+             <span style="font-family: var(--font-mono); color: #38bdf8; font-size: 0.72rem;">${proofHash || '#LP-VERIFIED-PROOF'}</span>`
+          : `<span style="color: var(--text-muted);">Status: Test Required</span>
+             <button type="button" class="btn-start-student-test" data-test="${escapeHtml(skill.testMapped)}" style="background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.35); color: #38bdf8; padding: 0.25rem 0.65rem; border-radius: 6px; font-size: 0.74rem; cursor: pointer; font-weight: 600;">
+               ⚡ Take Test &rarr;
+             </button>`
+        }
+      </div>
+    `;
+
+    skillsGrid.appendChild(card);
+  });
+
+  // Re-bind click events on any dynamically created test buttons
+  const dynamicallyRenderedTestBtns = skillsGrid.querySelectorAll('.btn-start-student-test');
+  const modalOverlay = document.getElementById('takeAssessmentModalOverlay');
+  const examModalTitle = document.getElementById('examModalTitle');
+  const examForm = document.getElementById('studentExamForm');
+  const examResultScreen = document.getElementById('examResultScreen');
+
+  dynamicallyRenderedTestBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const testName = btn.getAttribute('data-test') || 'Technical Assessment';
+      if (examModalTitle) examModalTitle.textContent = testName;
+      if (examForm) {
+        examForm.style.display = 'block';
+        examForm.reset();
+      }
+      if (examResultScreen) examResultScreen.style.display = 'none';
+      if (modalOverlay) modalOverlay.classList.add('active');
+    });
+  });
+
+  // 2. Calculate Exact Career Readiness Score Based On Tests Passed
+  let readinessScore = 0.0;
+  if (verifiedSkillsCount === 0) {
+    readinessScore = 0.0;
+  } else if (verifiedSkillsCount === 1) {
+    readinessScore = 65.0;
+  } else if (verifiedSkillsCount === 2) {
+    readinessScore = 82.5;
+  } else if (verifiedSkillsCount >= 3) {
+    readinessScore = 96.8;
+  }
+
+  // Update Score Elements
+  const readinessScoreEl = document.getElementById('readinessScoreNumber');
+  const scoreCircleFill = document.getElementById('scoreCircleFill');
+  const readinessScoreHint = document.getElementById('readinessScoreHint');
+
+  if (readinessScoreEl) readinessScoreEl.textContent = readinessScore.toFixed(1);
+
+  if (scoreCircleFill) {
+    // 380 is full circumference of circle r=60
+    const offset = 380 - (380 * (readinessScore / 100));
+    scoreCircleFill.style.strokeDashoffset = offset;
+  }
+
+  if (readinessScoreHint) {
+    if (readinessScore === 0) {
+      readinessScoreHint.textContent = '★ Take recruiter skill assessments below to calculate your verified score';
+      readinessScoreHint.style.color = 'var(--text-muted)';
+    } else {
+      readinessScoreHint.textContent = `★ Ranked in Top ${(100 - readinessScore + 1).toFixed(0)}% for Software Engineering (Batch 2026)`;
+      readinessScoreHint.style.color = '#34d399';
+    }
+  }
+
+  // Update Top KPI Metric Card
+  const kpiCountEl = document.getElementById('kpiVerifiedSkillsCount');
+  const kpiBarEl = document.getElementById('kpiVerifiedSkillsBar');
+  const kpiTrendEl = document.getElementById('skillsIndexTrend');
+
+  if (kpiCountEl) kpiCountEl.textContent = `${verifiedSkillsCount}`;
+  if (kpiBarEl) kpiBarEl.style.width = `${Math.round((verifiedSkillsCount / BASE_STUDENT_SKILLS.length) * 100)}%`;
+  if (kpiTrendEl) {
+    kpiTrendEl.textContent = verifiedSkillsCount > 0 ? `${verifiedSkillsCount} Verified Proofs` : 'Pass Tests to Verify';
+  }
+
+  // Update Milestones
+  const m2BadgeTag = document.getElementById('m2BadgeTag');
+  const m2Desc = document.getElementById('m2Desc');
+  const m2Icon = document.getElementById('m2Icon');
+
+  if (m2BadgeTag) {
+    m2BadgeTag.textContent = `${verifiedBadges.length} BADGES`;
+    if (verifiedBadges.length > 0) {
+      m2BadgeTag.style.background = 'rgba(16, 185, 129, 0.2)';
+      m2BadgeTag.style.color = '#34d399';
+      if (m2Icon) m2Icon.textContent = '✅';
+      if (m2Desc) m2Desc.textContent = `${verifiedBadges.length} verified technical assessment proofs attached to portfolio.`;
+    } else {
+      m2BadgeTag.style.background = 'rgba(245, 158, 11, 0.15)';
+      m2BadgeTag.style.color = '#fbbf24';
+      if (m2Icon) m2Icon.textContent = '⏳';
+      if (m2Desc) m2Desc.textContent = 'Complete technical assessments below to attach verified cryptographic proofs.';
+    }
+  }
+}
+
+/**
  * 10. Student Recruiter Assessment Suite & Badge Verification
  */
 function initStudentAssessmentFlow() {
@@ -95,6 +263,8 @@ function initStudentAssessmentFlow() {
   const claimBadgeBtn = document.getElementById('btnClaimBadgeDone');
   const examModalTitle = document.getElementById('examModalTitle');
   const timerEl = document.getElementById('examTimer');
+
+  let currentActiveTestName = 'Full Stack Engineer Assessment';
 
   // 1. Render custom recruiter tests if published from Recruiter Dashboard
   try {
@@ -153,7 +323,8 @@ function initStudentAssessmentFlow() {
     const startButtons = document.querySelectorAll('.btn-start-student-test');
     startButtons.forEach(btn => {
       btn.addEventListener('click', () => {
-        const testName = btn.getAttribute('data-test') || 'Technical Assessment';
+        const testName = btn.getAttribute('data-test') || 'Full Stack Engineer Assessment';
+        currentActiveTestName = testName;
         if (examModalTitle) examModalTitle.textContent = testName;
 
         if (examForm) {
@@ -195,35 +366,26 @@ function initStudentAssessmentFlow() {
     claimBadgeBtn.addEventListener('click', () => {
       closeModal();
 
-      // Append new verified badge into Skills grid
-      const skillsGrid = document.getElementById('skillsGrid');
-      if (skillsGrid) {
-        const verifiedCard = document.createElement('div');
-        verifiedCard.className = 'skill-item-card';
-        verifiedCard.setAttribute('data-category', 'engineering');
-        verifiedCard.innerHTML = `
-          <div class="skill-item-header">
-            <span class="skill-name-title">🏆 Recruiter Verified: Distributed Systems</span>
-            <span class="skill-verified-tag" style="background: rgba(16, 185, 129, 0.2); color: #34d399;">✓ 100% PROOF</span>
-          </div>
-          <div class="skill-bar-track">
-            <div class="skill-bar-progress" style="width: 100%; background: linear-gradient(90deg, #10b981, #06b6d4);"></div>
-          </div>
-          <div class="skill-meta-footer">
-            <span>Proof: #LP-RECRUITER-VERIFIED</span>
-            <span style="color: #34d399; font-weight: 700;">Score: 100% (Passed)</span>
-          </div>
-        `;
-        skillsGrid.insertBefore(verifiedCard, skillsGrid.firstChild);
-      }
+      let activeUid = 'LP-STUDENT-USER';
+      try {
+        const saved = JSON.parse(sessionStorage.getItem('lp_active_session') || '{}');
+        if (saved.uid) activeUid = saved.uid;
+      } catch (e) {}
 
-      // Boost Career Readiness score
-      const scoreNumber = document.querySelector('.score-number');
-      if (scoreNumber) {
-        scoreNumber.textContent = '98.4';
-      }
+      const newProofHash = `#LP-VERIFIED-PROOF-${Math.abs(Date.now()).toString(36).toUpperCase()}`;
 
-      showToast('🎉 Cryptographic LifeProof Skill Badge earned and attached to your portfolio!', '🏆');
+      // Save the passed test into student's verified badges
+      saveStudentVerifiedBadge(activeUid, {
+        testName: currentActiveTestName,
+        score: 100,
+        proofHash: newProofHash,
+        awardedAt: new Date().toISOString()
+      });
+
+      // Dynamically re-render skills and calculate new score
+      renderStudentSkillsAndReadiness(activeUid, {});
+
+      showToast(`🎉 Assessment Passed! Verified Proof Badge (${newProofHash}) earned and readiness score boosted!`, '🏆');
     });
   }
 }
@@ -247,7 +409,52 @@ async function initStudentAuthGuard() {
  * @param {Object|null} profile - Firestore profile document
  */
 function renderStudentProfile(user, profile) {
-  const displayName = (profile && profile.name) || user.displayName || user.name || (user.email ? user.email.split('@')[0] : 'Akrit Sharma');
+  const displayName = (profile && profile.name) || user.displayName || user.name || (user.email ? user.email.split('@')[0] : 'Student Member');
+  const email = (profile && profile.email) || user.email || 'student@university.edu';
+  const uid = user.uid || (profile && profile.uid) || 'LP-AUTH-USER';
+  const photoURL = (profile && profile.photoURL) || user.photoURL || '';
+  const initials = displayName
+    .split(' ')
+    .map(n => n[0])
+    .join('')
+    .substring(0, 2)
+    .toUpperCase() || 'ST';
+
+  // 1. Update Student Name Elements
+  const nameElements = document.querySelectorAll('.auth-user-name, #topbarStudentName, #welcomeStudentName');
+  nameElements.forEach(el => {
+    el.textContent = displayName;
+  });
+
+  // 2. Update Email Elements
+  const emailElements = document.querySelectorAll('.auth-user-email, #welcomeStudentEmail');
+  emailElements.forEach(el => {
+    el.textContent = email;
+  });
+
+  // 3. Update UID Elements
+  const uidElements = document.querySelectorAll('.auth-user-uid, #welcomeStudentUid');
+  uidElements.forEach(el => {
+    el.textContent = uid;
+  });
+
+  // 4. Update Profile Photo & Avatar
+  const avatarElements = document.querySelectorAll('.auth-user-avatar, #topbarAvatar');
+  avatarElements.forEach(el => {
+    if (photoURL) {
+      el.style.backgroundImage = `url('${photoURL}')`;
+      el.style.backgroundSize = 'cover';
+      el.style.backgroundPosition = 'center';
+      el.textContent = '';
+    } else {
+      el.style.backgroundImage = 'none';
+      el.textContent = initials;
+    }
+  });
+
+  // 5. Render Skills & Readiness Score Based On Real Assessment Results!
+  renderStudentSkillsAndReadiness(uid, user);
+}
   const email = (profile && profile.email) || user.email || 'student@university.edu';
   const uid = user.uid || (profile && profile.uid) || 'LP-AUTH-9482';
   const photoURL = (profile && profile.photoURL) || user.photoURL || '';

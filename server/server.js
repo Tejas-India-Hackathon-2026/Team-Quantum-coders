@@ -9,6 +9,9 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
+// Import Route Handlers
+import authRoutes from './routes/authRoutes.js';
+
 // Load environment configuration
 dotenv.config();
 
@@ -23,7 +26,7 @@ const PORT = process.env.PORT || 5000;
 app.use(cors({
   origin: '*', // Allows local dev frontend & preview servers
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-user-role', 'x-user-email', 'x-user-name']
 }));
 
 // Body Parsers
@@ -38,8 +41,11 @@ app.use((req, res, next) => {
 });
 
 // ==========================================================================
-// 2. CORE SYSTEM & HEALTHCHECK ROUTES
+// 2. API ROUTES MOUNTING
 // ==========================================================================
+
+// Authentication & Session Routes
+app.use('/api/auth', authRoutes);
 
 /**
  * Healthcheck & Telemetry Endpoint
@@ -58,6 +64,7 @@ app.get('/api/health', (req, res) => {
       telemetry: 'Real-time Career Readiness Analytics'
     }
   });
+});
 });
 
 /**

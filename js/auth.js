@@ -252,11 +252,128 @@ document.addEventListener('DOMContentLoaded', () => {
   initRoleSelector();
   initGoogleAuth();
   initLoginForm();
+  initSignupPage();
   initQuickAccountSwitcher();
   initOnboardingFlow();
   initPasswordToggle();
   initSessionListener();
 });
+
+/**
+ * Dedicated Signup Page Controller
+ */
+export function initSignupPage() {
+  const signupForm = document.getElementById('signupForm');
+  const btnGoogleSignup = document.getElementById('btnGoogleSignup');
+  const roleButtons = document.querySelectorAll('#signupModal .role-btn');
+  const contextHint = document.getElementById('signupRoleContextHint');
+  const togglePassBtn = document.getElementById('toggleSignupPasswordBtn');
+  const passInput = document.getElementById('signupPassword');
+
+  if (!signupForm && !btnGoogleSignup) return;
+
+  // 1. Role Toggle on Signup Page
+  if (roleButtons.length) {
+    roleButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const role = btn.getAttribute('data-role');
+        if (!role) return;
+
+        LifeProofAuth.setRole(role);
+        roleButtons.forEach(b => {
+          const isActive = b === btn;
+          b.classList.toggle('active', isActive);
+          b.setAttribute('aria-selected', String(isActive));
+        });
+
+        // Toggle Fields
+        const studentFields = document.getElementById('signupStudentFields');
+        const recruiterFields = document.getElementById('signupRecruiterFields');
+        const facultyFields = document.getElementById('signupFacultyFields');
+
+        if (studentFields) studentFields.style.display = role === 'student' ? 'block' : 'none';
+        if (recruiterFields) recruiterFields.style.display = role === 'recruiter' ? 'block' : 'none';
+        if (facultyFields) facultyFields.style.display = role === 'faculty' ? 'block' : 'none';
+
+        if (contextHint && LifeProofAuth.roleDescriptions[role]) {
+          contextHint.textContent = LifeProofAuth.roleDescriptions[role];
+        }
+      });
+    });
+  }
+
+  // 2. Password Visibility Toggle
+  if (togglePassBtn && passInput) {
+    togglePassBtn.addEventListener('click', () => {
+      const isPassword = passInput.getAttribute('type') === 'password';
+      passInput.setAttribute('type', isPassword ? 'text' : 'password');
+    });
+  }
+
+  // 3. Google Sign Up Button
+  if (btnGoogleSignup) {
+    btnGoogleSignup.addEventListener('click', async () => {
+      await triggerGoogleSignIn();
+    });
+  }
+
+  // 4. Form Submit
+  if (signupForm) {
+    signupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('signupName').value.trim();
+      const email = document.getElementById('signupEmail').value.trim();
+      const role = LifeProofAuth.getRole();
+      const submitBtn = document.getElementById('signupSubmitBtn');
+
+      if (!name || !email) {
+        showAuthAlert('Please provide your name and email address.', 'error');
+        return;
+      }
+
+      if (submitBtn) setButtonLoading(submitBtn, true, 'Creating Account & Profile...');
+
+      let extendedData = { isOnboarded: true };
+      if (role === 'student') {
+        extendedData.college = (document.getElementById('suCollege') ? document.getElementById('suCollege').value.trim() : '') || 'BITS Pilani';
+        extendedData.branch = (document.getElementById('suBranch') ? document.getElementById('suBranch').value.trim() : '') || 'Computer Science';
+        extendedData.batch = (document.getElementById('suBatch') ? document.getElementById('suBatch').value : '') || '2026';
+      } else if (role === 'recruiter') {
+        extendedData.company = (document.getElementById('suCompany') ? document.getElementById('suCompany').value.trim() : '') || 'Enterprise Hiring Partner';
+        extendedData.domain = (document.getElementById('suDomain') ? document.getElementById('suDomain').value.trim() : '') || 'Technology';
+        extendedData.designation = (document.getElementById('suDesignation') ? document.getElementById('suDesignation').value.trim() : '') || 'Talent Acquisition';
+      } else if (role === 'faculty') {
+        extendedData.facultyInstitute = (document.getElementById('suFacultyInstitute') ? document.getElementById('suFacultyInstitute').value.trim() : '') || 'University Department';
+        extendedData.facultyDept = (document.getElementById('suFacultyDept') ? document.getElementById('suFacultyDept').value.trim() : '') || 'Computer Science';
+        extendedData.facultyRole = (document.getElementById('suFacultyRole') ? document.getElementById('suFacultyRole').value.trim() : '') || 'Professor';
+      }
+
+      const cleanUid = 'LP-' + Math.abs(email.split('').reduce((a, b) => ((a << 5) - a) + b.charCodeAt(0), 0)).toString(36).toUpperCase() + '-SYS';
+
+      const userProfile = {
+        uid: cleanUid,
+        displayName: name,
+        name: name,
+        email: email,
+        photoURL: '',
+        role: role,
+        ...extendedData
+      };
+
+      sessionStorage.setItem('lp_active_session', JSON.stringify(userProfile));
+
+      showAuthAlert(`⚡ Account Created! Welcome to LifeProof, <strong>${name}</strong>. Opening ${role.toUpperCase()} Portal...`, 'success');
+
+      const targetPage = LifeProofAuth.dashboardRoutes[role] || 'pages/student.html';
+      const isInsidePagesDir = window.location.pathname.includes('/pages/');
+      const redirectUrl = isInsidePagesDir ? targetPage.replace('pages/', '') : targetPage;
+
+      setTimeout(() => {
+        window.location.href = redirectUrl;
+      }, 700);
+    });
+  }
+}
 
 /**
  * First-Time User Onboarding Modal Controller

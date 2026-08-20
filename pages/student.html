@@ -1127,15 +1127,15 @@
 
   </div>
 
-  <!-- Interactive Take Assessment Examination Modal -->
+  <!-- Interactive Take Assessment Examination Modal (MCQ + Live Coding IDE) -->
   <div class="post-job-modal-overlay" id="takeAssessmentModalOverlay">
-    <div class="post-job-modal" style="max-width: 640px; max-height: 90vh; overflow-y: auto;">
+    <div class="post-job-modal" style="max-width: 820px; max-height: 92vh; overflow-y: auto;">
       
       <!-- Test Header -->
       <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem;">
         <div>
-          <span class="badge-tag badge-user" style="margin-bottom: 0.35rem; display: inline-block;">PROCTORED ASSESSMENT</span>
-          <h3 id="examModalTitle" style="font-size: 1.2rem; font-weight: 700; color: #fff;">Technical Skill Challenge</h3>
+          <span class="badge-tag badge-user" style="margin-bottom: 0.35rem; display: inline-block;">PROCTORED ASSESSMENT + LIVE CODE IDE</span>
+          <h3 id="examModalTitle" style="font-size: 1.25rem; font-weight: 700; color: #fff;">Technical Skill Challenge</h3>
         </div>
         <div style="display: flex; align-items: center; gap: 0.75rem;">
           <div style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); padding: 0.35rem 0.75rem; border-radius: 8px; font-weight: 700; color: #f87171; font-family: var(--font-mono);" id="examTimer">
@@ -1148,45 +1148,133 @@
       <!-- Examination Body -->
       <form id="studentExamForm">
         
-        <!-- Dynamic Questions Container populated via JS Question Bank -->
-        <div id="examQuestionsContainer" style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.25rem;">
+        <!-- Part 1: Conceptual Architecture Questions -->
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+          <h4 style="font-size: 0.95rem; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.05em;">
+            SECTION 1: SYSTEM ARCHITECTURE & CONCEPTS
+          </h4>
+          <span style="font-size: 0.78rem; color: var(--text-muted);">3 Randomized Questions</span>
+        </div>
+
+        <div id="examQuestionsContainer" style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
           <!-- Populated dynamically based on chosen test -->
         </div>
 
+        <!-- Part 2: Live In-Browser Coding Challenge -->
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; border-top: 1px solid var(--border-subtle); padding-top: 1.25rem;">
+          <div>
+            <h4 style="font-size: 0.95rem; font-weight: 700; color: #c084fc; text-transform: uppercase; letter-spacing: 0.05em;">
+              SECTION 2: LIVE ALGORITHMIC CODING CHALLENGE
+            </h4>
+            <div style="font-size: 0.78rem; color: var(--text-muted);">Write an optimal solution. Your National Rank will upgrade based on Time & Space Complexity!</div>
+          </div>
+          <span class="badge-tag badge-user" style="border-color: rgba(168, 85, 247, 0.4); color: #c084fc;">OPTIMALITY EVALUATOR</span>
+        </div>
+
+        <!-- Problem Description Card -->
+        <div class="exam-question-card" style="background: rgba(10, 14, 26, 0.9); padding: 1.15rem; border-radius: 12px; border: 1px solid var(--border-subtle); margin-bottom: 1rem;">
+          <h4 id="codingProblemTitle" style="color: #fff; font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem;">
+            Problem: Two-Sum Target Index Finder (Optimal O(N) Pass)
+          </h4>
+          <p id="codingProblemDesc" style="font-size: 0.88rem; color: #cbd5e1; line-height: 1.5; margin-bottom: 0.6rem;">
+            Given an array of integers <code style="color: #38bdf8;">nums</code> and an integer <code style="color: #38bdf8;">target</code>, return indices of the two numbers such that they add up to target. You must solve it in <strong>O(N) Time Complexity</strong> using a Hash Map or optimal single pass.
+          </p>
+          <div style="font-size: 0.8rem; color: #94a3b8; font-family: var(--font-mono); background: rgba(0,0,0,0.3); padding: 0.5rem 0.75rem; border-radius: 6px;" id="codingProblemConstraints">
+            Example: nums = [2, 7, 11, 15], target = 9 &rarr; Output: [0, 1] | Constraints: 2 &le; N &le; 10^5
+          </div>
+        </div>
+
+        <!-- Live Code Editor IDE Container -->
+        <div class="code-editor-container">
+          <div class="code-editor-topbar">
+            <div class="code-editor-dots">
+              <span class="code-dot dot-red"></span>
+              <span class="code-dot dot-yellow"></span>
+              <span class="code-dot dot-green"></span>
+              <span style="font-size: 0.78rem; font-family: var(--font-mono); color: var(--text-muted); margin-left: 0.5rem;">solution.js</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <select id="codeLanguageSelect" style="background: rgba(0,0,0,0.5); color: #38bdf8; border: 1px solid var(--border-subtle); border-radius: 6px; padding: 0.25rem 0.6rem; font-size: 0.78rem; font-family: var(--font-mono);">
+                <option value="javascript">JavaScript (Node.js v20)</option>
+                <option value="python">Python 3.12</option>
+                <option value="typescript">TypeScript</option>
+              </select>
+              <button type="button" id="btnResetCode" style="background: transparent; border: 1px solid var(--border-subtle); color: var(--text-muted); padding: 0.25rem 0.6rem; border-radius: 6px; font-size: 0.75rem; cursor: pointer;">
+                🔄 Reset
+              </button>
+              <button type="button" id="btnRunCodeTests" style="background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%); border: none; color: #fff; padding: 0.35rem 0.85rem; border-radius: 6px; font-size: 0.8rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem;">
+                <span>▶️ Run Test Cases</span>
+              </button>
+            </div>
+          </div>
+
+          <textarea id="studentCodeEditor" class="code-editor-textarea" spellcheck="false" placeholder="// Write your solution here..."></textarea>
+
+          <!-- Interactive Test Terminal Output -->
+          <div class="code-terminal-panel" id="codeTerminalPanel">
+            <div class="terminal-title">
+              <span>OUTPUT TERMINAL & TEST SUITE</span>
+              <span id="terminalStatusIndicator" style="color: #94a3b8;">Status: Ready to Execute</span>
+            </div>
+            <div id="codeTerminalContent" style="display: flex; flex-direction: column; gap: 0.35rem;">
+              <div style="color: var(--text-subtle); font-style: italic;">Click "▶️ Run Test Cases" to execute your solution against test inputs and analyze Big-O complexity.</div>
+            </div>
+          </div>
+        </div>
+
         <button type="submit" class="btn btn-primary" id="btnSubmitExam" style="width: 100%; padding: 0.85rem; background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%); font-weight: 800; font-size: 0.96rem; box-shadow: 0 4px 20px rgba(6, 182, 212, 0.4);">
-          <span>Submit Assessment & Evaluate Real Score &rarr;</span>
+          <span>Submit Complete Assessment & Compute Optimality Rank &rarr;</span>
         </button>
       </form>
 
-      <!-- Exam Result Screen (Dynamic Passed / Failed Views) -->
+      <!-- Exam Result Screen (Dynamic Passed / Failed Views with Rank Upgrades) -->
       <div id="examResultScreen" style="display: none; text-align: center; padding: 1.5rem 1rem;">
         
         <!-- Passed State View -->
         <div id="examResultPassedView" style="display: none;">
           <div style="width: 72px; height: 72px; border-radius: 50%; background: rgba(16, 185, 129, 0.2); border: 2px solid rgba(16, 185, 129, 0.4); color: #34d399; font-size: 2.2rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">🏆</div>
-          <h2 style="font-size: 1.4rem; font-weight: 800; color: #fff; margin-bottom: 0.35rem;">Assessment Passed! Score: <span style="color: #34d399;" id="examResultScorePassed">100%</span></h2>
-          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Congratulations! You achieved a passing score on the proctored test. Your genuine verified proof badge has been minted.</p>
+          <h2 style="font-size: 1.45rem; font-weight: 800; color: #fff; margin-bottom: 0.35rem;">Assessment Passed! Score: <span style="color: #34d399;" id="examResultScorePassed">100%</span></h2>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Congratulations! You met the passing cutoff. Your algorithmic code optimality has updated your National Talent Rank.</p>
           
+          <!-- Live Rank Upgrade & Complexity Card -->
+          <div class="rank-upgrade-glow" style="margin-bottom: 1.25rem; text-align: left;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem;">
+              <span style="font-size: 0.82rem; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.05em;">🚀 NATIONAL TALENT RANKING</span>
+              <span class="optimality-indicator optimality-s-tier" id="examOptimalityBadge">Optimal O(N) &bull; Grade S</span>
+            </div>
+            <div style="font-size: 1.15rem; font-weight: 800; color: #ffffff; margin-bottom: 0.35rem;" id="examRankUpgradeDisplay">
+              National Rank: #3 (Top 0.8% Nationwide) &bull; Tier 1 Elite Recruit
+            </div>
+            <div style="font-size: 0.8rem; color: #cbd5e1; display: flex; gap: 1.25rem; flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.5rem; margin-top: 0.5rem;">
+              <span id="examRuntimeBenchmark">⏱️ Runtime: 0.38ms (Beats 98.4%)</span>
+              <span id="examMemoryBenchmark">💾 Space: O(1) Auxiliary</span>
+              <span id="examRatingChange" style="color: #34d399; font-weight: 700;">▲ +150 Rating Points</span>
+            </div>
+          </div>
+
           <div style="background: rgba(10, 14, 26, 0.9); padding: 1rem; border-radius: 12px; border: 1px solid var(--border-highlight); margin-bottom: 1.5rem; text-align: left;">
             <div style="font-size: 0.78rem; color: var(--text-muted);">Tamper-Proof Cryptographic Hash:</div>
             <div style="font-family: var(--font-mono); color: #38bdf8; font-weight: 700; font-size: 0.92rem; margin-top: 0.25rem;" id="examResultProofHashDisplay">#LP-VERIFIED-PROOF-9482</div>
-            <div style="font-size: 0.78rem; color: #34d399; margin-top: 0.4rem; font-weight: 600;">✓ Recruiter Direct Shortlist Status: ACTIVE</div>
+            <div style="font-size: 0.78rem; color: #34d399; margin-top: 0.4rem; font-weight: 600;">✓ Recruiter Direct Shortlist Status: ACTIVE (Tier 1 Priority Queue)</div>
           </div>
 
           <button type="button" class="btn btn-primary" id="btnClaimBadgeDone" style="width: 100%; padding: 0.85rem; background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%); font-weight: 800;">
-            Claim Verified Badge & Update Portfolio &rarr;
+            Claim Verified Badge & Update Global Leaderboard &rarr;
           </button>
         </div>
 
-        <!-- Failed / Below Cutoff State View -->
+        <!-- Failed / Below Cutoff State View (Rank Degraded) -->
         <div id="examResultFailedView" style="display: none;">
           <div style="width: 72px; height: 72px; border-radius: 50%; background: rgba(239, 68, 68, 0.2); border: 2px solid rgba(239, 68, 68, 0.4); color: #f87171; font-size: 2.2rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">⚠️</div>
           <h2 style="font-size: 1.4rem; font-weight: 800; color: #fff; margin-bottom: 0.35rem;">Assessment Below Cutoff: <span style="color: #f87171;" id="examResultScoreFailed">40%</span></h2>
-          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">The minimum passing cutoff for this recruiter assessment is <strong style="color: #fff;" id="examCutoffRequired">80%</strong>. No badge was awarded for this attempt.</p>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">The minimum passing cutoff for this recruiter assessment is <strong style="color: #fff;" id="examCutoffRequired">80%</strong>. Test cases or architectural questions failed.</p>
           
           <div style="background: rgba(10, 14, 26, 0.9); padding: 1rem; border-radius: 12px; border: 1px solid rgba(239, 68, 68, 0.3); margin-bottom: 1.5rem; text-align: left;">
-            <div style="font-size: 0.8rem; color: #fca5a5; font-weight: 600;">Recommendations:</div>
-            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem;">Review the core technical concepts and retry when ready. Real scores ensure recruiter credibility.</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem;">
+              <span style="font-size: 0.82rem; color: #fca5a5; font-weight: 700;">📉 RANK RATING ADJUSTMENT:</span>
+              <span style="color: #f87171; font-weight: 700; font-size: 0.82rem;">▼ -25 Rating Points</span>
+            </div>
+            <div style="font-size: 0.78rem; color: var(--text-muted);">Sub-optimal or failing code submissions temporarily adjust your cohort ranking. Practice and submit an optimal $O(N)$ solution to recover your rank!</div>
           </div>
 
           <div style="display: flex; gap: 0.75rem;">
@@ -1194,7 +1282,7 @@
               Back to Dashboard
             </button>
             <button type="button" class="btn btn-primary" id="btnRetakeExam" style="flex: 1; padding: 0.75rem; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); font-weight: 800;">
-              🔄 Retake Test
+              🔄 Retake Test & Improve Rank
             </button>
           </div>
         </div>

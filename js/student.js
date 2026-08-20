@@ -1586,7 +1586,7 @@ function initSkillCategoryTabs() {
  * 7. Job & Internship Application Actions
  */
 function initOpportunityInteractions() {
-  const applyButtons = document.querySelectorAll('.btn-apply-action');
+  const applyButtons = document.querySelectorAll('#jobsContainer .btn-apply-action, #internshipsContainer .btn-apply-action');
 
   applyButtons.forEach(btn => {
     btn.addEventListener('click', () => {

@@ -5,104 +5,41 @@
  */
 
 import express from 'express';
-import { db, isFirebaseAdminInitialized } from '../config/firebaseAdmin.js';
+import { database, firestoreDb, isFirebaseAdminInitialized } from '../config/db.js';
 import { verifyToken, requireRole } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
-
-// In-Memory Live Jobs Store with Firestore sync
-const initialJobs = [
-  {
-    id: 'job_101',
-    title: 'Senior Distributed Backend Engineer',
-    company: 'Stripe',
-    logo: '💳',
-    location: 'Bengaluru (Hybrid)',
-    type: 'Full-Time SDE',
-    salary: '₹28 - 38 LPA',
-    batch: '2025 & 2026 Batch',
-    skills: ['Go', 'Node.js', 'PostgreSQL', 'Distributed Systems', 'Redis'],
-    matchScore: '98% Match',
-    postedAt: '2 days ago',
-    applicantsCount: 42,
-    status: 'active'
-  },
-  {
-    id: 'job_102',
-    title: 'Full Stack Frontend Architect',
-    company: 'Microsoft',
-    logo: '💻',
-    location: 'Hyderabad (On-Site)',
-    type: 'Full-Time SDE',
-    salary: '₹26 - 34 LPA',
-    batch: '2026 Batch',
-    skills: ['React', 'Next.js', 'TypeScript', 'Tailwind', 'GraphQL'],
-    matchScore: '96% Match',
-    postedAt: '1 day ago',
-    applicantsCount: 68,
-    status: 'active'
-  },
-  {
-    id: 'job_103',
-    title: 'High-Throughput FinTech Intern',
-    company: 'Razorpay',
-    logo: '⚡',
-    location: 'Bengaluru / Remote',
-    type: '6-Month Internship',
-    salary: '₹65,000 / month',
-    batch: '2026 & 2027 Batch',
-    skills: ['Node.js', 'Python', 'AWS', 'Docker', 'REST APIs'],
-    matchScore: '94% Match',
-    postedAt: 'Just now',
-    applicantsCount: 115,
-    status: 'active'
-  },
-  {
-    id: 'job_104',
-    title: 'Cloud Infrastructure & SRE Engineer',
-    company: 'Google Cloud Partner',
-    logo: '🌐',
-    location: 'Gurugram (Hybrid)',
-    type: 'Full-Time SDE',
-    salary: '₹30 - 42 LPA',
-    batch: '2025 & 2026 Batch',
-    skills: ['Kubernetes', 'Terraform', 'GCP', 'CI/CD', 'Prometheus'],
-    matchScore: '92% Match',
-    postedAt: '3 days ago',
-    applicantsCount: 37,
-    status: 'active'
-  }
-];
-
-const jobsStore = new Map(initialJobs.map(j => [j.id, j]));
-const applicationsStore = new Map(); // key: studentUid, value: array of applications
 
 /**
  * 1. List All Active Jobs & Opportunities
  * GET /api/jobs
  */
 router.get('/', (req, res) => {
-  const { search, type } = req.query;
-  let list = Array.from(jobsStore.values());
+  try {
+    const { search, type } = req.query;
+    let list = database.getCollection('jobs');
 
-  if (search) {
-    const q = search.toLowerCase();
-    list = list.filter(j => 
-      j.title.toLowerCase().includes(q) ||
-      j.company.toLowerCase().includes(q) ||
-      j.skills.some(s => s.toLowerCase().includes(q))
-    );
+    if (search) {
+      const q = search.toLowerCase();
+      list = list.filter(j => 
+        (j.title && j.title.toLowerCase().includes(q)) ||
+        (j.company && j.company.toLowerCase().includes(q)) ||
+        (Array.isArray(j.skills) && j.skills.some(s => s.toLowerCase().includes(q)))
+      );
+    }
+
+    if (type) {
+      list = list.filter(j => j.type && j.type.toLowerCase().includes(type.toLowerCase()));
+    }
+
+    return res.status(200).json({
+      status: 'success',
+      totalJobs: list.length,
+      jobs: list
+    });
+  } catch (error) {
+    return res.status(500).json({ error: 'InternalServerError', message: error.message });
   }
-
-  if (type) {
-    list = list.filter(j => j.type.toLowerCase().includes(type.toLowerCase()));
-  }
-
-  return res.status(200).json({
-    status: 'success',
-    totalJobs: list.length,
-    jobs: list
-  });
 });
 
 /**
@@ -135,11 +72,11 @@ router.post('/create', async (req, res) => {
     status: 'active'
   };
 
-  jobsStore.set(newJob.id, newJob);
+  database.insert('jobs', newJob);
 
-  if (isFirebaseAdminInitialized && db) {
+  if (isFirebaseAdminInitialized && firestoreDb) {
     try {
-      await db.collection('jobs').doc(newJob.id).set(newJob);
+      await firestoreDb.collection('jobs').doc(newJob.id).set(newJob);
     } catch (e) {}
   }
 
@@ -164,17 +101,17 @@ router.post('/apply', (req, res) => {
     });
   }
 
-  const job = jobsStore.get(jobId);
+  const job = database.findById('jobs', jobId);
   if (!job) {
     return res.status(404).json({ error: 'NotFound', message: 'Job not found.' });
   }
 
-  // Increment applicant count
-  job.applicantsCount = (job.applicantsCount || 0) + 1;
-  jobsStore.set(jobId, job);
+  // Increment applicant count in DB
+  const newApplicantsCount = (job.applicantsCount || 0) + 1;
+  database.update('jobs', jobId, { applicantsCount: newApplicantsCount });
 
   const application = {
-    applicationId: 'app_' + Date.now(),
+    id: 'app_' + Date.now(),
     jobId,
     jobTitle: job.title,
     company: job.company,
@@ -187,9 +124,7 @@ router.post('/apply', (req, res) => {
     status: 'Under Recruiter Review'
   };
 
-  const studentApps = applicationsStore.get(studentUid) || [];
-  studentApps.unshift(application);
-  applicationsStore.set(studentUid, studentApps);
+  database.insert('applications', application);
 
   return res.status(200).json({
     status: 'success',
@@ -203,14 +138,18 @@ router.post('/apply', (req, res) => {
  * GET /api/jobs/my-applications/:studentUid
  */
 router.get('/my-applications/:studentUid', (req, res) => {
-  const { studentUid } = req.params;
-  const apps = applicationsStore.get(studentUid) || [];
+  try {
+    const { studentUid } = req.params;
+    const apps = database.find('applications', a => a.studentUid === studentUid);
 
-  return res.status(200).json({
-    status: 'success',
-    totalApplications: apps.length,
-    applications: apps
-  });
+    return res.status(200).json({
+      status: 'success',
+      totalApplications: apps.length,
+      applications: apps
+    });
+  } catch (error) {
+    return res.status(500).json({ error: 'InternalServerError', message: error.message });
+  }
 });
 
 export default router;

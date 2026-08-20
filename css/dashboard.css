@@ -346,21 +346,26 @@ body.dashboard-body {
   background: rgba(13, 19, 34, 0.85);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-full);
-  color: var(--text-main);
-  font-family: var(--font-body);
-  font-size: 0.88rem;
+  color: #ffffff;
+  font-family: 'Plus Jakarta Sans', var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
   transition: all var(--transition-fast);
 }
 
 .topbar-search-input:focus {
   outline: none;
-  border-color: var(--border-focus);
-  background: rgba(20, 28, 46, 0.95);
-  box-shadow: 0 0 16px rgba(99, 102, 241, 0.25);
+  border-color: #38bdf8;
+  color: #ffffff;
+  font-weight: 600;
+  background: rgba(20, 28, 46, 0.98);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.3);
 }
 
 .topbar-search-input::placeholder {
-  color: var(--text-subtle);
+  color: #64748b;
+  font-weight: 400;
 }
 
 /* Topbar Right Actions */

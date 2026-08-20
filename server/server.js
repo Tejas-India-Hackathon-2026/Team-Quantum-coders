@@ -17,8 +17,11 @@ import assessmentRoutes from './routes/assessmentRoutes.js';
 import facultyRoutes from './routes/facultyRoutes.js';
 import resumeRoutes from './routes/resumeRoutes.js';
 import badgeRoutes from './routes/badgeRoutes.js';
+import careerRoutes from './routes/careerRoutes.js';
+import auditRoutes from './routes/auditRoutes.js';
 
 import { database } from './config/db.js';
+import auditLedger from './services/auditLogger.js';
 
 // Load environment configuration
 dotenv.config();
@@ -73,16 +76,24 @@ app.use('/api/resume', resumeRoutes);
 // Step 8: Public Cryptographic Proof Verification & Badge Lookup API
 app.use('/api/badges', badgeRoutes);
 
+// Step 9: AI Career Path, Skill Gap & Talent Matching API
+app.use('/api/career', careerRoutes);
+
+// Step 10: Immutable Cryptographic Audit Ledger API
+app.use('/api/audit', auditRoutes);
+
 /**
- * Database Telemetry & Health Endpoint
+ * Database & Ledger Telemetry Endpoint
  * GET /api/database/status
  */
 app.get('/api/database/status', (req, res) => {
   const stats = database.getStats();
+  const auditStats = auditLedger.getStats();
   res.status(200).json({
     success: true,
     timestamp: new Date().toISOString(),
-    database: stats
+    database: stats,
+    auditLedger: auditStats
   });
 });
 

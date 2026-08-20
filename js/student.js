@@ -412,7 +412,8 @@ function renderSkillGapAnalysis(roleKey, uid) {
 }
 
 // ==========================================================================
-// AUTHENTIC TECHNICAL QUESTION BANKS (Domain-Specific Verified Exams)
+// ==========================================================================
+// DYNAMIC RANDOMIZED TECHNICAL QUESTION POOLS (Anti-Cheat / Unique Exams)
 // ==========================================================================
 const ASSESSMENT_QUESTION_BANKS = {
   'Full Stack Engineer Assessment': {
@@ -420,9 +421,9 @@ const ASSESSMENT_QUESTION_BANKS = {
     cutoff: 80,
     durationMins: 45,
     skills: ['React', 'Node.js', 'PostgreSQL', 'System Architecture'],
-    questions: [
+    questionPool: [
       {
-        id: 'q1',
+        id: 'fs_1',
         text: 'Which data structure is optimal for implementing an LRU Cache with O(1) lookups and O(1) eviction?',
         options: [
           { key: 'A', text: 'Binary Search Tree with Timestamp' },
@@ -433,7 +434,7 @@ const ASSESSMENT_QUESTION_BANKS = {
         correctAnswer: 'B'
       },
       {
-        id: 'q2',
+        id: 'fs_2',
         text: 'In the Node.js event loop, which phase executes callbacks registered with setImmediate()?',
         options: [
           { key: 'A', text: 'Timers phase' },
@@ -444,7 +445,7 @@ const ASSESSMENT_QUESTION_BANKS = {
         correctAnswer: 'C'
       },
       {
-        id: 'q3',
+        id: 'fs_3',
         text: 'Which HTTP response header is mandatory on the backend to allow cross-origin browser credential requests?',
         options: [
           { key: 'A', text: 'Access-Control-Allow-Credentials: true' },
@@ -455,7 +456,7 @@ const ASSESSMENT_QUESTION_BANKS = {
         correctAnswer: 'A'
       },
       {
-        id: 'q4',
+        id: 'fs_4',
         text: 'In PostgreSQL / relational databases, what is the search time complexity of an index constructed using a standard B-Tree?',
         options: [
           { key: 'A', text: 'O(log N)' },
@@ -466,7 +467,7 @@ const ASSESSMENT_QUESTION_BANKS = {
         correctAnswer: 'A'
       },
       {
-        id: 'q5',
+        id: 'fs_5',
         text: 'In React, what is the primary benefit of the Virtual DOM reconciliation algorithm?',
         options: [
           { key: 'A', text: 'Directly compiles JSX into native machine code' },
@@ -475,6 +476,83 @@ const ASSESSMENT_QUESTION_BANKS = {
           { key: 'D', text: 'Replaces browser CSS layout engines' }
         ],
         correctAnswer: 'B'
+      },
+      {
+        id: 'fs_6',
+        text: 'Which SQL transaction isolation level prevents dirty reads, non-repeatable reads, and phantom reads completely?',
+        options: [
+          { key: 'A', text: 'Read Committed' },
+          { key: 'B', text: 'Read Uncommitted' },
+          { key: 'C', text: 'Serializable' },
+          { key: 'D', text: 'Repeatable Read' }
+        ],
+        correctAnswer: 'C'
+      },
+      {
+        id: 'fs_7',
+        text: 'In WebSocket communication compared to HTTP/1.1 polling, what provides low-latency bidirectional messaging?',
+        options: [
+          { key: 'A', text: 'Persistent TCP full-duplex connection after HTTP handshake' },
+          { key: 'B', text: 'Continuous JSON polling every 50ms' },
+          { key: 'C', text: 'Base64 encoded DNS queries' },
+          { key: 'D', text: 'Client-side LocalStorage broadcasts' }
+        ],
+        correctAnswer: 'A'
+      },
+      {
+        id: 'fs_8',
+        text: 'In Redis caching, what happens when an eviction policy is set to "volatile-lru"?',
+        options: [
+          { key: 'A', text: 'Evicts the least recently used keys out of all existing keys' },
+          { key: 'B', text: 'Evicts the least recently used keys ONLY among those with an expiration (TTL) set' },
+          { key: 'C', text: 'Immediately flushes all database records to disk' },
+          { key: 'D', text: 'Rejects all subsequent write commands with an error' }
+        ],
+        correctAnswer: 'B'
+      },
+      {
+        id: 'fs_9',
+        text: 'Why should you return a cleanup function from a React useEffect hook?',
+        options: [
+          { key: 'A', text: 'To cancel network subscriptions, timers, or event listeners before unmounting/rerunning' },
+          { key: 'B', text: 'To force synchronous re-renders of child components' },
+          { key: 'C', text: 'To clear the browser history stack' },
+          { key: 'D', text: 'To garbage collect unused JavaScript variables manually' }
+        ],
+        correctAnswer: 'A'
+      },
+      {
+        id: 'fs_10',
+        text: 'Which HTTP method is defined by RFC specifications as idempotent AND safe?',
+        options: [
+          { key: 'A', text: 'POST' },
+          { key: 'B', text: 'DELETE' },
+          { key: 'C', text: 'GET' },
+          { key: 'D', text: 'PATCH' }
+        ],
+        correctAnswer: 'C'
+      },
+      {
+        id: 'fs_11',
+        text: 'In GraphQL APIs, how is the classic "N+1 query problem" commonly solved in the backend?',
+        options: [
+          { key: 'A', text: 'Using DataLoader to batch and memoize database fetch requests' },
+          { key: 'B', text: 'Switching from JSON to XML payloads' },
+          { key: 'C', text: 'Disabling schema validation on the client' },
+          { key: 'D', text: 'Using REST instead of GraphQL resolvers' }
+        ],
+        correctAnswer: 'A'
+      },
+      {
+        id: 'fs_12',
+        text: 'What is the purpose of the "SameSite=Strict" cookie attribute in modern web security?',
+        options: [
+          { key: 'A', text: 'Prevents CSRF attacks by ensuring the cookie is never sent in cross-site requests' },
+          { key: 'B', text: 'Encrypts the cookie payload using RSA-4096' },
+          { key: 'C', text: 'Allows third-party advertisers to read cookie data' },
+          { key: 'D', text: 'Forces the cookie to expire in 60 seconds' }
+        ],
+        correctAnswer: 'A'
       }
     ]
   },
@@ -483,9 +561,9 @@ const ASSESSMENT_QUESTION_BANKS = {
     cutoff: 80,
     durationMins: 45,
     skills: ['Python', 'Transformers', 'Vector Embeddings', 'LoRA'],
-    questions: [
+    questionPool: [
       {
-        id: 'q1',
+        id: 'ai_1',
         text: 'In Transformer architectures (Vaswani et al.), which core mechanism computes relationships between all tokens across a sequence?',
         options: [
           { key: 'A', text: 'Recurrent Hidden State Passing' },
@@ -496,7 +574,7 @@ const ASSESSMENT_QUESTION_BANKS = {
         correctAnswer: 'B'
       },
       {
-        id: 'q2',
+        id: 'ai_2',
         text: 'Which mathematical metric is most commonly used to measure semantic similarity between high-dimensional vector embeddings?',
         options: [
           { key: 'A', text: 'Cosine Similarity' },
@@ -507,7 +585,7 @@ const ASSESSMENT_QUESTION_BANKS = {
         correctAnswer: 'A'
       },
       {
-        id: 'q3',
+        id: 'ai_3',
         text: 'When sampling tokens from an LLM, reducing the "temperature" parameter closer to 0 results in:',
         options: [
           { key: 'A', text: 'Higher creative hallucinations and random tokens' },
@@ -518,7 +596,7 @@ const ASSESSMENT_QUESTION_BANKS = {
         correctAnswer: 'C'
       },
       {
-        id: 'q4',
+        id: 'ai_4',
         text: 'Which parameter-efficient fine-tuning (PEFT) method injects low-rank decomposition matrices while freezing pretrained weights?',
         options: [
           { key: 'A', text: 'RLHF' },
@@ -529,13 +607,68 @@ const ASSESSMENT_QUESTION_BANKS = {
         correctAnswer: 'B'
       },
       {
-        id: 'q5',
+        id: 'ai_5',
         text: 'In a Retrieval-Augmented Generation (RAG) pipeline, what is the primary role of the Vector Database?',
         options: [
           { key: 'A', text: 'Storing and indexing semantic text chunks for similarity retrieval before prompting the LLM' },
           { key: 'B', text: 'Rendering 3D WebGL graphics for the UI' },
           { key: 'C', text: 'Executing Python scripts in sandboxed Docker containers' },
           { key: 'D', text: 'Managing OAuth2 authentication sessions' }
+        ],
+        correctAnswer: 'A'
+      },
+      {
+        id: 'ai_6',
+        text: 'What optimization does FlashAttention introduce to speed up Transformer inference and training?',
+        options: [
+          { key: 'A', text: 'Tiling memory access to avoid slow HBM GPU reads/writes for intermediate attention matrices' },
+          { key: 'B', text: 'Discarding the decoder layer completely' },
+          { key: 'C', text: 'Converting 32-bit floats into 1-bit binary booleans' },
+          { key: 'D', text: 'Running LLMs on CPU without GPU acceleration' }
+        ],
+        correctAnswer: 'A'
+      },
+      {
+        id: 'ai_7',
+        text: 'In LLM model quantization (e.g. AWQ, GPTQ, GGUF), what is the main objective?',
+        options: [
+          { key: 'A', text: 'Compressing weight precision (e.g. FP16 to INT4) to fit large models in limited VRAM with minimal quality loss' },
+          { key: 'B', text: 'Increasing model parameter count by 4x' },
+          { key: 'C', text: 'Translating Python code to Rust automatically' },
+          { key: 'D', text: 'Scraping web pages into markdown files' }
+        ],
+        correctAnswer: 'A'
+      },
+      {
+        id: 'ai_8',
+        text: 'What is the key benefit of "Chain-of-Thought" (CoT) prompting for complex multi-step reasoning tasks?',
+        options: [
+          { key: 'A', text: 'Encourages the model to generate intermediate reasoning steps before arriving at the final answer' },
+          { key: 'B', text: 'Forces the LLM to output binary assembly code' },
+          { key: 'C', text: 'Compresses context tokens by 90%' },
+          { key: 'D', text: 'Bypasses GPU compute limitations' }
+        ],
+        correctAnswer: 'A'
+      },
+      {
+        id: 'ai_9',
+        text: 'In neural embeddings, what is the impact of "Dimensionality Curse" when vectors have excessive dimensions without dense signal?',
+        options: [
+          { key: 'A', text: 'Distances between points become uniform, degrading nearest-neighbor search accuracy' },
+          { key: 'B', text: 'GPU VRAM usage drops to zero' },
+          { key: 'C', text: 'Tokens become unreadable ASCII characters' },
+          { key: 'D', text: 'Cosine similarity becomes strictly negative' }
+        ],
+        correctAnswer: 'A'
+      },
+      {
+        id: 'ai_10',
+        text: 'Which technique is primarily used during RLHF (Reinforcement Learning from Human Feedback) to prevent the policy model from drifting too far from the reference model?',
+        options: [
+          { key: 'A', text: 'KL Divergence penalty in the reward function' },
+          { key: 'B', text: 'Randomly dropping 50% of network weights' },
+          { key: 'C', text: 'Doubling the learning rate every epoch' },
+          { key: 'D', text: 'Disabling backpropagation' }
         ],
         correctAnswer: 'A'
       }
@@ -546,9 +679,9 @@ const ASSESSMENT_QUESTION_BANKS = {
     cutoff: 80,
     durationMins: 45,
     skills: ['Docker', 'Kubernetes', 'CI/CD', 'Cloud Architecture'],
-    questions: [
+    questionPool: [
       {
-        id: 'q1',
+        id: 'cloud_1',
         text: 'In Kubernetes, which controller guarantees that exactly one copy of a Pod runs on every worker node in the cluster?',
         options: [
           { key: 'A', text: 'Deployment' },
@@ -559,7 +692,7 @@ const ASSESSMENT_QUESTION_BANKS = {
         correctAnswer: 'B'
       },
       {
-        id: 'q2',
+        id: 'cloud_2',
         text: 'In Dockerfile optimization, what is the primary purpose of Multi-Stage builds?',
         options: [
           { key: 'A', text: 'Eliminating build-time compilers and SDKs from the final lean runtime container image' },
@@ -570,7 +703,7 @@ const ASSESSMENT_QUESTION_BANKS = {
         correctAnswer: 'A'
       },
       {
-        id: 'q3',
+        id: 'cloud_3',
         text: 'In distributed consensus systems (such as Raft or etcd), what is the minimum cluster size required to tolerate 1 node failure without losing quorum?',
         options: [
           { key: 'A', text: '2 nodes' },
@@ -581,7 +714,7 @@ const ASSESSMENT_QUESTION_BANKS = {
         correctAnswer: 'B'
       },
       {
-        id: 'q4',
+        id: 'cloud_4',
         text: 'In AWS / Cloud VPCs, what enables private subnets without public IPs to initiate outbound internet requests (e.g. for software updates)?',
         options: [
           { key: 'A', text: 'Internet Gateway directly attached to instance' },
@@ -592,7 +725,7 @@ const ASSESSMENT_QUESTION_BANKS = {
         correctAnswer: 'B'
       },
       {
-        id: 'q5',
+        id: 'cloud_5',
         text: 'Which deployment strategy updates Pods incrementally with zero downtime and automatic rollback capability?',
         options: [
           { key: 'A', text: 'Rolling Update' },
@@ -601,13 +734,118 @@ const ASSESSMENT_QUESTION_BANKS = {
           { key: 'D', text: 'Cold Migration' }
         ],
         correctAnswer: 'A'
+      },
+      {
+        id: 'cloud_6',
+        text: 'In Terraform infrastructure-as-code, why is remote state locking (e.g. via DynamoDB) essential in engineering teams?',
+        options: [
+          { key: 'A', text: 'Prevents concurrent terraform apply executions from corrupting the state file' },
+          { key: 'B', text: 'Compresses Terraform HCL files into ZIP archives' },
+          { key: 'C', text: 'Translates AWS resources into Google Cloud equivalents' },
+          { key: 'D', text: 'Enables real-time CSS live reloading' }
+        ],
+        correctAnswer: 'A'
+      },
+      {
+        id: 'cloud_7',
+        text: 'In microservices reliability, what is the role of the "Circuit Breaker" pattern?',
+        options: [
+          { key: 'A', text: 'Fast-fails requests to a failing service to prevent cascading downstream outages' },
+          { key: 'B', text: 'Encrypts all network packets using TLS 1.3' },
+          { key: 'C', text: 'Automatically restarts physical server hardware on kernel panics' },
+          { key: 'D', text: 'Balances CPU load between threads' }
+        ],
+        correctAnswer: 'A'
+      },
+      {
+        id: 'cloud_8',
+        text: 'What protocol does Prometheus primarily use to collect telemetry metrics from target services?',
+        options: [
+          { key: 'A', text: 'HTTP Pull scraping from an exposed /metrics endpoint' },
+          { key: 'B', text: 'UDP Broadcast packets' },
+          { key: 'C', text: 'FTP file uploads' },
+          { key: 'D', text: 'Direct SQL INSERT queries' }
+        ],
+        correctAnswer: 'A'
+      },
+      {
+        id: 'cloud_9',
+        text: 'In Blue-Green deployment architecture, how is traffic switched instantly between versions?',
+        options: [
+          { key: 'A', text: 'By updating the router / load balancer target group to point from Blue to Green environment' },
+          { key: 'B', text: 'By rebooting all worker nodes simultaneously' },
+          { key: 'C', text: 'By recompiling the backend source code in production' },
+          { key: 'D', text: 'By clearing browser cookies across all users' }
+        ],
+        correctAnswer: 'A'
+      },
+      {
+        id: 'cloud_10',
+        text: 'In Kubernetes networking, what is the primary role of a CNI (Container Network Interface) plugin like Calico or Cilium?',
+        options: [
+          { key: 'A', text: 'Assigning unique cluster IP addresses to Pods and managing inter-pod overlay networking' },
+          { key: 'B', text: 'Building Docker container images from source git repos' },
+          { key: 'C', text: 'Managing user logins and RBAC authorization' },
+          { key: 'D', text: 'Compressing log files on disk' }
+        ],
+        correctAnswer: 'A'
       }
     ]
   }
 };
 
 /**
- * 10. Student Recruiter Assessment Suite & Authentic Evaluation Engine
+ * Generates a randomized, non-repeating set of N questions from a domain pool.
+ * Uses the Fisher-Yates shuffle algorithm and also randomizes the option orders (A, B, C, D)
+ * so that questions and answers are completely dynamic on every single enrollment!
+ * 
+ * @param {Array} questionPool - Full question bank array
+ * @param {number} count - Number of questions to pick (default: 5)
+ * @returns {Array} Shuffled question set with updated correct keys
+ */
+function generateRandomizedQuestionSet(questionPool, count = 5) {
+  if (!questionPool || !questionPool.length) return [];
+
+  // 1. Deep clone question pool to prevent mutating global state
+  const poolClone = JSON.parse(JSON.stringify(questionPool));
+
+  // 2. Fisher-Yates shuffle question pool
+  for (let i = poolClone.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [poolClone[i], poolClone[j]] = [poolClone[j], poolClone[i]];
+  }
+
+  // 3. Slice the desired count of questions
+  const selectedQuestions = poolClone.slice(0, Math.min(count, poolClone.length));
+
+  // 4. Shuffle options within each question and adjust the correct answer key
+  const optionLabels = ['A', 'B', 'C', 'D'];
+  selectedQuestions.forEach((q, qIdx) => {
+    const correctText = q.options.find(opt => opt.key === q.correctAnswer)?.text;
+
+    // Fisher-Yates shuffle options array
+    for (let i = q.options.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [q.options[i], q.options[j]] = [q.options[j], q.options[i]];
+    }
+
+    // Re-assign A, B, C, D and locate new position of the correct answer
+    q.options.forEach((opt, optIdx) => {
+      opt.key = optionLabels[optIdx];
+      if (opt.text === correctText) {
+        q.correctAnswer = optionLabels[optIdx];
+      }
+    });
+
+    // Assign session-unique field ID
+    q.sessionFormKey = `q_rand_${qIdx + 1}_${Date.now()}`;
+  });
+
+  return selectedQuestions;
+}
+
+/**
+ * 10. Student Recruiter Assessment Suite & Dynamic Randomized Evaluation Engine
  */
 function initStudentAssessmentFlow() {
   const modalOverlay = document.getElementById('takeAssessmentModalOverlay');
@@ -628,7 +866,8 @@ function initStudentAssessmentFlow() {
   const timerEl = document.getElementById('examTimer');
 
   let currentActiveTestName = 'Full Stack Engineer Assessment';
-  let currentActiveTest = ASSESSMENT_QUESTION_BANKS['Full Stack Engineer Assessment'];
+  let currentActiveTestConfig = ASSESSMENT_QUESTION_BANKS['Full Stack Engineer Assessment'];
+  let currentSessionQuestions = [];
   let currentMutedProof = null;
   let timerInterval = null;
 
@@ -650,25 +889,35 @@ function initStudentAssessmentFlow() {
     }, 1000);
   };
 
-  const renderExamQuestions = (testData) => {
+  const renderExamQuestions = (questionsList) => {
     if (!questionsContainer) return;
     questionsContainer.innerHTML = '';
 
-    testData.questions.forEach((q, index) => {
+    // Add visual variant banner
+    const seedNumber = Math.floor(1000 + Math.random() * 9000);
+    const variantBanner = document.createElement('div');
+    variantBanner.style.cssText = 'background: rgba(6, 182, 212, 0.1); border: 1px dashed rgba(6, 182, 212, 0.35); padding: 0.6rem 0.85rem; border-radius: 8px; font-size: 0.78rem; color: #38bdf8; display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;';
+    variantBanner.innerHTML = `
+      <span>🎲 <strong>Dynamic Exam Variant #${seedNumber}</strong> (Unique Anti-Cheat Shuffle)</span>
+      <span>${questionsList.length} Questions Selected</span>
+    `;
+    questionsContainer.appendChild(variantBanner);
+
+    questionsList.forEach((q, index) => {
       const qCard = document.createElement('div');
       qCard.className = 'exam-question-card';
       qCard.style.cssText = 'background: rgba(10, 14, 26, 0.9); padding: 1.15rem; border-radius: 12px; border: 1px solid var(--border-subtle);';
       
       let optionsHtml = q.options.map(opt => `
         <label style="display: flex; align-items: center; gap: 0.65rem; padding: 0.6rem 0.85rem; background: rgba(255,255,255,0.03); border-radius: 8px; cursor: pointer; border: 1px solid transparent; transition: all 0.2s;">
-          <input type="radio" name="${q.id}" value="${opt.key}" required style="accent-color: #38bdf8; width: 16px; height: 16px; cursor: pointer;" />
+          <input type="radio" name="${q.sessionFormKey}" value="${opt.key}" required style="accent-color: #38bdf8; width: 16px; height: 16px; cursor: pointer;" />
           <span style="font-size: 0.88rem; color: #e2e8f0;"><strong style="color: #38bdf8;">${opt.key})</strong> ${escapeHtml(opt.text)}</span>
         </label>
       `).join('');
 
       qCard.innerHTML = `
         <div style="font-size: 0.78rem; color: #38bdf8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.35rem;">
-          QUESTION ${index + 1} OF ${testData.questions.length}
+          QUESTION ${index + 1} OF ${questionsList.length}
         </div>
         <p style="font-weight: 700; color: #ffffff; margin-bottom: 0.85rem; font-size: 0.94rem; line-height: 1.45;">
           ${escapeHtml(q.text)}
@@ -684,9 +933,12 @@ function initStudentAssessmentFlow() {
 
   const openExamModal = (testName) => {
     currentActiveTestName = testName;
-    currentActiveTest = ASSESSMENT_QUESTION_BANKS[testName] || ASSESSMENT_QUESTION_BANKS['Full Stack Engineer Assessment'];
+    currentActiveTestConfig = ASSESSMENT_QUESTION_BANKS[testName] || ASSESSMENT_QUESTION_BANKS['Full Stack Engineer Assessment'];
 
-    if (examModalTitle) examModalTitle.textContent = currentActiveTest.title;
+    // Generate brand new unique random 5 questions from the pool on every single open/enrollment
+    currentSessionQuestions = generateRandomizedQuestionSet(currentActiveTestConfig.questionPool, 5);
+
+    if (examModalTitle) examModalTitle.textContent = currentActiveTestConfig.title;
     if (examForm) {
       examForm.style.display = 'block';
       examForm.reset();
@@ -695,14 +947,14 @@ function initStudentAssessmentFlow() {
     if (passedView) passedView.style.display = 'none';
     if (failedView) failedView.style.display = 'none';
 
-    renderExamQuestions(currentActiveTest);
+    renderExamQuestions(currentSessionQuestions);
 
     if (modalOverlay) {
       modalOverlay.style.display = 'flex';
       modalOverlay.classList.add('active');
     }
     startTimer();
-    showToast(`Proctored Exam Started for '${currentActiveTest.title}'. Genuine evaluation active.`, '⚡');
+    showToast(`New Randomized Exam Generated for '${currentActiveTestConfig.title}'. Best of luck!`, '🎲');
   };
 
   const bindStartButtons = () => {
@@ -728,7 +980,11 @@ function initStudentAssessmentFlow() {
 
   if (closeBtn) closeBtn.addEventListener('click', closeModal);
   if (exitFailedBtn) exitFailedBtn.addEventListener('click', closeModal);
-  if (retakeBtn) retakeBtn.addEventListener('click', () => openExamModal(currentActiveTestName));
+  
+  // Retaking generates a completely NEW random batch of questions!
+  if (retakeBtn) retakeBtn.addEventListener('click', () => {
+    openExamModal(currentActiveTestName);
+  });
 
   // Genuine Examination Evaluation on Submit
   if (examForm) {
@@ -736,12 +992,12 @@ function initStudentAssessmentFlow() {
       e.preventDefault();
       if (timerInterval) clearInterval(timerInterval);
 
-      // Evaluate actual student choices
+      // Evaluate actual student choices against the randomized session questions
       let correctAnswers = 0;
-      const totalQuestions = currentActiveTest.questions.length;
+      const totalQuestions = currentSessionQuestions.length;
 
-      currentActiveTest.questions.forEach(q => {
-        const selected = document.querySelector(`input[name="${q.id}"]:checked`);
+      currentSessionQuestions.forEach(q => {
+        const selected = document.querySelector(`input[name="${q.sessionFormKey}"]:checked`);
         if (selected && selected.value.toUpperCase() === q.correctAnswer.toUpperCase()) {
           correctAnswers++;
         }
@@ -749,7 +1005,7 @@ function initStudentAssessmentFlow() {
 
       // Calculate Genuine Score %
       const realScore = Math.round((correctAnswers / totalQuestions) * 100);
-      const isPassed = realScore >= currentActiveTest.cutoff;
+      const isPassed = realScore >= currentActiveTestConfig.cutoff;
 
       examForm.style.display = 'none';
       if (examResultScreen) examResultScreen.style.display = 'block';
@@ -768,9 +1024,9 @@ function initStudentAssessmentFlow() {
         if (passedView) passedView.style.display = 'none';
         if (failedView) failedView.style.display = 'block';
         if (failedScoreEl) failedScoreEl.textContent = `${realScore}% (${correctAnswers}/${totalQuestions} Correct)`;
-        if (cutoffRequiredEl) cutoffRequiredEl.textContent = `${currentActiveTest.cutoff}%`;
+        if (cutoffRequiredEl) cutoffRequiredEl.textContent = `${currentActiveTestConfig.cutoff}%`;
 
-        showToast(`⚠️ Score: ${realScore}%. Cutoff of ${currentActiveTest.cutoff}% required. No badge minted.`, '⚠️');
+        showToast(`⚠️ Score: ${realScore}%. Cutoff of ${currentActiveTestConfig.cutoff}% required. No badge minted.`, '⚠️');
       }
     });
   }

@@ -246,9 +246,169 @@ function renderStudentSkillsAndReadiness(uid, user) {
       m2BadgeTag.style.background = 'rgba(245, 158, 11, 0.15)';
       m2BadgeTag.style.color = '#fbbf24';
       if (m2Icon) m2Icon.textContent = '⏳';
-      if (m2Desc) m2Desc.textContent = 'Complete technical assessments below to attach verified cryptographic proofs.';
     }
   }
+
+  // 3. Update AI Target Skill Gap Simulator
+  renderSkillGapAnalysis(currentSelectedTargetRole, uid);
+}
+
+/**
+ * Target Roles and Technical Requirements Engine
+ */
+let currentSelectedTargetRole = 'stripe_backend';
+
+const TARGET_ROLES = {
+  stripe_backend: {
+    title: 'Stripe • Senior Distributed Backend Engineer',
+    salary: '₹38 LPA',
+    requiredSkills: [
+      { name: 'Node.js & Distributed Express', testMapped: 'Full Stack Engineer Assessment' },
+      { name: 'React & Next.js Architecture', testMapped: 'Full Stack Engineer Assessment' },
+      { name: 'Docker & Kubernetes Infrastructure', testMapped: 'Cloud Infrastructure & DevOps Challenge' }
+    ]
+  },
+  google_ai: {
+    title: 'Google Cloud • AI & LLM Systems Fellow',
+    salary: '₹36 LPA',
+    requiredSkills: [
+      { name: 'Python & Machine Learning', testMapped: 'AI Systems & LLM Engineering Test' },
+      { name: 'Docker & Kubernetes Infrastructure', testMapped: 'Cloud Infrastructure & DevOps Challenge' },
+      { name: 'Cloud Firestore & Secure REST APIs', testMapped: 'Cloud Infrastructure & DevOps Challenge' }
+    ]
+  },
+  razorpay_fullstack: {
+    title: 'Razorpay • Full Stack Systems SDE',
+    salary: '₹30 LPA',
+    requiredSkills: [
+      { name: 'React & Next.js Architecture', testMapped: 'Full Stack Engineer Assessment' },
+      { name: 'Node.js & Distributed Express', testMapped: 'Full Stack Engineer Assessment' },
+      { name: 'Cloud Firestore & Secure REST APIs', testMapped: 'Cloud Infrastructure & DevOps Challenge' }
+    ]
+  },
+  microsoft_azure: {
+    title: 'Microsoft • Cloud Infrastructure Architect',
+    salary: '₹34 LPA',
+    requiredSkills: [
+      { name: 'Docker & Kubernetes Infrastructure', testMapped: 'Cloud Infrastructure & DevOps Challenge' },
+      { name: 'Cloud Firestore & Secure REST APIs', testMapped: 'Cloud Infrastructure & DevOps Challenge' },
+      { name: 'Python & Machine Learning', testMapped: 'AI Systems & LLM Engineering Test' }
+    ]
+  }
+};
+
+function renderSkillGapAnalysis(roleKey, uid) {
+  const role = TARGET_ROLES[roleKey] || TARGET_ROLES.stripe_backend;
+  const verifiedBadges = getStudentVerifiedBadges(uid);
+  const passedTestNames = verifiedBadges.map(b => b.testName);
+
+  const matchBadge = document.getElementById('targetRoleMatchBadge');
+  const countMet = document.getElementById('countSkillsMet');
+  const listMet = document.getElementById('listSkillsMet');
+  const countMissing = document.getElementById('countSkillsMissing');
+  const listMissing = document.getElementById('listSkillsMissing');
+  const roleSelect = document.getElementById('targetRoleSelect');
+
+  if (!listMet || !listMissing) return;
+
+  if (roleSelect && !roleSelect.hasAttribute('data-bound')) {
+    roleSelect.setAttribute('data-bound', 'true');
+    roleSelect.addEventListener('change', (e) => {
+      currentSelectedTargetRole = e.target.value;
+      renderSkillGapAnalysis(currentSelectedTargetRole, uid);
+    });
+  }
+
+  const metSkills = [];
+  const missingSkills = [];
+
+  role.requiredSkills.forEach(req => {
+    const isVerified = passedTestNames.includes(req.testMapped);
+    if (isVerified) {
+      const badge = verifiedBadges.find(b => b.testName === req.testMapped);
+      metSkills.push({ ...req, proofHash: badge ? badge.proofHash : '#LP-VERIFIED-PROOF' });
+    } else {
+      missingSkills.push(req);
+    }
+  });
+
+  const total = role.requiredSkills.length;
+  const matchPercent = Math.round((metSkills.length / total) * 100);
+
+  if (matchBadge) {
+    if (matchPercent === 100) {
+      matchBadge.style.background = 'rgba(16, 185, 129, 0.2)';
+      matchBadge.style.color = '#34d399';
+      matchBadge.style.borderColor = 'rgba(16, 185, 129, 0.5)';
+      matchBadge.textContent = '🌟 100% Match (Fully Qualified)';
+    } else if (matchPercent > 0) {
+      matchBadge.style.background = 'rgba(56, 189, 248, 0.2)';
+      matchBadge.style.color = '#38bdf8';
+      matchBadge.style.borderColor = 'rgba(56, 189, 248, 0.5)';
+      matchBadge.textContent = `${matchPercent}% Match`;
+    } else {
+      matchBadge.style.background = 'rgba(245, 158, 11, 0.15)';
+      matchBadge.style.color = '#fbbf24';
+      matchBadge.style.borderColor = 'rgba(245, 158, 11, 0.4)';
+      matchBadge.textContent = '0% Match';
+    }
+  }
+
+  if (countMet) countMet.textContent = `${metSkills.length} Met`;
+  if (countMissing) countMissing.textContent = `${missingSkills.length} Missing`;
+
+  // Render Met List
+  if (metSkills.length === 0) {
+    listMet.innerHTML = `<div style="color: var(--text-subtle); font-style: italic; padding: 0.5rem 0;">No verified proofs match this target role yet. Take tests to qualify!</div>`;
+  } else {
+    listMet.innerHTML = metSkills.map(s => `
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 0.8rem; background: rgba(16, 185, 129, 0.08); border-radius: 8px; border: 1px solid rgba(16, 185, 129, 0.25);">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span style="color: #34d399; font-weight: 800;">✓</span>
+          <span style="color: #fff; font-weight: 600;">${escapeHtml(s.name)}</span>
+        </div>
+        <span style="font-family: var(--font-mono); color: #34d399; font-size: 0.72rem;">${escapeHtml(s.proofHash)}</span>
+      </div>
+    `).join('');
+  }
+
+  // Render Missing List
+  if (missingSkills.length === 0) {
+    listMissing.innerHTML = `<div style="color: #34d399; font-weight: 700; padding: 0.5rem 0;">🎉 Zero skill gaps remaining! You meet 100% of this role's criteria.</div>`;
+  } else {
+    listMissing.innerHTML = missingSkills.map(s => `
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 0.8rem; background: rgba(245, 158, 11, 0.08); border-radius: 8px; border: 1px solid rgba(245, 158, 11, 0.3); flex-wrap: wrap; gap: 0.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span style="color: #fbbf24; font-weight: 800;">⚠️</span>
+          <span style="color: #fff; font-weight: 600;">${escapeHtml(s.name)}</span>
+        </div>
+        <button type="button" class="btn-start-student-test" data-test="${escapeHtml(s.testMapped)}" style="background: linear-gradient(135deg, #f59e0b, #d97706); border: none; color: #fff; padding: 0.35rem 0.75rem; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: 700; display: inline-flex; align-items: center; gap: 0.3rem;">
+          <span>⚡ Close Gap</span>
+          <span>&rarr;</span>
+        </button>
+      </div>
+    `).join('');
+  }
+
+  // Bind click listener to newly rendered Close Gap buttons
+  const gapBtns = listMissing.querySelectorAll('.btn-start-student-test');
+  const modalOverlay = document.getElementById('takeAssessmentModalOverlay');
+  const examModalTitle = document.getElementById('examModalTitle');
+  const examForm = document.getElementById('studentExamForm');
+  const examResultScreen = document.getElementById('examResultScreen');
+
+  gapBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const testName = btn.getAttribute('data-test') || 'Technical Assessment';
+      if (examModalTitle) examModalTitle.textContent = testName;
+      if (examForm) {
+        examForm.style.display = 'block';
+        examForm.reset();
+      }
+      if (examResultScreen) examResultScreen.style.display = 'none';
+      if (modalOverlay) modalOverlay.classList.add('active');
+    });
+  });
 }
 
 /**

@@ -227,17 +227,87 @@ function initGlobalSearch() {
 }
 
 /**
- * 6. Report Export Actions (NAAC, NIRF, Senate)
+ * 6. Report Export Actions (NAAC, NIRF, Senate Modal Suite)
  */
 function initReportExports() {
-  const exportButtons = document.querySelectorAll('.btn-export-report');
+  const exportButtons = document.querySelectorAll('.btn-export-report, #topbarExportReportBtn, #btnViewBatchReport');
+  const modalOverlay = document.getElementById('naacReportModalOverlay');
+  const closeBtn = document.getElementById('closeNaacModalBtn');
+  const copyJsonBtn = document.getElementById('btnCopyAuditJson');
+  const printBtn = document.getElementById('btnPrintNaacDossier');
+  const verifyLedgerBtn = document.getElementById('btnVerifyAuditOnLedger');
+  const timestampEl = document.getElementById('auditTimestampDisplay');
+
+  if (timestampEl) {
+    timestampEl.textContent = `Timestamp: ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`;
+  }
+
+  const openModal = () => {
+    if (modalOverlay) {
+      modalOverlay.style.display = 'flex';
+      showToast('Opening Institutional NAAC Criterion 5 & NIRF GO Dossier...', '📑');
+    }
+  };
+
+  const closeModal = () => {
+    if (modalOverlay) {
+      modalOverlay.style.display = 'none';
+    }
+  };
 
   exportButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const reportName = btn.getAttribute('data-report') || 'Institutional Report';
-      showToast(`Generating & downloading ${reportName}...`, '📊');
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openModal();
     });
   });
+
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+  if (modalOverlay) {
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) closeModal();
+    });
+  }
+
+  if (copyJsonBtn) {
+    copyJsonBtn.addEventListener('click', () => {
+      const auditPayload = {
+        institution: 'National Institute of Technology & Partner Universities',
+        academicYear: '2025-2026',
+        complianceMetric: 'NAAC SSR Criterion 5.2.1 / NIRF GO 2026',
+        totalEnrolled: 1240,
+        verifiedPlaced: 1186,
+        placementRate: '95.6%',
+        averagePackageLPA: '₹14.8 LPA',
+        highestPackageLPA: '₹48.5 LPA',
+        departments: [
+          { name: 'Computer Science & Engineering', eligible: 320, placed: 308, rate: '96.2%', avgCTC: '₹18.5 LPA' },
+          { name: 'Information Technology & AI', eligible: 210, placed: 199, rate: '94.8%', avgCTC: '₹16.2 LPA' },
+          { name: 'Electronics & Communication', eligible: 280, placed: 250, rate: '89.4%', avgCTC: '₹12.8 LPA' },
+          { name: 'Electrical & Instrumentation', eligible: 190, placed: 160, rate: '84.0%', avgCTC: '₹10.5 LPA' }
+        ],
+        cryptographicProofHash: 'SHA256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+        certifiedBy: 'Dr. Rajiv Menon (HoD CSE & Placement Chair)',
+        generatedAt: new Date().toISOString()
+      };
+
+      navigator.clipboard.writeText(JSON.stringify(auditPayload, null, 2));
+      showToast('Official NAAC/NIRF JSON schema copied to clipboard!', '📋');
+    });
+  }
+
+  if (printBtn) {
+    printBtn.addEventListener('click', () => {
+      window.print();
+    });
+  }
+
+  if (verifyLedgerBtn) {
+    verifyLedgerBtn.addEventListener('click', () => {
+      window.open('../verify.html?proof=SHA256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', '_blank');
+    });
+  }
 }
 
 /**

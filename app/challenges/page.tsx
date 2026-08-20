@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { ChallengeCard } from "@/components/challenges/ChallengeCard";
 import { FeaturedChallengeCard } from "@/components/challenges/FeaturedChallengeCard";
@@ -12,16 +13,16 @@ import {
   Building2,
   Trophy,
   Flame,
-  Award,
   Zap,
   TrendingUp,
   Search,
   Filter,
   DollarSign,
-  ShieldCheck,
+  PlusCircle,
+  Briefcase,
 } from "lucide-react";
-import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
+import { Challenge } from "@/types";
 
 const TRENDING_SKILLS = [
   "Next.js",
@@ -35,6 +36,7 @@ const TRENDING_SKILLS = [
 ];
 
 export default function ChallengesPage() {
+  const [allChallenges, setAllChallenges] = React.useState<Challenge[]>(MOCK_CHALLENGES);
   const [searchQuery, setSearchQuery] = React.useState("");
   const [selectedCategory, setSelectedCategory] = React.useState("All Categories");
   const [selectedDifficulty, setSelectedDifficulty] = React.useState("All Difficulties");
@@ -42,9 +44,20 @@ export default function ChallengesPage() {
   const [selectedCompany, setSelectedCompany] = React.useState("All Companies");
   const [mobileFilterOpen, setMobileFilterOpen] = React.useState(false);
 
+  // Load custom challenges from recruiter posts
+  React.useEffect(() => {
+    try {
+      const saved = localStorage.getItem("lifeproof_custom_challenges");
+      if (saved) {
+        const custom = JSON.parse(saved);
+        setAllChallenges([...custom, ...MOCK_CHALLENGES]);
+      }
+    } catch {}
+  }, []);
+
   // Filtered dataset
   const filteredChallenges = React.useMemo(() => {
-    return MOCK_CHALLENGES.filter((item) => {
+    return allChallenges.filter((item) => {
       const matchesSearch =
         searchQuery === "" ||
         item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -66,7 +79,7 @@ export default function ChallengesPage() {
 
       return matchesSearch && matchesCategory && matchesDifficulty && matchesStatus && matchesCompany;
     });
-  }, [searchQuery, selectedCategory, selectedDifficulty, selectedStatus, selectedCompany]);
+  }, [allChallenges, searchQuery, selectedCategory, selectedDifficulty, selectedStatus, selectedCompany]);
 
   const handleReset = () => {
     setSearchQuery("");
@@ -76,7 +89,7 @@ export default function ChallengesPage() {
     setSelectedCompany("All Companies");
   };
 
-  const featuredChallenge = MOCK_CHALLENGES.find((c) => c.isFeatured) || MOCK_CHALLENGES[1];
+  const featuredChallenge = allChallenges.find((c) => c.isFeatured) || allChallenges[1] || MOCK_CHALLENGES[1];
 
   return (
     <div className="flex-1 flex min-h-[calc(100vh-4rem)]">
@@ -101,17 +114,30 @@ export default function ChallengesPage() {
               </p>
             </div>
 
-            {/* Mobile Filter Toggle Button */}
-            <div className="lg:hidden w-full sm:w-auto">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setMobileFilterOpen(!mobileFilterOpen)}
-                className="w-full gap-2 text-xs border-white/15"
-              >
-                <Filter className="h-4 w-4" />
-                {mobileFilterOpen ? "Hide Filters" : "Filter Challenges"}
-              </Button>
+            {/* Recruiter Suite & Mobile Filter Toggle */}
+            <div className="flex items-center gap-2.5 w-full sm:w-auto">
+              <Link href="/recruiter">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-2 text-xs h-10 border-indigo-500/40 hover:bg-indigo-500/10 text-indigo-300 font-bold"
+                >
+                  <Briefcase className="h-4 w-4 text-cyan-400" />
+                  Post a Bounty (Recruiter Mode)
+                </Button>
+              </Link>
+
+              <div className="lg:hidden">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setMobileFilterOpen(!mobileFilterOpen)}
+                  className="gap-2 text-xs border-white/15 h-10"
+                >
+                  <Filter className="h-4 w-4" />
+                  {mobileFilterOpen ? "Hide" : "Filters"}
+                </Button>
+              </div>
             </div>
           </div>
 
@@ -122,7 +148,7 @@ export default function ChallengesPage() {
                 <Code2 className="h-3.5 w-3.5 text-primary" />
                 Active Challenges
               </div>
-              <div className="text-xl font-bold text-white">142 Tasks</div>
+              <div className="text-xl font-bold text-white">{allChallenges.length} Live</div>
             </div>
 
             <div className="p-4 rounded-2xl bg-slate-950/60 border border-white/10 space-y-1 text-left">
@@ -195,7 +221,7 @@ export default function ChallengesPage() {
           <div className="flex-1 space-y-5 w-full">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
-                Showing {filteredChallenges.length} of {MOCK_CHALLENGES.length} Verified Challenges
+                Showing {filteredChallenges.length} of {allChallenges.length} Verified Challenges
               </span>
               <span className="text-xs text-indigo-300 font-medium">
                 Live AST Evaluation Active
@@ -224,67 +250,6 @@ export default function ChallengesPage() {
                 ))}
               </div>
             )}
-          </div>
-        </div>
-
-        {/* Extra Bottom Sections: Recommended For You & Leaderboard Preview */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 pt-6 border-t border-white/10 text-left">
-          {/* Recommended Section (2 cols) */}
-          <div className="lg:col-span-2 space-y-4">
-            <div className="flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-purple-400" />
-              <h3 className="text-base font-bold text-white">
-                Recommended For Your Skill DNA
-              </h3>
-            </div>
-            <div className="p-6 rounded-2xl border border-white/10 bg-slate-950/60 backdrop-blur-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="space-y-1">
-                <Badge variant="cyan" className="text-[10px]">Grandmaster Match · 99% Fit</Badge>
-                <h4 className="text-base font-bold text-white">
-                  Design a Real-Time Streaming Data Dashboard
-                </h4>
-                <p className="text-xs text-muted-foreground">
-                  Matches your verified Next.js and distributed systems strengths. Sponsored by FinTech Quant Labs.
-                </p>
-              </div>
-              <Button variant="glow" size="sm" className="gap-1.5 shrink-0 text-xs font-semibold">
-                <Zap className="h-3.5 w-3.5" />
-                Start Challenge
-              </Button>
-            </div>
-          </div>
-
-          {/* Leaderboard Preview (1 col) */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              <Flame className="h-4 w-4 text-amber-400" />
-              <h3 className="text-base font-bold text-white">
-                Streak Leaderboard
-              </h3>
-            </div>
-            <div className="p-5 rounded-2xl border border-white/10 bg-slate-950/60 space-y-3">
-              <div className="flex items-center justify-between text-xs pb-2 border-b border-white/10">
-                <div className="flex items-center gap-2">
-                  <span className="font-bold text-amber-400 font-mono">#1</span>
-                  <span className="text-white font-medium">David K.</span>
-                </div>
-                <span className="text-amber-400 font-bold">28 Days 🔥</span>
-              </div>
-              <div className="flex items-center justify-between text-xs pb-2 border-b border-white/10">
-                <div className="flex items-center gap-2">
-                  <span className="font-bold text-indigo-400 font-mono">#2</span>
-                  <span className="text-white font-medium">Elena R.</span>
-                </div>
-                <span className="text-amber-400 font-bold">21 Days 🔥</span>
-              </div>
-              <div className="flex items-center justify-between text-xs">
-                <div className="flex items-center gap-2">
-                  <span className="font-bold text-cyan-400 font-mono">#3</span>
-                  <span className="text-white font-medium">Alex Rivera (You)</span>
-                </div>
-                <span className="text-amber-400 font-bold">14 Days 🔥</span>
-              </div>
-            </div>
           </div>
         </div>
       </main>

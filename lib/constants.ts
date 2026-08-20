@@ -10,9 +10,9 @@ export const APP_CONFIG = {
 export const LANDING_NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "Features", href: "#features" },
-  { label: "How it Works", href: "#how-it-works" },
-  { label: "Pricing", href: "#pricing" },
   { label: "Challenges", href: "/challenges" },
+  { label: "Pricing", href: "#pricing" },
+  { label: "Recruiter Suite", href: "/recruiter" },
 ];
 
 export const APP_NAV_LINKS = [
@@ -20,6 +20,7 @@ export const APP_NAV_LINKS = [
   { label: "Challenges", href: "/challenges" },
   { label: "AI Coach", href: "/coach" },
   { label: "Verified Profile", href: "/profile" },
+  { label: "Recruiter Portal", href: "/recruiter" },
 ];
 
 export const STATS_DATA = [
@@ -124,20 +125,20 @@ export const PRICING_PLANS = [
     href: "/signup",
   },
   {
-    name: "University & Teams",
-    price: "Custom",
-    period: "annual license",
-    description: "For academic institutions, bootcamps, and enterprise engineering departments.",
+    name: "Recruiter & Company Bounties",
+    price: "$149",
+    period: "per month",
+    description: "Post sponsored challenges, review cryptographic code proofs, and hire top 5% talent.",
     features: [
-      "Custom Challenge Sandboxes & Curriculum Integration",
-      "Cohort Analytics & Anti-Cheat Telemetry",
-      "Single Sign-On (SAML / Okta / Google)",
-      "Dedicated Verification Consensus Node",
-      "Custom Branded Proof Certificates",
+      "Post Custom Challenge Bounties on Marketplace",
+      "Direct Pre-Vetted Candidate Submissions Pipeline",
+      "AST & Concurrency Performance Heatmaps",
+      "Verified Proof Seals with Cryptographic Hashes",
+      "Dedicated Company Sponsoring Badge",
     ],
-    cta: "Contact Enterprise",
+    cta: "Open Recruiter Portal",
     popular: false,
-    href: "/signup",
+    href: "/recruiter",
   },
 ];
 

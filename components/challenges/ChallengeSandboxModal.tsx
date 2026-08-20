@@ -4,16 +4,12 @@ import * as React from "react";
 import {
   X,
   Play,
-  CheckCircle2,
   Terminal,
   ShieldCheck,
-  Cpu,
   Sparkles,
   Zap,
   Clock,
   RotateCcw,
-  Award,
-  Flame,
   FileCode,
   Check,
 } from "lucide-react";
@@ -21,6 +17,7 @@ import { Challenge } from "@/types";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import { CHALLENGE_TEMPLATES, SandboxTemplate } from "@/data/challengeSandboxTemplates";
 
 interface SandboxProps {
   challenge: Challenge;
@@ -28,72 +25,50 @@ interface SandboxProps {
   onClose: () => void;
 }
 
-const DEFAULT_CODE_STARTER = `import { Redis } from "ioredis";
-
-export interface LockOptions {
-  ttlMs: number;
-  retryDelayMs: number;
-  maxRetries: number;
-}
-
-export class DistributedLockManager {
-  private redis: Redis;
-
-  constructor(redisClient: Redis) {
-    this.redis = redisClient;
-  }
-
-  /**
-   * Acquire a distributed lock with automatic heartbeat renewal
-   */
-  async acquireLock(resourceKey: string, lockValue: string, options: LockOptions): Promise<boolean> {
-    const { ttlMs, retryDelayMs, maxRetries } = options;
-    let attempts = 0;
-
-    while (attempts < maxRetries) {
-      // SET resourceKey lockValue NX PX ttlMs
-      const result = await this.redis.set(resourceKey, lockValue, "PX", ttlMs, "NX");
-      if (result === "OK") {
-        this.startHeartbeat(resourceKey, lockValue, ttlMs / 2);
-        return true;
-      }
-
-      attempts++;
-      await new Promise((resolve) => setTimeout(resolve, retryDelayMs));
-    }
-
-    return false;
-  }
-
-  private startHeartbeat(key: string, value: string, intervalMs: number) {
-    // Heartbeat renewal loop
-  }
-
-  /**
-   * Safe release with Lua script preventing split-brain release
-   */
-  async releaseLock(resourceKey: string, lockValue: string): Promise<boolean> {
-    const luaScript = \`
-      if redis.call("get", KEYS[1]) == ARGV[1] then
-        return redis.call("del", KEYS[1])
-      else
-        return 0
-      end
-    \`;
-    const res = await this.redis.eval(luaScript, 1, resourceKey, lockValue);
-    return res === 1;
-  }
-}`;
+const FALLBACK_TEMPLATE: SandboxTemplate = {
+  filename: "solution.ts",
+  language: "TypeScript",
+  starterCode: `// Implement your verified solution for this challenge
+export async function solveChallenge(input: any) {
+  // Your code here
+  return { success: true };
+}`,
+  requirements: [
+    "Implement clean, modular TypeScript logic with zero runtime defects.",
+    "Pass all concurrent assertions and latency benchmarks.",
+    "Comply with AST verification standards.",
+  ],
+  testSteps: [
+    "⚡ Initializing isolated Docker runtime sandbox...",
+    "📦 Compiling TypeScript AST & Verification Harness...",
+    "✅ Test #1: Syntax & Type-Level Consistency (PASSED)",
+    "✅ Test #2: Concurrency & Performance Thresholds (PASSED)",
+    "✅ Test #3: Edge Case and Boundary Conditions (PASSED)",
+    "🎯 Verification Score: 100/100 (0 Defects Found)",
+  ],
+};
 
 export function ChallengeSandboxModal({ challenge, isOpen, onClose }: SandboxProps) {
-  const [code, setCode] = React.useState(DEFAULT_CODE_STARTER);
+  const template = CHALLENGE_TEMPLATES[challenge.id] || FALLBACK_TEMPLATE;
+  const [code, setCode] = React.useState(template.starterCode);
   const [isRunningTests, setIsRunningTests] = React.useState(false);
   const [testResults, setTestResults] = React.useState<string[]>([]);
   const [isVerifiedSuccess, setIsVerifiedSuccess] = React.useState(false);
   const [timerSeconds, setTimerSeconds] = React.useState(challenge.estimatedMinutes * 60);
   const { completeChallenge } = useAuth();
 
-  // Timer countdown simulation
+  // Reset sandbox when challenge changes
+  React.useEffect(() => {
+    if (isOpen) {
+      const activeTemplate = CHALLENGE_TEMPLATES[challenge.id] || FALLBACK_TEMPLATE;
+      setCode(activeTemplate.starterCode);
+      setTestResults([]);
+      setIsVerifiedSuccess(false);
+      setTimerSeconds(challenge.estimatedMinutes * 60);
+    }
+  }, [challenge.id, isOpen]);
+
+  // Timer countdown
   React.useEffect(() => {
     if (!isOpen) return;
     const interval = setInterval(() => {
@@ -114,16 +89,9 @@ export function ChallengeSandboxModal({ challenge, isOpen, onClose }: SandboxPro
     setIsVerifiedSuccess(false);
 
     setTimeout(() => {
-      setTestResults([
-        "⚡ Initializing isolated Docker runtime sandbox...",
-        "📦 Compiling TypeScript AST & Concurrency Harness...",
-        "✅ Test #1: Concurrent lock acquisition under 10,000 req/sec (PASSED)",
-        "✅ Test #2: Heartbeat renewal during artificial network jitter (PASSED)",
-        "✅ Test #3: Split-brain prevention with atomic Lua release (PASSED)",
-        "🎯 Code Quality & Security Audit: 100/100 (0 Defects Found)",
-      ]);
+      setTestResults(template.testSteps);
       setIsRunningTests(false);
-    }, 1200);
+    }, 1100);
   };
 
   const handleSubmitVerification = () => {
@@ -132,7 +100,7 @@ export function ChallengeSandboxModal({ challenge, isOpen, onClose }: SandboxPro
       setIsRunningTests(false);
       setIsVerifiedSuccess(true);
       completeChallenge(challenge.id, challenge.xpReward);
-    }, 1000);
+    }, 900);
   };
 
   if (!isOpen) return null;
@@ -202,23 +170,13 @@ export function ChallengeSandboxModal({ challenge, isOpen, onClose }: SandboxPro
               <h5 className="text-xs font-bold uppercase tracking-wider text-white">
                 Requirements & Constraints
               </h5>
-              <ul className="space-y-2 text-xs text-slate-300">
-                <li className="flex items-start gap-2">
-                  <Check className="h-3.5 w-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>Lock acquisition must be atomic using <code>SET NX PX</code>.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Check className="h-3.5 w-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>Automatic heartbeat renewal to extend TTL before lease expiry.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Check className="h-3.5 w-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>Release must use Lua script to ensure key ownership check.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Check className="h-3.5 w-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>Zero memory leaks during high concurrency retry loops.</span>
-                </li>
+              <ul className="space-y-2.5 text-xs text-slate-300">
+                {template.requirements.map((req, idx) => (
+                  <li key={idx} className="flex items-start gap-2">
+                    <Check className="h-3.5 w-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                    <span>{req}</span>
+                  </li>
+                ))}
               </ul>
             </div>
 
@@ -240,18 +198,18 @@ export function ChallengeSandboxModal({ challenge, isOpen, onClose }: SandboxPro
             <div className="px-4 py-2 border-b border-white/10 flex items-center justify-between bg-slate-950/70 text-xs">
               <div className="flex items-center gap-2">
                 <FileCode className="h-4 w-4 text-indigo-400" />
-                <span className="font-mono text-slate-200 font-medium">distributedLock.ts</span>
-                <span className="text-[10px] text-muted-foreground font-mono">TypeScript 5.6</span>
+                <span className="font-mono text-slate-200 font-medium">{template.filename}</span>
+                <span className="text-[10px] text-muted-foreground font-mono">{template.language}</span>
               </div>
 
               <div className="flex items-center gap-2">
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => setCode(DEFAULT_CODE_STARTER)}
+                  onClick={() => setCode(template.starterCode)}
                   className="h-7 px-2.5 text-[11px] gap-1 text-muted-foreground hover:text-white"
                 >
-                  <RotateCcw className="h-3 w-3" /> Reset
+                  <RotateCcw className="h-3 w-3" /> Reset Code
                 </Button>
                 <Button
                   variant="secondary"
@@ -289,7 +247,7 @@ export function ChallengeSandboxModal({ challenge, isOpen, onClose }: SandboxPro
               <div className="flex items-center justify-between text-muted-foreground pb-1 border-b border-white/5 text-[11px]">
                 <span className="flex items-center gap-1.5">
                   <Terminal className="h-3.5 w-3.5 text-cyan-400" />
-                  Live Evaluation Console
+                  Live Evaluation Console · {template.filename}
                 </span>
                 {isRunningTests && (
                   <span className="text-cyan-400 animate-pulse font-sans">Running Sandbox Tests...</span>
@@ -298,7 +256,7 @@ export function ChallengeSandboxModal({ challenge, isOpen, onClose }: SandboxPro
 
               {testResults.length === 0 && !isRunningTests && (
                 <div className="text-muted-foreground/60 py-4 text-center">
-                  Click &ldquo;Run Test Suite&rdquo; to execute concurrency and distributed lock assertions.
+                  Click &ldquo;Run Test Suite&rdquo; to execute assertions for {challenge.title}.
                 </div>
               )}
 
@@ -306,7 +264,7 @@ export function ChallengeSandboxModal({ challenge, isOpen, onClose }: SandboxPro
                 <div
                   key={idx}
                   className={
-                    line.includes("PASSED") || line.includes("100/100")
+                    line.includes("PASSED") || line.includes("100/100") || line.includes("Score")
                       ? "text-emerald-400 font-semibold"
                       : "text-slate-300"
                   }
@@ -334,7 +292,7 @@ export function ChallengeSandboxModal({ challenge, isOpen, onClose }: SandboxPro
                   Challenge Passed & Verified!
                 </h3>
                 <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                  Your implementation of <span className="text-white font-bold">{challenge.title}</span> has passed all concurrency, split-brain, and AST security audits.
+                  Your implementation of <span className="text-white font-bold">{challenge.title}</span> has passed all performance, security, and AST audits.
                 </p>
               </div>
 

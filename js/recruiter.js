@@ -314,28 +314,98 @@ function initApplicationActions() {
 }
 
 /**
- * 8. Candidate Invite & Proof Inspection Actions
+ * 8. Candidate Invite & Proof Inspection Actions (Interactive Scheduler Suite)
  */
 function initCandidateInviteActions() {
   const inviteButtons = document.querySelectorAll('.btn-invite-candidate');
   const viewProofButtons = document.querySelectorAll('.btn-view-profile');
+  const modalOverlay = document.getElementById('inviteInterviewModalOverlay');
+  const closeModalBtn = document.getElementById('closeInviteModalBtn');
+  const form = document.getElementById('inviteInterviewForm');
+  
+  const nameEl = document.getElementById('inviteCandidateName');
+  const univEl = document.getElementById('inviteCandidateUniv');
+  const avatarEl = document.getElementById('inviteCandidateAvatar');
+  const proofEl = document.getElementById('inviteCandidateProof');
+  const dateInput = document.getElementById('interviewDateInput');
+
+  let currentTargetButton = null;
+
+  // Set default date to tomorrow
+  if (dateInput) {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    dateInput.value = tomorrow.toISOString().split('T')[0];
+  }
+
+  const openInviteModal = (candidateName, candidateUniv = 'IIT Delhi • B.Tech CSE (Batch 2026)', candidateProof = '#LP-9482-SYS', triggerBtn = null) => {
+    currentTargetButton = triggerBtn;
+    if (nameEl) nameEl.textContent = candidateName;
+    if (univEl) univEl.textContent = candidateUniv;
+    if (proofEl) proofEl.textContent = candidateProof;
+    if (avatarEl) {
+      const initials = candidateName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'AS';
+      avatarEl.textContent = initials;
+    }
+
+    if (modalOverlay) {
+      modalOverlay.style.display = 'flex';
+      showToast(`Configuring interview invite for ${candidateName}...`, '📅');
+    }
+  };
+
+  const closeInviteModal = () => {
+    if (modalOverlay) modalOverlay.style.display = 'none';
+  };
 
   inviteButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const card = btn.closest('.candidate-card');
       const name = btn.getAttribute('data-name') || 'Candidate';
-      btn.textContent = 'Invited ✓';
-      btn.disabled = true;
-      btn.style.background = 'rgba(16, 185, 129, 0.2)';
-      btn.style.borderColor = 'rgba(16, 185, 129, 0.4)';
-      btn.style.color = '#34d399';
-      showToast(`Interview invitation sent directly to ${name}!`, '💌');
+      const univ = card ? (card.querySelector('.candidate-university')?.textContent || 'Top Tier University') : 'Engineering Graduate';
+      const proof = card ? (card.querySelector('.candidate-proof-strip strong')?.textContent || '#LP-9482-SYS') : '#LP-VERIFIED';
+
+      openInviteModal(name, univ, proof, btn);
     });
   });
+
+  if (closeModalBtn) closeModalBtn.addEventListener('click', closeInviteModal);
+
+  if (modalOverlay) {
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) closeInviteModal();
+    });
+  }
+
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const role = document.getElementById('interviewRoleSelect')?.value || 'Engineering SDE';
+      const round = document.getElementById('interviewRoundSelect')?.value || 'Technical Interview';
+      const date = document.getElementById('interviewDateInput')?.value || 'Tomorrow';
+      const timeSlot = document.getElementById('interviewTimeSlotSelect')?.value || '02:00 PM';
+      const name = nameEl ? nameEl.textContent : 'Candidate';
+
+      if (currentTargetButton) {
+        currentTargetButton.textContent = 'Invited ✓';
+        currentTargetButton.disabled = true;
+        currentTargetButton.style.background = 'rgba(16, 185, 129, 0.2)';
+        currentTargetButton.style.borderColor = 'rgba(16, 185, 129, 0.4)';
+        currentTargetButton.style.color = '#34d399';
+      }
+
+      closeInviteModal();
+      showToast(`Interview confirmed for ${name} (${round} on ${date} @ ${timeSlot})!`, '🚀');
+    });
+  }
 
   viewProofButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       const name = btn.getAttribute('data-name') || 'Candidate';
-      showToast(`Cryptographic proofs and GitHub telemetry verified for ${name}.`, '🛡️');
+      const card = btn.closest('.candidate-card');
+      const proof = card ? (card.querySelector('.candidate-proof-strip strong')?.textContent || '#LP-9482-SYS') : '#LP-9482-SYS';
+      window.open(`../verify.html?proof=${encodeURIComponent(proof)}`, '_blank');
     });
   });
 }

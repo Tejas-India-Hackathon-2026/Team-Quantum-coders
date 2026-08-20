@@ -160,16 +160,18 @@ body {
 
 .login-title {
   font-family: var(--font-heading);
-  font-size: 1.7rem;
+  font-size: 1.85rem;
   font-weight: 800;
-  color: var(--text-main);
-  letter-spacing: -0.02em;
-  margin-bottom: 0.25rem;
+  color: #ffffff;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.35rem;
 }
 
 .login-subtitle {
-  font-size: 0.88rem;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
   color: var(--text-muted);
+  font-weight: 400;
 }
 
 /* --- Role Selector Segment --- */
@@ -179,11 +181,12 @@ body {
 
 .role-selector-label {
   display: block;
+  font-family: var(--font-heading);
   font-size: 0.78rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-subtle);
+  letter-spacing: 0.08em;
+  color: #38bdf8;
   margin-bottom: 0.5rem;
   text-align: center;
 }
@@ -205,13 +208,14 @@ body {
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  padding: 0.65rem 0.5rem;
+  padding: 0.68rem 0.5rem;
   background: transparent;
   border: 1px solid transparent;
   color: var(--text-muted);
   font-family: var(--font-heading);
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: all var(--transition-fast);
@@ -220,7 +224,7 @@ body {
 }
 
 .role-btn .role-icon {
-  font-size: 0.95rem;
+  font-size: 1rem;
   transition: transform var(--transition-fast);
 }
 
@@ -241,12 +245,13 @@ body {
 }
 
 .role-context-hint {
-  font-size: 0.78rem;
-  color: var(--accent-secondary);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: #38bdf8;
   text-align: center;
   margin-top: 0.5rem;
   min-height: 1.1rem;
-  font-weight: 500;
+  font-weight: 600;
   transition: opacity var(--transition-fast);
 }
 

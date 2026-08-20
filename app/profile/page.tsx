@@ -6,7 +6,7 @@ import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { VerifiedBadge } from "@/components/profile/VerifiedBadge";
 import { SkillRadar } from "@/components/profile/SkillRadar";
 import { AchievementCard } from "@/components/dashboard/AchievementCard";
-import { STARTER_USER, MOCK_USER } from "@/data/mockAchievements";
+import { STARTER_USER } from "@/data/mockAchievements";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/Button";
 import { Trophy, ShieldCheck, Sparkles, Award } from "lucide-react";
@@ -32,8 +32,8 @@ export default function ProfilePage() {
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <ShieldCheck className="h-5 w-5 text-cyan-400" />
-                <h2 className="text-base font-bold text-white uppercase tracking-wider">
+                <ShieldCheck className="h-5 w-5 text-indigo-600 dark:text-cyan-400" />
+                <h2 className="text-base font-bold text-slate-900 dark:text-white uppercase tracking-wider">
                   Cryptographic Proof-of-Skill Certificate
                 </h2>
               </div>
@@ -42,9 +42,9 @@ export default function ProfilePage() {
                   variant="outline"
                   size="sm"
                   onClick={loadDemoGrandmasterProfile}
-                  className="text-xs border-indigo-500/30 text-indigo-300 hover:bg-indigo-500/10"
+                  className="text-xs border-indigo-200 dark:border-indigo-500/30 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-50 font-semibold"
                 >
-                  <Sparkles className="h-3.5 w-3.5 text-indigo-400" />
+                  <Sparkles className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
                   Preview Grandmaster
                 </Button>
               )}
@@ -60,8 +60,8 @@ export default function ProfilePage() {
           {/* Skill Radar / Breakdown */}
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-              <ShieldCheck className="h-5 w-5 text-indigo-400" />
-              <h2 className="text-base font-bold text-white uppercase tracking-wider">
+              <ShieldCheck className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+              <h2 className="text-base font-bold text-slate-900 dark:text-white uppercase tracking-wider">
                 Multi-Vector Proficiency Radar
               </h2>
             </div>
@@ -73,21 +73,21 @@ export default function ProfilePage() {
         <div className="space-y-4 pt-4">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                <Trophy className="h-5 w-5 text-amber-400" />
+              <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <Trophy className="h-5 w-5 text-amber-500" />
                 Immutable Proof Trophies & Badges
               </h2>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-slate-500 dark:text-muted-foreground font-normal">
                 Cryptographically signed proof entries verifiable on the LifeProof protocol
               </p>
             </div>
           </div>
 
           {currentUser.achievements.length === 0 ? (
-            <div className="p-10 rounded-3xl border border-white/10 bg-slate-950/40 text-center space-y-3">
-              <Award className="h-10 w-10 text-muted-foreground mx-auto opacity-30" />
-              <h3 className="text-base font-bold text-white">No Proof Trophies Minted Yet</h3>
-              <p className="text-xs text-muted-foreground max-w-sm mx-auto">
+            <div className="p-10 rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-950/40 text-center space-y-3 shadow-xs">
+              <Award className="h-10 w-10 text-slate-400 dark:text-muted-foreground mx-auto opacity-40" />
+              <h3 className="text-base font-bold text-slate-900 dark:text-white">No Proof Trophies Minted Yet</h3>
+              <p className="text-xs text-slate-500 dark:text-muted-foreground max-w-sm mx-auto font-normal">
                 Solve challenges in the Marketplace to complete on-chain AST evaluations and unlock your first trophies.
               </p>
             </div>

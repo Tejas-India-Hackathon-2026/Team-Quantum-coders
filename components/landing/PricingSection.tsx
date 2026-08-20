@@ -10,17 +10,17 @@ import Link from "next/link";
 
 export function PricingSection() {
   return (
-    <section id="pricing" className="py-24 border-t border-white/10 relative scroll-mt-16 bg-slate-950/30">
+    <section id="pricing" className="py-24 border-t border-slate-200/80 dark:border-white/10 relative scroll-mt-16 bg-slate-50/70 dark:bg-slate-950/30 text-left">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-16">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-xs font-bold">
             Transparent Pricing
           </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
+          <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-slate-900 dark:text-white">
             Invest in Verifiable Career Growth
           </h2>
-          <p className="text-muted-foreground text-base sm:text-lg">
+          <p className="text-slate-600 dark:text-muted-foreground text-base sm:text-lg font-normal">
             Start for free, then upgrade to unlock autonomous AI coaching and fast-track recruiter distribution.
           </p>
         </div>
@@ -39,13 +39,13 @@ export function PricingSection() {
               <Card
                 className={`w-full flex flex-col justify-between p-6 sm:p-8 rounded-3xl transition-all duration-300 ${
                   plan.popular
-                    ? "border-primary/60 bg-gradient-to-b from-indigo-950/80 via-slate-950/90 to-slate-950 shadow-glow/30 ring-1 ring-primary/40 relative"
-                    : "border-white/15 bg-slate-950/60"
+                    ? "border-indigo-300 dark:border-primary/60 bg-gradient-to-b from-indigo-50/80 via-white to-white dark:from-indigo-950/80 dark:via-slate-950/90 dark:to-slate-950 shadow-md ring-1 ring-indigo-300 dark:ring-primary/40 relative"
+                    : "border-slate-200/90 dark:border-white/15 bg-white dark:bg-slate-950/60 shadow-sm"
                 }`}
               >
                 {plan.popular && (
                   <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                    <Badge variant="purple" className="shadow-lg px-3 py-1 text-xs uppercase tracking-wider font-bold">
+                    <Badge variant="purple" className="shadow-xs px-3 py-1 text-xs uppercase tracking-wider font-bold">
                       Most Popular
                     </Badge>
                   </div>
@@ -53,32 +53,32 @@ export function PricingSection() {
 
                 <CardHeader className="p-0 space-y-4">
                   <div className="space-y-1">
-                    <CardTitle className="text-xl font-extrabold text-white">
+                    <CardTitle className="text-xl font-black text-slate-900 dark:text-white">
                       {plan.name}
                     </CardTitle>
-                    <p className="text-xs text-muted-foreground leading-relaxed">
+                    <p className="text-xs text-slate-500 dark:text-muted-foreground leading-relaxed font-normal">
                       {plan.description}
                     </p>
                   </div>
 
-                  <div className="flex items-baseline gap-2 pt-2 border-b border-white/10 pb-4">
-                    <span className="text-4xl sm:text-5xl font-black text-white">
+                  <div className="flex items-baseline gap-2 pt-2 border-b border-slate-200/80 dark:border-white/10 pb-4">
+                    <span className="text-4xl sm:text-5xl font-black text-slate-900 dark:text-white">
                       {plan.price}
                     </span>
-                    <span className="text-xs text-muted-foreground font-mono">
+                    <span className="text-xs text-slate-500 dark:text-muted-foreground font-mono font-medium">
                       / {plan.period}
                     </span>
                   </div>
                 </CardHeader>
 
                 <CardContent className="p-0 py-6 space-y-3">
-                  <span className="text-xs font-bold uppercase tracking-wider text-slate-300">
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
                     Included Features:
                   </span>
                   <ul className="space-y-2.5">
                     {plan.features.map((feature, i) => (
-                      <li key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300">
-                        <Check className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
+                      <li key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium">
+                        <Check className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                         <span>{feature}</span>
                       </li>
                     ))}
@@ -89,7 +89,7 @@ export function PricingSection() {
                   <Link href={plan.href} className="w-full">
                     <Button
                       variant={plan.popular ? "glow" : "outline"}
-                      className="w-full h-11 text-sm font-bold gap-2"
+                      className="w-full h-11 text-sm font-bold gap-2 shadow-xs cursor-pointer"
                     >
                       {plan.popular && <Sparkles className="h-4 w-4" />}
                       {plan.cta}

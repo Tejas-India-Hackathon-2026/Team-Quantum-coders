@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Bot, User, Send, Sparkles, ArrowRight, ShieldCheck, Code, Cpu, Target } from "lucide-react";
+import { Bot, User, Send, Sparkles, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { ChatMessage } from "@/types";
 import { useAuth } from "@/context/AuthContext";
@@ -129,26 +129,26 @@ export function ChatWindow({ externalPrompt, onClearExternalPrompt }: ChatWindow
   };
 
   return (
-    <div className="flex flex-col h-[650px] rounded-2xl border border-white/10 bg-slate-950/60 backdrop-blur-xl overflow-hidden shadow-2xl">
+    <div className="flex flex-col h-[650px] rounded-3xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-slate-950/60 backdrop-blur-xl overflow-hidden shadow-sm">
       {/* Chat Header */}
-      <div className="p-4 border-b border-white/10 flex items-center justify-between bg-white/[0.02]">
+      <div className="p-4 border-b border-slate-200/80 dark:border-white/10 flex items-center justify-between bg-slate-50/80 dark:bg-white/[0.02]">
         <div className="flex items-center gap-3">
           <div className="relative">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-primary to-secondary p-0.5 shadow-glow">
-              <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                <Bot className="h-5 w-5 text-indigo-400" />
+            <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-primary to-secondary p-0.5 shadow-xs">
+              <div className="w-full h-full bg-white dark:bg-slate-950 rounded-[14px] flex items-center justify-center">
+                <Bot className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
               </div>
             </div>
-            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-slate-950 animate-pulse" />
+            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-950 animate-pulse" />
           </div>
           <div className="text-left">
-            <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
               LifeProof AI Mentor
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-primary/20 text-primary font-mono font-semibold">
+              <span className="text-[10px] px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-primary/20 text-indigo-700 dark:text-primary font-mono font-bold">
                 Interactive Architecture Engine
               </span>
             </h3>
-            <p className="text-[11px] text-muted-foreground">
+            <p className="text-[11px] text-slate-500 dark:text-muted-foreground font-medium">
               Real-time conversational mentor · Personalizing code drills & system design
             </p>
           </div>
@@ -156,29 +156,29 @@ export function ChatWindow({ externalPrompt, onClearExternalPrompt }: ChatWindow
       </div>
 
       {/* Quick Prompt Chips */}
-      <div className="px-4 py-2 bg-white/[0.02] border-b border-white/5 flex items-center gap-2 overflow-x-auto text-xs no-scrollbar">
-        <span className="text-[10px] uppercase font-mono text-muted-foreground shrink-0">Quick prompts:</span>
+      <div className="px-4 py-2.5 bg-slate-50/50 dark:bg-white/[0.02] border-b border-slate-200/60 dark:border-white/5 flex items-center gap-2 overflow-x-auto text-xs no-scrollbar">
+        <span className="text-[10px] uppercase font-bold text-slate-400 dark:text-muted-foreground shrink-0 font-mono">Quick prompts:</span>
         <button
           onClick={() => sendQuery("How do I implement a zero-downtime distributed lock with Redis?")}
-          className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-muted-foreground hover:text-white hover:bg-white/10 shrink-0 transition-colors"
+          className="px-3 py-1 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-muted-foreground hover:text-indigo-600 dark:hover:text-white hover:border-indigo-300 dark:hover:bg-white/10 shrink-0 transition-colors shadow-xs font-medium"
         >
           Redis Distributed Lock
         </button>
         <button
           onClick={() => sendQuery("Explain Next.js 14 Server Action cache tag invalidation")}
-          className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-muted-foreground hover:text-white hover:bg-white/10 shrink-0 transition-colors"
+          className="px-3 py-1 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-muted-foreground hover:text-indigo-600 dark:hover:text-white hover:border-indigo-300 dark:hover:bg-white/10 shrink-0 transition-colors shadow-xs font-medium"
         >
           Next.js Server Actions
         </button>
         <button
           onClick={() => sendQuery("Analyze my Skill DNA and highlight my architectural gaps")}
-          className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-muted-foreground hover:text-white hover:bg-white/10 shrink-0 transition-colors"
+          className="px-3 py-1 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-muted-foreground hover:text-indigo-600 dark:hover:text-white hover:border-indigo-300 dark:hover:bg-white/10 shrink-0 transition-colors shadow-xs font-medium"
         >
           Analyze My Skill DNA
         </button>
         <button
           onClick={() => sendQuery("What are best practices for hybrid RAG vector search pipelines?")}
-          className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-muted-foreground hover:text-white hover:bg-white/10 shrink-0 transition-colors"
+          className="px-3 py-1 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-muted-foreground hover:text-indigo-600 dark:hover:text-white hover:border-indigo-300 dark:hover:bg-white/10 shrink-0 transition-colors shadow-xs font-medium"
         >
           Hybrid RAG Pipeline
         </button>
@@ -197,16 +197,16 @@ export function ChatWindow({ externalPrompt, onClearExternalPrompt }: ChatWindow
             {/* Avatar */}
             <div
               className={cn(
-                "w-8 h-8 rounded-xl shrink-0 flex items-center justify-center text-xs font-semibold",
+                "w-8 h-8 rounded-xl shrink-0 flex items-center justify-center text-xs font-semibold shadow-xs",
                 msg.sender === "user"
-                  ? "bg-primary text-white"
-                  : "bg-secondary/20 border border-secondary/40 text-secondary"
+                  ? "bg-indigo-600 text-white"
+                  : "bg-indigo-50 dark:bg-secondary/20 border border-indigo-200 dark:border-secondary/40 text-indigo-600 dark:text-secondary"
               )}
             >
               {msg.sender === "user" ? (
                 <User className="h-4 w-4" />
               ) : (
-                <Bot className="h-4 w-4 text-purple-300" />
+                <Bot className="h-4 w-4 text-indigo-600 dark:text-purple-300" />
               )}
             </div>
 
@@ -214,10 +214,10 @@ export function ChatWindow({ externalPrompt, onClearExternalPrompt }: ChatWindow
             <div className="space-y-2">
               <div
                 className={cn(
-                  "p-3.5 sm:p-4 rounded-2xl text-sm leading-relaxed whitespace-pre-line",
+                  "p-4 rounded-2xl text-sm leading-relaxed whitespace-pre-line shadow-xs font-normal",
                   msg.sender === "user"
-                    ? "bg-primary text-white rounded-tr-none shadow-glow/10"
-                    : "bg-white/5 border border-white/10 text-slate-200 rounded-tl-none"
+                    ? "bg-indigo-600 text-white rounded-tr-none"
+                    : "bg-slate-50 dark:bg-white/5 border border-slate-200/90 dark:border-white/10 text-slate-800 dark:text-slate-200 rounded-tl-none"
                 )}
               >
                 {msg.text}
@@ -230,16 +230,16 @@ export function ChatWindow({ externalPrompt, onClearExternalPrompt }: ChatWindow
                     <Button
                       variant="glow"
                       size="sm"
-                      className="text-xs h-8 gap-1.5 shadow-sm font-semibold cursor-pointer"
+                      className="text-xs h-8 gap-1.5 shadow-xs font-bold cursor-pointer"
                     >
-                      <Sparkles className="h-3.5 w-3.5 text-cyan-400" />
+                      <Sparkles className="h-3.5 w-3.5" />
                       {msg.suggestedAction.label}
                       <ArrowRight className="h-3.5 w-3.5" />
                     </Button>
                   </Link>
                 </div>
               )}
-              <div className="text-[10px] text-muted-foreground font-mono">
+              <div className="text-[10px] text-slate-400 dark:text-muted-foreground font-mono">
                 {msg.timestamp}
               </div>
             </div>
@@ -248,14 +248,14 @@ export function ChatWindow({ externalPrompt, onClearExternalPrompt }: ChatWindow
 
         {/* Typing indicator */}
         {isTyping && (
-          <div className="flex gap-3 max-w-[80%] items-center text-muted-foreground text-xs font-mono">
-            <div className="w-8 h-8 rounded-xl bg-secondary/20 border border-secondary/40 flex items-center justify-center">
-              <Bot className="h-4 w-4 text-purple-300" />
+          <div className="flex gap-3 max-w-[80%] items-center text-slate-400 dark:text-muted-foreground text-xs font-mono">
+            <div className="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-secondary/20 border border-indigo-200 dark:border-secondary/40 flex items-center justify-center">
+              <Bot className="h-4 w-4 text-indigo-600 dark:text-purple-300" />
             </div>
-            <div className="p-3 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-bounce" />
-              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-bounce [animation-delay:0.2s]" />
-              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-bounce [animation-delay:0.4s]" />
+            <div className="p-3 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200/80 dark:border-white/10 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 animate-bounce" />
+              <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 animate-bounce [animation-delay:0.2s]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 animate-bounce [animation-delay:0.4s]" />
             </div>
           </div>
         )}
@@ -265,7 +265,7 @@ export function ChatWindow({ externalPrompt, onClearExternalPrompt }: ChatWindow
       {/* Input Box */}
       <form
         onSubmit={handleSendMessage}
-        className="p-3 sm:p-4 border-t border-white/10 bg-slate-950/90 backdrop-blur-md"
+        className="p-3 sm:p-4 border-t border-slate-200/80 dark:border-white/10 bg-white dark:bg-slate-950/90 backdrop-blur-md"
       >
         <div className="relative flex items-center">
           <input
@@ -273,14 +273,14 @@ export function ChatWindow({ externalPrompt, onClearExternalPrompt }: ChatWindow
             placeholder="Ask AI Coach about architecture, review code, or request challenge recommendations..."
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent pr-12 transition-all"
+            className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent pr-12 transition-all shadow-xs"
           />
           <Button
             type="submit"
             variant="ghost"
             size="icon"
             disabled={!inputValue.trim()}
-            className="absolute right-1.5 text-primary hover:text-white hover:bg-primary/20 disabled:opacity-30 cursor-pointer"
+            className="absolute right-1.5 text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 dark:text-primary dark:hover:text-white dark:hover:bg-primary/20 disabled:opacity-30 cursor-pointer"
           >
             <Send className="h-4 w-4" />
           </Button>

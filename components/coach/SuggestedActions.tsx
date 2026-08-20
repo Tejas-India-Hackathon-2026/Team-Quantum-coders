@@ -39,8 +39,8 @@ export function SuggestedActions({ onSelectPrompt }: SuggestedActionsProps) {
   return (
     <div className="space-y-4 text-left">
       <div className="flex items-center gap-2">
-        <Sparkles className="h-4 w-4 text-primary" />
-        <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+        <Sparkles className="h-4 w-4 text-indigo-600 dark:text-primary" />
+        <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
           Suggested Mentorship Prompts
         </h3>
       </div>
@@ -52,18 +52,18 @@ export function SuggestedActions({ onSelectPrompt }: SuggestedActionsProps) {
             <Card
               key={idx}
               onClick={() => onSelectPrompt?.(prompt.prompt)}
-              className="p-4 bg-slate-950/40 border-white/10 hover:border-primary/40 transition-all cursor-pointer group active:scale-[0.99]"
+              className="p-4 bg-white dark:bg-slate-950/40 border-slate-200/90 dark:border-white/10 hover:border-indigo-300 dark:hover:border-primary/40 transition-all cursor-pointer group active:scale-[0.99] shadow-xs"
             >
               <div className="flex items-start gap-3">
-                <div className="p-2 rounded-lg bg-primary/10 text-primary border border-primary/20 shrink-0 group-hover:bg-primary/20 transition-colors">
+                <div className="p-2 rounded-xl bg-indigo-50 dark:bg-primary/10 text-indigo-600 dark:text-primary border border-indigo-100 dark:border-primary/20 shrink-0 group-hover:bg-indigo-100 dark:group-hover:bg-primary/20 transition-colors">
                   <Icon className="h-4 w-4" />
                 </div>
                 <div className="space-y-1">
-                  <h4 className="text-xs font-bold text-white group-hover:text-primary transition-colors flex items-center justify-between">
+                  <h4 className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-primary transition-colors flex items-center justify-between">
                     <span>{prompt.title}</span>
-                    <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-primary" />
+                    <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-indigo-600 dark:text-primary" />
                   </h4>
-                  <p className="text-[11px] text-muted-foreground leading-relaxed">
+                  <p className="text-[11px] text-slate-500 dark:text-muted-foreground leading-relaxed font-normal">
                     {prompt.desc}
                   </p>
                 </div>

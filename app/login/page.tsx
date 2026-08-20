@@ -70,41 +70,41 @@ export default function LoginPage() {
         <AuthMarketingPanel />
 
         {/* Right Side: Login Form Card */}
-        <Card className="w-full border-white/15 bg-slate-950/80 shadow-2xl backdrop-blur-2xl p-6 sm:p-10 flex flex-col justify-between text-left">
+        <Card className="w-full border-slate-200/90 dark:border-white/15 bg-white dark:bg-slate-950/80 shadow-md backdrop-blur-2xl p-6 sm:p-10 flex flex-col justify-between text-left">
           <div>
             <CardHeader className="p-0 text-left space-y-2 mb-6">
               <div className="flex items-center justify-between">
                 <div className="lg:hidden flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-primary to-secondary p-0.5 shadow-glow">
-                    <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                      <ShieldCheck className="h-4 w-4 text-indigo-400" />
+                  <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-primary to-secondary p-0.5 shadow-xs">
+                    <div className="w-full h-full bg-white dark:bg-slate-950 rounded-[10px] flex items-center justify-center">
+                      <ShieldCheck className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
                     </div>
                   </div>
-                  <span className="font-bold text-white text-base">LifeProof</span>
+                  <span className="font-bold text-slate-900 dark:text-white text-base">LifeProof</span>
                 </div>
 
                 <Badge variant="cyan" className="text-[10px] font-mono gap-1">
-                  <ShieldCheck className="h-3 w-3 text-cyan-400" />
+                  <ShieldCheck className="h-3 w-3 text-cyan-500" />
                   Secure Protocol 2.0
                 </Badge>
               </div>
 
-              <CardTitle className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+              <CardTitle className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
                 Welcome Back
               </CardTitle>
-              <CardDescription className="text-xs sm:text-sm text-muted-foreground">
+              <CardDescription className="text-xs sm:text-sm text-slate-600 dark:text-muted-foreground font-normal">
                 Sign in to access your verified skill profile and live challenges.
               </CardDescription>
             </CardHeader>
 
             {/* New User Notice Banner */}
-            <div className="mb-5 p-3 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-between gap-3 text-xs">
-              <div className="flex items-center gap-2 text-indigo-300">
-                <Sparkles className="h-4 w-4 text-cyan-400 shrink-0" />
+            <div className="mb-5 p-3 rounded-2xl bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/20 flex items-center justify-between gap-3 text-xs font-medium">
+              <div className="flex items-center gap-2 text-indigo-900 dark:text-indigo-300">
+                <Sparkles className="h-4 w-4 text-indigo-600 dark:text-cyan-400 shrink-0" />
                 <span>New to LifeProof? Please create your account first.</span>
               </div>
               <Link href="/signup">
-                <Button variant="outline" size="sm" className="text-[11px] h-7 px-2.5 font-bold border-indigo-500/40 hover:bg-indigo-500/20 text-white shrink-0">
+                <Button variant="outline" size="sm" className="text-[11px] h-7 px-2.5 font-bold border-indigo-200 dark:border-indigo-500/40 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 text-indigo-700 dark:text-white shrink-0">
                   Sign Up
                 </Button>
               </Link>
@@ -113,10 +113,10 @@ export default function LoginPage() {
             {/* Error / Redirect Message */}
             {errorMsg && (
               <div
-                className={`mb-4 p-3 rounded-xl border text-xs flex items-center gap-2 animate-in fade-in duration-200 ${
+                className={`mb-4 p-3 rounded-xl border text-xs flex items-center gap-2 animate-in fade-in duration-200 font-medium ${
                   redirectingToSignup
-                    ? "bg-amber-500/10 border-amber-500/30 text-amber-300"
-                    : "bg-red-500/10 border-red-500/30 text-red-400"
+                    ? "bg-amber-50 dark:bg-amber-500/10 border-amber-200 dark:border-amber-500/30 text-amber-800 dark:text-amber-300"
+                    : "bg-red-50 dark:bg-red-500/10 border-red-200 dark:border-red-500/30 text-red-700 dark:text-red-400"
                 }`}
               >
                 <AlertCircle className="h-4 w-4 shrink-0" />
@@ -127,7 +127,7 @@ export default function LoginPage() {
             {/* Direct Email/Password Login Form */}
             <form onSubmit={handleLogin} className="space-y-4">
               <div className="space-y-1.5 text-left">
-                <label className="text-xs font-semibold text-muted-foreground">
+                <label className="text-xs font-bold text-slate-700 dark:text-muted-foreground">
                   Email Address
                 </label>
                 <Input
@@ -142,12 +142,12 @@ export default function LoginPage() {
 
               <div className="space-y-1.5 text-left">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-semibold text-muted-foreground">
+                  <label className="text-xs font-bold text-slate-700 dark:text-muted-foreground">
                     Password
                   </label>
                   <Link
                     href="/login"
-                    className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors"
+                    className="text-xs text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors font-semibold"
                   >
                     Forgot password?
                   </Link>
@@ -162,7 +162,7 @@ export default function LoginPage() {
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="p-1 text-muted-foreground hover:text-white transition-colors"
+                      className="p-1 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
                       aria-label="Toggle password visibility"
                     >
                       {showPassword ? (
@@ -183,11 +183,11 @@ export default function LoginPage() {
                   id="remember"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="w-4 h-4 rounded border-white/20 bg-slate-900 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer"
+                  className="w-4 h-4 rounded border-slate-300 bg-slate-50 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
                 />
                 <label
                   htmlFor="remember"
-                  className="text-xs text-muted-foreground cursor-pointer select-none"
+                  className="text-xs text-slate-600 dark:text-muted-foreground cursor-pointer select-none font-medium"
                 >
                   Remember this device for 30 days
                 </label>
@@ -200,7 +200,7 @@ export default function LoginPage() {
                   variant="glow"
                   size="lg"
                   disabled={isLoading}
-                  className="w-full gap-2 font-bold text-sm h-12 shadow-glow active:scale-[0.99] transition-all cursor-pointer"
+                  className="w-full gap-2 font-bold text-sm h-12 shadow-sm active:scale-[0.99] transition-all cursor-pointer"
                 >
                   {isLoading ? (
                     <>
@@ -219,19 +219,19 @@ export default function LoginPage() {
           </div>
 
           {/* Footer & Verification Note */}
-          <div className="mt-8 pt-6 border-t border-white/10 text-center space-y-3">
-            <p className="text-xs text-muted-foreground">
+          <div className="mt-8 pt-6 border-t border-slate-100 dark:border-white/10 text-center space-y-3">
+            <p className="text-xs text-slate-600 dark:text-muted-foreground">
               Don&apos;t have an account yet?{" "}
               <Link
                 href="/signup"
-                className="text-primary font-bold hover:underline ml-1"
+                className="text-indigo-600 dark:text-primary font-bold hover:underline ml-1"
               >
                 Create new account & claim profile
               </Link>
             </p>
 
-            <div className="flex items-center justify-center gap-1.5 text-[11px] text-muted-foreground/80">
-              <ShieldCheck className="h-3.5 w-3.5 text-cyan-400" />
+            <div className="flex items-center justify-center gap-1.5 text-[11px] text-slate-500 dark:text-muted-foreground/80 font-medium">
+              <ShieldCheck className="h-3.5 w-3.5 text-indigo-600 dark:text-cyan-400" />
               <span>Protected by end-to-end cryptographic hashing</span>
             </div>
           </div>

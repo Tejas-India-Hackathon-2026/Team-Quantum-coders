@@ -40,7 +40,7 @@ const SETTINGS_NAV_ITEMS: { id: SettingsTabId; label: string; icon: React.Elemen
 export function SettingsSidebar({ activeTab, onTabChange }: SettingsSidebarProps) {
   return (
     <nav className="w-full lg:w-64 shrink-0 space-y-1 text-left">
-      <div className="p-1 rounded-2xl bg-slate-950/60 border border-white/10 space-y-1">
+      <div className="p-1 rounded-3xl bg-white dark:bg-slate-950/60 border border-slate-200/90 dark:border-white/10 space-y-1 shadow-xs">
         {SETTINGS_NAV_ITEMS.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;
@@ -52,14 +52,14 @@ export function SettingsSidebar({ activeTab, onTabChange }: SettingsSidebarProps
               type="button"
               onClick={() => onTabChange(item.id)}
               className={cn(
-                "w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all group",
+                "w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-medium transition-all group cursor-pointer",
                 isActive
                   ? isDanger
-                    ? "bg-red-500/20 text-red-400 border border-red-500/30 font-semibold"
-                    : "bg-primary/20 text-white border border-primary/40 shadow-glow/10 font-semibold"
+                    ? "bg-red-50 dark:bg-red-500/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-500/30 font-bold"
+                    : "bg-indigo-50 dark:bg-primary/20 text-indigo-700 dark:text-white border border-indigo-200 dark:border-primary/40 font-bold shadow-xs"
                   : isDanger
-                  ? "text-red-400/80 hover:bg-red-500/10 hover:text-red-300"
-                  : "text-muted-foreground hover:text-white hover:bg-white/5"
+                  ? "text-red-600/80 dark:text-red-400/80 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-700 dark:hover:text-red-300"
+                  : "text-slate-600 dark:text-muted-foreground hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5"
               )}
             >
               <div className="flex items-center gap-3">
@@ -68,11 +68,11 @@ export function SettingsSidebar({ activeTab, onTabChange }: SettingsSidebarProps
                     "h-4 w-4 transition-colors",
                     isActive
                       ? isDanger
-                        ? "text-red-400"
-                        : "text-primary-400 text-indigo-400"
+                        ? "text-red-600 dark:text-red-400"
+                        : "text-indigo-600 dark:text-indigo-400"
                       : isDanger
-                      ? "text-red-400/70"
-                      : "text-muted-foreground group-hover:text-white"
+                      ? "text-red-600/70 dark:text-red-400/70"
+                      : "text-slate-400 dark:text-muted-foreground group-hover:text-slate-900 dark:group-hover:text-white"
                   )}
                 />
                 <span>{item.label}</span>

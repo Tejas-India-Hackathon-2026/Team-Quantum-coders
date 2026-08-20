@@ -20,15 +20,15 @@ export default function CoachPage() {
         {/* Page Header */}
         <div className="space-y-2 text-left">
           <div className="flex items-center gap-2">
-            <Badge variant="purple" className="gap-1 text-xs">
+            <Badge variant="purple" className="gap-1 text-xs font-bold">
               <Sparkles className="h-3.5 w-3.5" />
               Autonomous Skill Coach
             </Badge>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
             AI Skill Coach & Architecture Mentor
           </h1>
-          <p className="text-sm text-muted-foreground max-w-2xl leading-relaxed">
+          <p className="text-sm text-slate-600 dark:text-muted-foreground max-w-2xl leading-relaxed font-normal">
             Get instant feedback on system designs, request tailored code drills, and receive personalized hints to ace advanced verification challenges.
           </p>
         </div>

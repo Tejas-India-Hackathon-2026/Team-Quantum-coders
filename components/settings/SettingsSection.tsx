@@ -24,17 +24,17 @@ export function SettingsSection({
   headerAction,
 }: SettingsSectionProps) {
   return (
-    <Card id={id} className={cn("border-white/10 bg-slate-950/60 backdrop-blur-xl shadow-xl overflow-hidden", className)}>
-      <CardHeader className="p-6 border-b border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-left">
+    <Card id={id} className={cn("border-slate-200/90 dark:border-white/10 bg-white dark:bg-slate-950/60 backdrop-blur-xl shadow-sm overflow-hidden", className)}>
+      <CardHeader className="p-6 border-b border-slate-100 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-left">
         <div className="space-y-1">
           <div className="flex items-center gap-2.5">
-            <CardTitle className="text-lg sm:text-xl font-bold text-white tracking-tight">
+            <CardTitle className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white tracking-tight">
               {title}
             </CardTitle>
             {badge}
           </div>
           {description && (
-            <CardDescription className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+            <CardDescription className="text-xs sm:text-sm text-slate-500 dark:text-muted-foreground leading-relaxed font-normal">
               {description}
             </CardDescription>
           )}

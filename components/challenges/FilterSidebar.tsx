@@ -58,7 +58,7 @@ export function FilterSidebar({
     <aside className="w-full lg:w-72 shrink-0 space-y-6 text-left">
       {/* Search Bar Input */}
       <div className="space-y-2">
-        <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+        <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-muted-foreground">
           Search Tasks & Skills
         </label>
         <Input
@@ -70,10 +70,10 @@ export function FilterSidebar({
       </div>
 
       {/* Category Filter */}
-      <div className="space-y-2 p-4 rounded-2xl bg-slate-950/60 border border-white/10">
+      <div className="space-y-2 p-4 rounded-3xl bg-white dark:bg-slate-950/60 border border-slate-200/90 dark:border-white/10 shadow-xs">
         <div className="flex items-center gap-1.5 mb-2">
-          <Tag className="h-3.5 w-3.5 text-primary" />
-          <label className="text-xs font-bold uppercase tracking-wider text-white">
+          <Tag className="h-3.5 w-3.5 text-indigo-600 dark:text-primary" />
+          <label className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white">
             Category
           </label>
         </div>
@@ -86,14 +86,14 @@ export function FilterSidebar({
                 type="button"
                 onClick={() => onCategoryChange(cat)}
                 className={cn(
-                  "w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center justify-between",
+                  "w-full text-left px-2.5 py-1.5 rounded-xl text-xs font-medium transition-all flex items-center justify-between",
                   isSelected
-                    ? "bg-primary/20 text-white font-semibold border border-primary/30"
-                    : "text-muted-foreground hover:bg-white/5 hover:text-white"
+                    ? "bg-indigo-50 dark:bg-primary/20 text-indigo-700 dark:text-white font-bold border border-indigo-200 dark:border-primary/30"
+                    : "text-slate-600 dark:text-muted-foreground hover:bg-slate-50 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white"
                 )}
               >
                 <span className="truncate">{cat}</span>
-                {isSelected && <Check className="h-3.5 w-3.5 text-primary shrink-0" />}
+                {isSelected && <Check className="h-3.5 w-3.5 text-indigo-600 dark:text-primary shrink-0" />}
               </button>
             );
           })}
@@ -101,10 +101,10 @@ export function FilterSidebar({
       </div>
 
       {/* Difficulty Level */}
-      <div className="space-y-2 p-4 rounded-2xl bg-slate-950/60 border border-white/10">
+      <div className="space-y-2 p-4 rounded-3xl bg-white dark:bg-slate-950/60 border border-slate-200/90 dark:border-white/10 shadow-xs">
         <div className="flex items-center gap-1.5 mb-2">
-          <Sparkles className="h-3.5 w-3.5 text-amber-400" />
-          <label className="text-xs font-bold uppercase tracking-wider text-white">
+          <Sparkles className="h-3.5 w-3.5 text-amber-500" />
+          <label className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white">
             Difficulty Tier
           </label>
         </div>
@@ -117,10 +117,10 @@ export function FilterSidebar({
                 type="button"
                 onClick={() => onDifficultyChange(diff)}
                 className={cn(
-                  "px-2.5 py-1 rounded-lg text-xs font-medium transition-all",
+                  "px-2.5 py-1 rounded-xl text-xs font-medium transition-all",
                   isSelected
-                    ? "bg-secondary/30 text-white border border-secondary/50 font-semibold shadow-glow-purple/20"
-                    : "bg-white/5 text-muted-foreground hover:text-white border border-white/5"
+                    ? "bg-purple-50 dark:bg-secondary/30 text-purple-700 dark:text-white border border-purple-200 dark:border-secondary/50 font-bold"
+                    : "bg-slate-50 dark:bg-white/5 text-slate-600 dark:text-muted-foreground hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-white/5"
                 )}
               >
                 {diff}
@@ -132,10 +132,10 @@ export function FilterSidebar({
 
       {/* Status Filter */}
       {onStatusChange && (
-        <div className="space-y-2 p-4 rounded-2xl bg-slate-950/60 border border-white/10">
+        <div className="space-y-2 p-4 rounded-3xl bg-white dark:bg-slate-950/60 border border-slate-200/90 dark:border-white/10 shadow-xs">
           <div className="flex items-center gap-1.5 mb-2">
-            <Trophy className="h-3.5 w-3.5 text-cyan-400" />
-            <label className="text-xs font-bold uppercase tracking-wider text-white">
+            <Trophy className="h-3.5 w-3.5 text-sky-600 dark:text-cyan-400" />
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white">
               Status & Badges
             </label>
           </div>
@@ -148,10 +148,10 @@ export function FilterSidebar({
                   type="button"
                   onClick={() => onStatusChange(st)}
                   className={cn(
-                    "px-2.5 py-1 rounded-lg text-xs font-medium transition-all",
+                    "px-2.5 py-1 rounded-xl text-xs font-medium transition-all",
                     isSelected
-                      ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-semibold"
-                      : "bg-white/5 text-muted-foreground hover:text-white border border-white/5"
+                      ? "bg-sky-50 dark:bg-cyan-500/20 text-sky-700 dark:text-cyan-300 border border-sky-200 dark:border-cyan-500/40 font-bold"
+                      : "bg-slate-50 dark:bg-white/5 text-slate-600 dark:text-muted-foreground hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-white/5"
                   )}
                 >
                   {st}
@@ -164,10 +164,10 @@ export function FilterSidebar({
 
       {/* Company Filter */}
       {onCompanyChange && (
-        <div className="space-y-2 p-4 rounded-2xl bg-slate-950/60 border border-white/10">
+        <div className="space-y-2 p-4 rounded-3xl bg-white dark:bg-slate-950/60 border border-slate-200/90 dark:border-white/10 shadow-xs">
           <div className="flex items-center gap-1.5 mb-2">
-            <Building2 className="h-3.5 w-3.5 text-indigo-400" />
-            <label className="text-xs font-bold uppercase tracking-wider text-white">
+            <Building2 className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white">
               Sponsoring Company
             </label>
           </div>
@@ -180,14 +180,14 @@ export function FilterSidebar({
                   type="button"
                   onClick={() => onCompanyChange(comp)}
                   className={cn(
-                    "w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center justify-between",
+                    "w-full text-left px-2.5 py-1.5 rounded-xl text-xs font-medium transition-all flex items-center justify-between",
                     isSelected
-                      ? "bg-white/10 text-white font-semibold border border-white/20"
-                      : "text-muted-foreground hover:bg-white/5 hover:text-white"
+                      ? "bg-slate-100 dark:bg-white/10 text-slate-900 dark:text-white font-bold border border-slate-300 dark:border-white/20"
+                      : "text-slate-600 dark:text-muted-foreground hover:bg-slate-50 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white"
                   )}
                 >
                   <span className="truncate">{comp}</span>
-                  {isSelected && <Check className="h-3.5 w-3.5 text-cyan-400 shrink-0" />}
+                  {isSelected && <Check className="h-3.5 w-3.5 text-indigo-600 dark:text-cyan-400 shrink-0" />}
                 </button>
               );
             })}
@@ -201,7 +201,7 @@ export function FilterSidebar({
           variant="outline"
           size="sm"
           onClick={onReset}
-          className="w-full gap-2 text-xs text-muted-foreground hover:text-white border-white/15"
+          className="w-full gap-2 text-xs text-slate-600 hover:text-slate-900 dark:text-muted-foreground dark:hover:text-white border-slate-200 dark:border-white/15"
         >
           <RotateCcw className="h-3.5 w-3.5" />
           Reset All Filters

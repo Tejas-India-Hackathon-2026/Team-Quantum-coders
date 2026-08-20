@@ -42,12 +42,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className="dark">
-      <body className={`${inter.variable} font-sans min-h-screen flex flex-col bg-background text-foreground bg-grid-pattern`}>
+    <html lang="en" suppressHydrationWarning className="light">
+      <body className={`${inter.variable} font-sans min-h-screen flex flex-col bg-background text-foreground bg-grid-pattern selection:bg-indigo-100 selection:text-indigo-900`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
-          enableSystem
+          defaultTheme="light"
+          enableSystem={false}
           disableTransitionOnChange
         >
           <AuthProvider>

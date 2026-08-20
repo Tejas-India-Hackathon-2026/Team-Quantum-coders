@@ -8,19 +8,19 @@ const badgeVariants = cva(
     variants: {
       variant: {
         default:
-          "border-transparent bg-primary/20 text-primary border-primary/30",
+          "border-indigo-200 bg-indigo-50 text-indigo-700 dark:border-primary/30 dark:bg-primary/20 dark:text-primary",
         secondary:
-          "border-transparent bg-secondary/20 text-secondary border-secondary/30",
-        outline: "text-foreground border-border",
+          "border-slate-200 bg-slate-100 text-slate-700 dark:border-secondary/30 dark:bg-secondary/20 dark:text-secondary",
+        outline: "text-slate-700 dark:text-foreground border-slate-200 dark:border-border bg-white/50 dark:bg-transparent",
         success:
-          "border-emerald-500/30 bg-emerald-500/10 text-emerald-400 dark:text-emerald-300",
-        cyan: "border-cyan-500/30 bg-cyan-500/10 text-cyan-400 dark:text-cyan-300",
+          "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-300",
+        cyan: "border-sky-200 bg-sky-50 text-sky-700 dark:border-cyan-500/30 dark:bg-cyan-500/10 dark:text-cyan-300",
         warning:
-          "border-amber-500/30 bg-amber-500/10 text-amber-400 dark:text-amber-300",
+          "border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-300",
         destructive:
-          "border-destructive/30 bg-destructive/10 text-destructive-foreground",
+          "border-red-200 bg-red-50 text-red-700 dark:border-destructive/30 dark:bg-destructive/10 dark:text-destructive-foreground",
         purple:
-          "border-purple-500/30 bg-purple-500/10 text-purple-300 shadow-glow-purple/20",
+          "border-purple-200 bg-purple-50 text-purple-700 dark:border-purple-500/30 dark:bg-purple-500/10 dark:text-purple-300",
       },
     },
     defaultVariants: {

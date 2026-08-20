@@ -44,7 +44,7 @@ export default function SignupPage() {
   }, [initialEmail]);
 
   const passwordStrength = React.useMemo(() => {
-    if (!password) return { score: 0, label: "None", color: "bg-slate-700" };
+    if (!password) return { score: 0, label: "None", color: "bg-slate-300 dark:bg-slate-700" };
     let score = 0;
     if (password.length >= 8) score += 1;
     if (/[A-Z]/.test(password)) score += 1;
@@ -100,36 +100,36 @@ export default function SignupPage() {
         <AuthMarketingPanel />
 
         {/* Right Side: Signup Form Card */}
-        <Card className="w-full border-white/15 bg-slate-950/80 shadow-2xl backdrop-blur-2xl p-6 sm:p-10 flex flex-col justify-between text-left">
+        <Card className="w-full border-slate-200/90 dark:border-white/15 bg-white dark:bg-slate-950/80 shadow-md backdrop-blur-2xl p-6 sm:p-10 flex flex-col justify-between text-left">
           <div>
             <CardHeader className="p-0 text-left space-y-2 mb-6">
               <div className="flex items-center justify-between">
                 <div className="lg:hidden flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-primary to-secondary p-0.5 shadow-glow">
-                    <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                      <Sparkles className="h-4 w-4 text-cyan-400" />
+                  <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-primary to-secondary p-0.5 shadow-xs">
+                    <div className="w-full h-full bg-white dark:bg-slate-950 rounded-[10px] flex items-center justify-center">
+                      <Sparkles className="h-4 w-4 text-indigo-600 dark:text-cyan-400" />
                     </div>
                   </div>
-                  <span className="font-bold text-white text-base">LifeProof</span>
+                  <span className="font-bold text-slate-900 dark:text-white text-base">LifeProof</span>
                 </div>
 
-                <Badge variant="purple" className="text-[10px] font-mono gap-1">
-                  <Sparkles className="h-3 w-3 text-purple-300" />
+                <Badge variant="purple" className="text-[10px] font-mono gap-1 font-bold">
+                  <Sparkles className="h-3 w-3 text-purple-600 dark:text-purple-300" />
                   Free Starter Tier
                 </Badge>
               </div>
 
-              <CardTitle className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+              <CardTitle className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
                 Claim Your Skill Profile
               </CardTitle>
-              <CardDescription className="text-xs sm:text-sm text-muted-foreground">
+              <CardDescription className="text-xs sm:text-sm text-slate-600 dark:text-muted-foreground font-normal">
                 Join the verified developer network & generate your immutable proof of work.
               </CardDescription>
             </CardHeader>
 
             {/* Error Message if present */}
             {errorMsg && (
-              <div className="mb-4 p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-xs text-red-400 animate-in fade-in duration-200">
+              <div className="mb-4 p-3 rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 text-xs text-red-700 dark:text-red-400 animate-in fade-in duration-200 font-medium">
                 {errorMsg}
               </div>
             )}
@@ -137,7 +137,7 @@ export default function SignupPage() {
             {/* Signup Form */}
             <form onSubmit={handleSignup} className="space-y-4">
               <div className="space-y-1.5 text-left">
-                <label className="text-xs font-semibold text-muted-foreground">
+                <label className="text-xs font-bold text-slate-700 dark:text-muted-foreground">
                   Full Name
                 </label>
                 <Input
@@ -151,7 +151,7 @@ export default function SignupPage() {
               </div>
 
               <div className="space-y-1.5 text-left">
-                <label className="text-xs font-semibold text-muted-foreground">
+                <label className="text-xs font-bold text-slate-700 dark:text-muted-foreground">
                   Work / Personal Email
                 </label>
                 <Input
@@ -165,7 +165,7 @@ export default function SignupPage() {
               </div>
 
               <div className="space-y-1.5 text-left">
-                <label className="text-xs font-semibold text-muted-foreground">
+                <label className="text-xs font-bold text-slate-700 dark:text-muted-foreground">
                   Password
                 </label>
                 <Input
@@ -178,7 +178,7 @@ export default function SignupPage() {
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="p-1 text-muted-foreground hover:text-white transition-colors"
+                      className="p-1 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
                       aria-label="Toggle password visibility"
                     >
                       {showPassword ? (
@@ -195,12 +195,12 @@ export default function SignupPage() {
                 {password.length > 0 && (
                   <div className="pt-1.5 space-y-1">
                     <div className="flex justify-between text-[11px]">
-                      <span className="text-muted-foreground">Password strength:</span>
-                      <span className="font-semibold text-white font-mono">
+                      <span className="text-slate-500 dark:text-muted-foreground font-medium">Password strength:</span>
+                      <span className="font-bold text-slate-900 dark:text-white font-mono">
                         {passwordStrength.label}
                       </span>
                     </div>
-                    <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                    <div className="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
                       <div
                         className={`h-full transition-all duration-300 ${passwordStrength.color}`}
                         style={{ width: `${passwordStrength.score}%` }}
@@ -211,7 +211,7 @@ export default function SignupPage() {
               </div>
 
               <div className="space-y-1.5 text-left">
-                <label className="text-xs font-semibold text-muted-foreground">
+                <label className="text-xs font-bold text-slate-700 dark:text-muted-foreground">
                   Confirm Password
                 </label>
                 <Input
@@ -224,7 +224,7 @@ export default function SignupPage() {
                     <button
                       type="button"
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      className="p-1 text-muted-foreground hover:text-white transition-colors"
+                      className="p-1 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
                       aria-label="Toggle confirm password visibility"
                     >
                       {showConfirmPassword ? (
@@ -245,19 +245,19 @@ export default function SignupPage() {
                   id="terms"
                   checked={agreeTerms}
                   onChange={(e) => setAgreeTerms(e.target.checked)}
-                  className="w-4 h-4 rounded border-white/20 bg-slate-900 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer mt-0.5"
+                  className="w-4 h-4 rounded border-slate-300 bg-slate-50 text-indigo-600 focus:ring-indigo-500 cursor-pointer mt-0.5"
                   required
                 />
                 <label
                   htmlFor="terms"
-                  className="text-xs text-muted-foreground leading-snug cursor-pointer select-none"
+                  className="text-xs text-slate-600 dark:text-muted-foreground leading-snug cursor-pointer select-none font-medium"
                 >
                   I agree to the{" "}
-                  <Link href="/settings" className="text-indigo-400 hover:underline">
+                  <Link href="/settings" className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline">
                     Terms of Protocol
                   </Link>{" "}
                   and acknowledge the{" "}
-                  <Link href="/settings" className="text-indigo-400 hover:underline">
+                  <Link href="/settings" className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline">
                     Privacy Policy
                   </Link>
                   .
@@ -271,7 +271,7 @@ export default function SignupPage() {
                   variant="glow"
                   size="lg"
                   disabled={isLoading}
-                  className="w-full gap-2 font-bold text-sm h-12 shadow-glow active:scale-[0.99] transition-all cursor-pointer"
+                  className="w-full gap-2 font-bold text-sm h-12 shadow-sm active:scale-[0.99] transition-all cursor-pointer"
                 >
                   {isLoading ? (
                     <>
@@ -291,19 +291,19 @@ export default function SignupPage() {
           </div>
 
           {/* Footer & Verification Note */}
-          <div className="mt-8 pt-6 border-t border-white/10 text-center space-y-3">
-            <p className="text-xs text-muted-foreground">
+          <div className="mt-8 pt-6 border-t border-slate-100 dark:border-white/10 text-center space-y-3">
+            <p className="text-xs text-slate-600 dark:text-muted-foreground">
               Already have an account?{" "}
               <Link
                 href="/login"
-                className="text-primary font-bold hover:underline ml-1"
+                className="text-indigo-600 dark:text-primary font-bold hover:underline ml-1"
               >
                 Sign in here
               </Link>
             </p>
 
-            <div className="flex items-center justify-center gap-1.5 text-[11px] text-muted-foreground/80">
-              <Check className="h-3.5 w-3.5 text-emerald-400" />
+            <div className="flex items-center justify-center gap-1.5 text-[11px] text-slate-500 dark:text-muted-foreground/80 font-medium">
+              <Check className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
               <span>Your Skill DNA & cryptographic badges will be linked automatically</span>
             </div>
           </div>

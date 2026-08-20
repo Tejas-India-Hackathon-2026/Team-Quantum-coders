@@ -7,10 +7,14 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+import { useAuth } from "@/context/AuthContext";
 
 const ICONS = [Code2, Sparkles, ShieldCheck];
 
 export function HowItWorksSection() {
+  const { isAuthenticated } = useAuth();
+  const targetHref = isAuthenticated ? "/dashboard" : "/challenges";
+
   return (
     <section id="how-it-works" className="py-24 border-t border-slate-200/80 dark:border-white/10 relative scroll-mt-16 bg-slate-50/60 dark:bg-slate-950/40 text-left">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -80,8 +84,8 @@ export function HowItWorksSection() {
 
         {/* Bottom Action Prompt */}
         <div className="mt-16 text-center">
-          <Link href="/signup">
-            <Button variant="glow" size="lg" className="gap-2 font-bold shadow-sm">
+          <Link href={targetHref}>
+            <Button variant="glow" size="lg" className="gap-2 font-bold shadow-sm cursor-pointer">
               <Sparkles className="h-4 w-4" />
               Claim Your First Skill Now
               <ArrowRight className="h-4 w-4" />

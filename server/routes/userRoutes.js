@@ -6,64 +6,10 @@
  */
 
 import express from 'express';
-import { db, isFirebaseAdminInitialized } from '../config/firebaseAdmin.js';
+import { database, firestoreDb, isFirebaseAdminInitialized } from '../config/db.js';
 import { verifyToken, requireRole } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
-
-// In-Memory Data Store (Provides instantaneous local dev & demo support with Firestore sync)
-const localUsersStore = new Map([
-  [
-    'LP-STUDENT-DEMO',
-    {
-      uid: 'LP-STUDENT-DEMO',
-      displayName: 'Akrit Sharma',
-      name: 'Akrit Sharma',
-      email: 'student@university.edu',
-      role: 'student',
-      college: 'BITS Pilani',
-      branch: 'Computer Science & Engineering',
-      batch: '2026',
-      cgpa: '9.42',
-      readinessScore: 94.8,
-      isOnboarded: true,
-      skills: ['React & Next.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'Docker'],
-      badges: ['#LP-9482-VERIFIED', '#LP-REACT-MASTER'],
-      createdAt: new Date().toISOString()
-    }
-  ],
-  [
-    'LP-RECRUITER-DEMO',
-    {
-      uid: 'LP-RECRUITER-DEMO',
-      displayName: 'Sarah Jenkins',
-      name: 'Sarah Jenkins',
-      email: 'recruiter@enterprise.com',
-      role: 'recruiter',
-      company: 'Razorpay & Stripe Hiring Network',
-      domain: 'FinTech & Distributed Systems',
-      designation: 'Principal University Talent Partner',
-      hiringRoles: ['SDE-1', 'Full Stack Intern', 'AI Systems Engineer'],
-      isOnboarded: true,
-      createdAt: new Date().toISOString()
-    }
-  ],
-  [
-    'LP-FACULTY-DEMO',
-    {
-      uid: 'LP-FACULTY-DEMO',
-      displayName: 'Dr. Rajesh Verma',
-      name: 'Dr. Rajesh Verma',
-      email: 'faculty@university.edu',
-      role: 'faculty',
-      facultyInstitute: 'National Institute of Technology',
-      facultyDept: 'Computer Science & Engineering',
-      facultyRole: 'Head of Department & Placement Cell Chair',
-      isOnboarded: true,
-      createdAt: new Date().toISOString()
-    }
-  ]
-]);
 
 /**
  * 1. Get User Profile by UID
@@ -74,19 +20,20 @@ router.get('/profile/:uid', async (req, res) => {
 
   try {
     // 1. Check live Firestore if initialized
-    if (isFirebaseAdminInitialized && db) {
-      const docRef = db.collection('users').doc(uid);
+    if (isFirebaseAdminInitialized && firestoreDb) {
+      const docRef = firestoreDb.collection('users').doc(uid);
       const doc = await docRef.get();
       if (doc.exists) {
         return res.status(200).json({ status: 'success', profile: doc.data() });
       }
     }
 
-    // 2. Check local in-memory store
-    if (localUsersStore.has(uid)) {
+    // 2. Check unified database engine
+    const user = database.findById('users', uid, 'uid');
+    if (user) {
       return res.status(200).json({
         status: 'success',
-        profile: localUsersStore.get(uid)
+        profile: user
       });
     }
 
@@ -124,20 +71,25 @@ router.post('/onboarding', async (req, res) => {
 
   try {
     // 1. Sync to Cloud Firestore if connected
-    if (isFirebaseAdminInitialized && db) {
-      await db.collection('users').doc(uid).set(updatedProfile, { merge: true });
+    if (isFirebaseAdminInitialized && firestoreDb) {
+      await firestoreDb.collection('users').doc(uid).set(updatedProfile, { merge: true });
     }
 
-    // 2. Update local in-memory cache
-    const existing = localUsersStore.get(uid) || {};
-    localUsersStore.set(uid, { ...existing, ...updatedProfile });
+    // 2. Update persistent database
+    const existing = database.findById('users', uid, 'uid');
+    let profile;
+    if (existing) {
+      profile = database.update('users', uid, updatedProfile, 'uid');
+    } else {
+      profile = database.insert('users', updatedProfile);
+    }
 
     console.log(`[LifeProof Backend] Successfully saved onboarding profile for ${role}: ${uid}`);
 
     return res.status(200).json({
       status: 'success',
       message: 'Onboarding profile saved successfully.',
-      profile: localUsersStore.get(uid)
+      profile
     });
   } catch (error) {
     console.error('[Onboarding Error]:', error.message);
@@ -169,16 +121,24 @@ router.post('/add-verified-badge', async (req, res) => {
   };
 
   try {
-    const user = localUsersStore.get(uid) || { uid, role: 'student', badges: [] };
-    if (!Array.isArray(user.badges)) user.badges = [];
-    user.badges.unshift(newBadge);
-    user.readinessScore = Math.min(99.4, (parseFloat(user.readinessScore || 94.0) + 1.8)).toFixed(1);
-    localUsersStore.set(uid, user);
+    let user = database.findById('users', uid, 'uid');
+    if (!user) {
+      user = database.insert('users', { uid, role: 'student', verifiedBadges: [] });
+    }
 
-    if (isFirebaseAdminInitialized && db) {
-      await db.collection('users').doc(uid).set({
-        badges: user.badges,
-        readinessScore: user.readinessScore
+    const existingBadges = user.verifiedBadges || [];
+    existingBadges.unshift(newBadge);
+    const newScore = Math.min(99.4, (parseFloat(user.readinessScore || 94.0) + 1.8)).toFixed(1);
+
+    database.update('users', uid, {
+      verifiedBadges: existingBadges,
+      readinessScore: newScore
+    }, 'uid');
+
+    if (isFirebaseAdminInitialized && firestoreDb) {
+      await firestoreDb.collection('users').doc(uid).set({
+        verifiedBadges: existingBadges,
+        readinessScore: newScore
       }, { merge: true });
     }
 
@@ -186,7 +146,7 @@ router.post('/add-verified-badge', async (req, res) => {
       status: 'success',
       message: 'Cryptographic verified proof badge awarded to portfolio.',
       badge: newBadge,
-      newReadinessScore: user.readinessScore
+      newReadinessScore: newScore
     });
   } catch (error) {
     return res.status(500).json({ error: 'InternalServerError', message: error.message });
@@ -198,18 +158,16 @@ router.post('/add-verified-badge', async (req, res) => {
  * GET /api/users/students
  */
 router.get('/students', (req, res) => {
-  const students = [];
-  localUsersStore.forEach(user => {
-    if (user.role === 'student') {
-      students.push(user);
-    }
-  });
-
-  return res.status(200).json({
-    status: 'success',
-    totalStudents: students.length,
-    students
-  });
+  try {
+    const students = database.find('users', u => u.role === 'student');
+    return res.status(200).json({
+      status: 'success',
+      totalStudents: students.length,
+      students
+    });
+  } catch (error) {
+    return res.status(500).json({ error: 'InternalServerError', message: error.message });
+  }
 });
 
 export default router;

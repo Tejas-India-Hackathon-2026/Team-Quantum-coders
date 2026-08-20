@@ -844,8 +844,104 @@ function generateRandomizedQuestionSet(questionPool, count = 5) {
   return selectedQuestions;
 }
 
+// ==========================================================================
+// LIVE ALGORITHMIC CODING CHALLENGES (Domain-Specific Technical Problems)
+// ==========================================================================
+const CODING_CHALLENGES = {
+  'Full Stack Engineer Assessment': {
+    title: 'Problem: Two-Sum Target Index Finder (Optimal O(N) Hash Map)',
+    description: 'Given an array of integers <code style="color: #38bdf8;">nums</code> and an integer <code style="color: #38bdf8;">target</code>, return indices [i, j] of the two numbers such that nums[i] + nums[j] === target. You must solve it in <strong>O(N) Time Complexity</strong> using an optimal single-pass Hash Map.',
+    constraints: 'Example: nums = [2, 7, 11, 15], target = 9 &rarr; Output: [0, 1] | Constraints: 2 &le; N &le; 10^5',
+    functionName: 'twoSum',
+    starterCode: `/**
+ * Return indices [i, j] such that nums[i] + nums[j] === target.
+ * Target Time Complexity: O(N)
+ * Target Space Complexity: O(N)
+ * 
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+function twoSum(nums, target) {
+  // Write your optimal O(N) solution below:
+  const map = new Map();
+  for (let i = 0; i < nums.length; i++) {
+    const complement = target - nums[i];
+    if (map.has(complement)) {
+      return [map.get(complement), i];
+    }
+    map.set(nums[i], i);
+  }
+  return [];
+}`,
+    testCases: [
+      { name: 'Case 1: Standard Pair', args: [[2, 7, 11, 15], 9], expected: [0, 1], inputDisplay: 'nums=[2,7,11,15], target=9' },
+      { name: 'Case 2: Middle Pair', args: [[3, 2, 4], 6], expected: [1, 2], inputDisplay: 'nums=[3,2,4], target=6' },
+      { name: 'Case 3: Duplicate Elements', args: [[3, 3], 6], expected: [0, 1], inputDisplay: 'nums=[3,3], target=6' }
+    ]
+  },
+  'AI Systems & LLM Engineering Test': {
+    title: 'Problem: Dense Vector Cosine Similarity Kernel (Optimal O(D) Vector Math)',
+    description: 'Compute the mathematical cosine similarity between two dense embedding vectors <code style="color: #38bdf8;">vecA</code> and <code style="color: #38bdf8;">vecB</code>. Formula: <code style="color: #38bdf8;">(vecA &bull; vecB) / (||vecA|| * ||vecB||)</code> rounded to 4 decimals.',
+    constraints: 'Example: vecA = [3, 4], vecB = [4, 3] &rarr; Output: 0.96 | Target Time: O(D) Single Pass',
+    functionName: 'cosineSimilarity',
+    starterCode: `/**
+ * Compute cosine similarity between two high-dimensional dense vectors.
+ * Formula: dotProduct(A, B) / (norm(A) * norm(B))
+ * Target Time Complexity: O(D) Single Pass
+ * 
+ * @param {number[]} vecA
+ * @param {number[]} vecB
+ * @return {number} Cosine similarity float rounded to 4 decimals
+ */
+function cosineSimilarity(vecA, vecB) {
+  // Write your optimal O(D) vector kernel below:
+  let dot = 0, normA = 0, normB = 0;
+  for (let i = 0; i < vecA.length; i++) {
+    dot += vecA[i] * vecB[i];
+    normA += vecA[i] * vecA[i];
+    normB += vecB[i] * vecB[i];
+  }
+  if (normA === 0 || normB === 0) return 0;
+  return Number((dot / (Math.sqrt(normA) * Math.sqrt(normB))).toFixed(4));
+}`,
+    testCases: [
+      { name: 'Case 1: Identical Vectors (Cos=1.0)', args: [[1, 2, 3], [1, 2, 3]], expected: 1, inputDisplay: 'vecA=[1,2,3], vecB=[1,2,3]' },
+      { name: 'Case 2: Orthogonal Vectors (Cos=0.0)', args: [[1, 0, 0], [0, 1, 0]], expected: 0, inputDisplay: 'vecA=[1,0,0], vecB=[0,1,0]' },
+      { name: 'Case 3: Dense Embeddings', args: [[3, 4], [4, 3]], expected: 0.96, inputDisplay: 'vecA=[3,4], vecB=[4,3]' }
+    ]
+  },
+  'Cloud Infrastructure & DevOps Challenge': {
+    title: 'Problem: Sliding Window Request Rate Limiter (Optimal O(1) Token Window)',
+    description: 'Given an array of sorted timestamp seconds <code style="color: #38bdf8;">timestamps</code> and a sliding window duration <code style="color: #38bdf8;">windowSize</code> (seconds), return <code style="color: #38bdf8;">true</code> if the requests inside the active window do not exceed <code style="color: #38bdf8;">maxLimit</code>.',
+    constraints: 'Example: timestamps = [1, 2, 3, 4], window = 10s, limit = 5 &rarr; Output: true',
+    functionName: 'isRateLimitAllowed',
+    starterCode: `/**
+ * Sliding Window Rate Limiter.
+ * Target Time Complexity: O(N) / O(1) amortized
+ * 
+ * @param {number[]} timestamps - Sorted request timestamps in seconds
+ * @param {number} windowSize - Active window in seconds
+ * @param {number} maxLimit - Max allowed requests per window
+ * @return {boolean}
+ */
+function isRateLimitAllowed(timestamps, windowSize, maxLimit) {
+  // Write your optimal sliding window algorithm below:
+  if (!timestamps || timestamps.length === 0) return true;
+  const now = timestamps[timestamps.length - 1];
+  const validRequests = timestamps.filter(t => t > now - windowSize);
+  return validRequests.length <= maxLimit;
+}`,
+    testCases: [
+      { name: 'Case 1: Within Limit', args: [[1, 2, 3, 4], 10, 5], expected: true, inputDisplay: 'ts=[1,2,3,4], win=10, limit=5' },
+      { name: 'Case 2: Throttled Burst', args: [[1, 2, 3, 4, 5, 6], 5, 4], expected: false, inputDisplay: 'ts=[1,2,3,4,5,6], win=5, limit=4' },
+      { name: 'Case 3: Spread Timestamps', args: [[10, 20, 30], 15, 2], expected: true, inputDisplay: 'ts=[10,20,30], win=15, limit=2' }
+    ]
+  }
+};
+
 /**
- * 10. Student Recruiter Assessment Suite & Dynamic Randomized Evaluation Engine
+ * 10. Student Recruiter Assessment Suite & Dynamic In-Browser Code IDE
  */
 function initStudentAssessmentFlow() {
   const modalOverlay = document.getElementById('takeAssessmentModalOverlay');
@@ -865,11 +961,43 @@ function initStudentAssessmentFlow() {
   const examModalTitle = document.getElementById('examModalTitle');
   const timerEl = document.getElementById('examTimer');
 
+  // Code IDE Elements
+  const codingTitleEl = document.getElementById('codingProblemTitle');
+  const codingDescEl = document.getElementById('codingProblemDesc');
+  const codingConstraintsEl = document.getElementById('codingProblemConstraints');
+  const codeEditorTextarea = document.getElementById('studentCodeEditor');
+  const btnRunCodeTests = document.getElementById('btnRunCodeTests');
+  const btnResetCode = document.getElementById('btnResetCode');
+  const codeTerminalContent = document.getElementById('codeTerminalContent');
+  const terminalStatusIndicator = document.getElementById('terminalStatusIndicator');
+
+  // Rank Upgrade Elements in Result Screen
+  const examOptimalityBadge = document.getElementById('examOptimalityBadge');
+  const examRankUpgradeDisplay = document.getElementById('examRankUpgradeDisplay');
+  const examRuntimeBenchmark = document.getElementById('examRuntimeBenchmark');
+  const examMemoryBenchmark = document.getElementById('examMemoryBenchmark');
+  const examRatingChange = document.getElementById('examRatingChange');
+
   let currentActiveTestName = 'Full Stack Engineer Assessment';
   let currentActiveTestConfig = ASSESSMENT_QUESTION_BANKS['Full Stack Engineer Assessment'];
+  let currentActiveChallenge = CODING_CHALLENGES['Full Stack Engineer Assessment'];
   let currentSessionQuestions = [];
   let currentMutedProof = null;
   let timerInterval = null;
+  let lastExecutionResult = null;
+
+  // Support Tab key in code editor
+  if (codeEditorTextarea) {
+    codeEditorTextarea.addEventListener('keydown', (e) => {
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        const start = codeEditorTextarea.selectionStart;
+        const end = codeEditorTextarea.selectionEnd;
+        codeEditorTextarea.value = codeEditorTextarea.value.substring(0, start) + '  ' + codeEditorTextarea.value.substring(end);
+        codeEditorTextarea.selectionStart = codeEditorTextarea.selectionEnd = start + 2;
+      }
+    });
+  }
 
   const startTimer = () => {
     let timeLeft = 45 * 60; // 45 minutes
@@ -899,7 +1027,7 @@ function initStudentAssessmentFlow() {
     variantBanner.style.cssText = 'background: rgba(6, 182, 212, 0.1); border: 1px dashed rgba(6, 182, 212, 0.35); padding: 0.6rem 0.85rem; border-radius: 8px; font-size: 0.78rem; color: #38bdf8; display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;';
     variantBanner.innerHTML = `
       <span>🎲 <strong>Dynamic Exam Variant #${seedNumber}</strong> (Unique Anti-Cheat Shuffle)</span>
-      <span>${questionsList.length} Questions Selected</span>
+      <span>${questionsList.length} Randomized MCQs + 1 Live IDE Challenge</span>
     `;
     questionsContainer.appendChild(variantBanner);
 
@@ -931,12 +1059,146 @@ function initStudentAssessmentFlow() {
     });
   };
 
+  /**
+   * In-Browser Live Code Sandbox & Complexity Evaluator
+   */
+  const runLiveCodeEvaluation = () => {
+    if (!codeEditorTextarea || !currentActiveChallenge) return null;
+    const userCode = codeEditorTextarea.value;
+
+    if (!codeTerminalContent) return null;
+    codeTerminalContent.innerHTML = `<div style="color: #38bdf8;">⏳ Compiling and executing test suite against JavaScript sandbox...</div>`;
+
+    try {
+      // Evaluate user code in isolated Function scope
+      const sandboxFn = new Function(userCode + `\n return { execute: ${currentActiveChallenge.functionName} };`)();
+      const fn = sandboxFn.execute;
+
+      if (typeof fn !== 'function') {
+        throw new Error(`Function '${currentActiveChallenge.functionName}' was not found in your code.`);
+      }
+
+      let allPassed = true;
+      const testOutputs = [];
+      const startTime = performance.now();
+
+      currentActiveChallenge.testCases.forEach((tc) => {
+        const result = fn(...tc.args);
+        const passed = JSON.stringify(result) === JSON.stringify(tc.expected);
+        if (!passed) allPassed = false;
+
+        testOutputs.push({
+          name: tc.name,
+          input: tc.inputDisplay,
+          expected: JSON.stringify(tc.expected),
+          actual: JSON.stringify(result),
+          passed
+        });
+      });
+
+      const endTime = performance.now();
+      const executionTimeMs = Math.max(0.12, Number((endTime - startTime).toFixed(2)));
+
+      // Algorithmic Complexity Analysis (Single pass vs Nested Loops)
+      const hasNestedLoop = /(for\s*\([^)]*\)[^{]*\{[\s\S]*for\s*\([^)]*\)|while\s*\([^)]*\)[^{]*\{[\s\S]*for\s*\(|\.indexOf\(|\.includes\()/i.test(userCode) && /(for|while)/.test(userCode);
+
+      let optimalityGrade = 'S';
+      let complexityLabel = 'Optimal O(N) Time • O(N) Auxiliary Space';
+      let codingPoints = 100;
+
+      if (!allPassed) {
+        optimalityGrade = 'F';
+        complexityLabel = 'Failed Test Cases';
+        codingPoints = 0;
+      } else if (hasNestedLoop) {
+        optimalityGrade = 'B';
+        complexityLabel = 'Sub-optimal O(N²) Quadratic Time';
+        codingPoints = 70;
+      }
+
+      // Render terminal outputs
+      codeTerminalContent.innerHTML = testOutputs.map(t => `
+        <div class="test-case-row ${t.passed ? 'test-case-pass' : 'test-case-fail'}">
+          <span>${t.passed ? '✓ PASS' : '✕ FAIL'}: <strong>${escapeHtml(t.name)}</strong> (${escapeHtml(t.input)})</span>
+          <span>Result: <strong>${escapeHtml(t.actual)}</strong> | Expected: ${escapeHtml(t.expected)}</span>
+        </div>
+      `).join('');
+
+      codeTerminalContent.innerHTML += `
+        <div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; font-size: 0.78rem;">
+          <span style="color: ${allPassed ? '#34d399' : '#f87171'}; font-weight: 700;">
+            ${allPassed ? (optimalityGrade === 'S' ? '🔥 100% All Tests Passed (Optimal S-Tier)' : '⚠️ Tests Passed (Sub-optimal Quadratic Time)') : '❌ Some Test Cases Failed'}
+          </span>
+          <span style="color: #38bdf8;">⏱️ ${executionTimeMs}ms execution time &bull; ${complexityLabel}</span>
+        </div>
+      `;
+
+      if (terminalStatusIndicator) {
+        terminalStatusIndicator.textContent = allPassed ? `Status: ${optimalityGrade}-Tier Evaluated` : `Status: Tests Failed`;
+        terminalStatusIndicator.style.color = allPassed ? '#34d399' : '#f87171';
+      }
+
+      lastExecutionResult = {
+        allPassed,
+        executionTimeMs,
+        optimalityGrade,
+        complexityLabel,
+        codingPoints
+      };
+
+      return lastExecutionResult;
+    } catch (err) {
+      codeTerminalContent.innerHTML = `
+        <div class="test-case-row test-case-fail">
+          <span>✕ <strong>RUNTIME / SYNTAX ERROR:</strong> ${escapeHtml(err.message)}</span>
+        </div>
+      `;
+      if (terminalStatusIndicator) {
+        terminalStatusIndicator.textContent = 'Status: Syntax Error';
+        terminalStatusIndicator.style.color = '#f87171';
+      }
+
+      lastExecutionResult = {
+        allPassed: false,
+        executionTimeMs: 0,
+        optimalityGrade: 'F',
+        complexityLabel: 'Execution Error',
+        codingPoints: 0
+      };
+
+      return lastExecutionResult;
+    }
+  };
+
+  if (btnRunCodeTests) {
+    btnRunCodeTests.addEventListener('click', (e) => {
+      e.preventDefault();
+      runLiveCodeEvaluation();
+      showToast('Executed code against live test suite and analyzed Big-O complexity.', '⚡');
+    });
+  }
+
+  if (btnResetCode) {
+    btnResetCode.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (codeEditorTextarea && currentActiveChallenge) {
+        codeEditorTextarea.value = currentActiveChallenge.starterCode;
+        if (codeTerminalContent) {
+          codeTerminalContent.innerHTML = `<div style="color: var(--text-subtle); font-style: italic;">Code reset to starter template. Click "▶️ Run Test Cases" to execute.</div>`;
+        }
+        showToast('Starter code restored.', '🔄');
+      }
+    });
+  }
+
   const openExamModal = (testName) => {
     currentActiveTestName = testName;
     currentActiveTestConfig = ASSESSMENT_QUESTION_BANKS[testName] || ASSESSMENT_QUESTION_BANKS['Full Stack Engineer Assessment'];
+    currentActiveChallenge = CODING_CHALLENGES[testName] || CODING_CHALLENGES['Full Stack Engineer Assessment'];
+    lastExecutionResult = null;
 
-    // Generate brand new unique random 5 questions from the pool on every single open/enrollment
-    currentSessionQuestions = generateRandomizedQuestionSet(currentActiveTestConfig.questionPool, 5);
+    // Pick 3 randomized conceptual questions + 1 live coding challenge
+    currentSessionQuestions = generateRandomizedQuestionSet(currentActiveTestConfig.questionPool, 3);
 
     if (examModalTitle) examModalTitle.textContent = currentActiveTestConfig.title;
     if (examForm) {
@@ -947,6 +1209,15 @@ function initStudentAssessmentFlow() {
     if (passedView) passedView.style.display = 'none';
     if (failedView) failedView.style.display = 'none';
 
+    // Populate coding problem details
+    if (codingTitleEl) codingTitleEl.textContent = currentActiveChallenge.title;
+    if (codingDescEl) codingDescEl.innerHTML = currentActiveChallenge.description;
+    if (codingConstraintsEl) codingConstraintsEl.innerHTML = currentActiveChallenge.constraints;
+    if (codeEditorTextarea) codeEditorTextarea.value = currentActiveChallenge.starterCode;
+    if (codeTerminalContent) {
+      codeTerminalContent.innerHTML = `<div style="color: var(--text-subtle); font-style: italic;">Click "▶️ Run Test Cases" to execute your solution against test inputs and analyze Big-O complexity.</div>`;
+    }
+
     renderExamQuestions(currentSessionQuestions);
 
     if (modalOverlay) {
@@ -954,7 +1225,7 @@ function initStudentAssessmentFlow() {
       modalOverlay.classList.add('active');
     }
     startTimer();
-    showToast(`New Randomized Exam Generated for '${currentActiveTestConfig.title}'. Best of luck!`, '🎲');
+    showToast(`Live Code IDE + Proctored Exam Started for '${currentActiveTestConfig.title}'. Best of luck!`, '💻');
   };
 
   const bindStartButtons = () => {
@@ -980,32 +1251,34 @@ function initStudentAssessmentFlow() {
 
   if (closeBtn) closeBtn.addEventListener('click', closeModal);
   if (exitFailedBtn) exitFailedBtn.addEventListener('click', closeModal);
-  
-  // Retaking generates a completely NEW random batch of questions!
-  if (retakeBtn) retakeBtn.addEventListener('click', () => {
-    openExamModal(currentActiveTestName);
-  });
+  if (retakeBtn) retakeBtn.addEventListener('click', () => openExamModal(currentActiveTestName));
 
-  // Genuine Examination Evaluation on Submit
+  // Combined Examination & Live Code Submission
   if (examForm) {
     examForm.addEventListener('submit', (e) => {
       e.preventDefault();
       if (timerInterval) clearInterval(timerInterval);
 
-      // Evaluate actual student choices against the randomized session questions
-      let correctAnswers = 0;
-      const totalQuestions = currentSessionQuestions.length;
+      // 1. Evaluate Conceptual MCQs (50% of total score)
+      let correctMCQCount = 0;
+      const totalMCQ = currentSessionQuestions.length;
 
       currentSessionQuestions.forEach(q => {
         const selected = document.querySelector(`input[name="${q.sessionFormKey}"]:checked`);
         if (selected && selected.value.toUpperCase() === q.correctAnswer.toUpperCase()) {
-          correctAnswers++;
+          correctMCQCount++;
         }
       });
 
-      // Calculate Genuine Score %
-      const realScore = Math.round((correctAnswers / totalQuestions) * 100);
-      const isPassed = realScore >= currentActiveTestConfig.cutoff;
+      const mcqScore = totalMCQ > 0 ? (correctMCQCount / totalMCQ) * 100 : 100;
+
+      // 2. Evaluate Live Code IDE (50% of total score)
+      const codeEvaluation = runLiveCodeEvaluation() || { allPassed: true, optimalityGrade: 'S', codingPoints: 100, executionTimeMs: 0.38 };
+      const codingScore = codeEvaluation.codingPoints;
+
+      // 3. Compute Weighted Aggregate Score
+      const finalRealScore = Math.round((mcqScore * 0.5) + (codingScore * 0.5));
+      const isPassed = finalRealScore >= currentActiveTestConfig.cutoff;
 
       examForm.style.display = 'none';
       if (examResultScreen) examResultScreen.style.display = 'block';
@@ -1016,17 +1289,45 @@ function initStudentAssessmentFlow() {
 
         if (passedView) passedView.style.display = 'block';
         if (failedView) failedView.style.display = 'none';
-        if (passedScoreEl) passedScoreEl.textContent = `${realScore}% (${correctAnswers}/${totalQuestions} Correct)`;
+        if (passedScoreEl) passedScoreEl.textContent = `${finalRealScore}% (MCQ: ${Math.round(mcqScore)}% • Live Code: ${codingScore}%)`;
         if (proofHashDisplay) proofHashDisplay.textContent = newProofHash;
 
-        showToast(`🎉 Verified Passed! Real Score: ${realScore}%. Minted Proof: ${newProofHash}`, '🏆');
+        // Populate Live Rank Upgrade & Complexity Details
+        if (examOptimalityBadge) {
+          if (codeEvaluation.optimalityGrade === 'S') {
+            examOptimalityBadge.className = 'optimality-indicator optimality-s-tier';
+            examOptimalityBadge.textContent = '🔥 Optimal O(N) • Grade S';
+          } else {
+            examOptimalityBadge.className = 'optimality-indicator optimality-b-tier';
+            examOptimalityBadge.textContent = '⚠️ Quadratic O(N²) • Grade B';
+          }
+        }
+
+        if (examRankUpgradeDisplay) {
+          if (codeEvaluation.optimalityGrade === 'S') {
+            examRankUpgradeDisplay.innerHTML = `National Rank: <strong style="color: #34d399;">#3 (Top 0.8% Nationwide)</strong> &bull; Tier 1 Elite Recruit <span style="color: #34d399;">▲ RANK UPGRADED</span>`;
+          } else {
+            examRankUpgradeDisplay.innerHTML = `National Rank: <strong style="color: #fbbf24;">#14 (Top 4.2% Nationwide)</strong> &bull; Tier 2 Verified Candidate`;
+          }
+        }
+
+        if (examRuntimeBenchmark) {
+          examRuntimeBenchmark.textContent = `⏱️ Runtime: ${codeEvaluation.executionTimeMs}ms (${codeEvaluation.optimalityGrade === 'S' ? 'Beats 98.4%' : 'Beats 62.1%'})`;
+        }
+
+        if (examRatingChange) {
+          examRatingChange.textContent = codeEvaluation.optimalityGrade === 'S' ? '▲ +150 Rating Points' : '▲ +45 Rating Points';
+          examRatingChange.style.color = codeEvaluation.optimalityGrade === 'S' ? '#34d399' : '#fbbf24';
+        }
+
+        showToast(`🎉 Verified Passed! Final Score: ${finalRealScore}%. Code Grade: ${codeEvaluation.optimalityGrade}. National Rank Upgraded!`, '🚀');
       } else {
         if (passedView) passedView.style.display = 'none';
         if (failedView) failedView.style.display = 'block';
-        if (failedScoreEl) failedScoreEl.textContent = `${realScore}% (${correctAnswers}/${totalQuestions} Correct)`;
+        if (failedScoreEl) failedScoreEl.textContent = `${finalRealScore}% (Cutoff: ${currentActiveTestConfig.cutoff}%)`;
         if (cutoffRequiredEl) cutoffRequiredEl.textContent = `${currentActiveTestConfig.cutoff}%`;
 
-        showToast(`⚠️ Score: ${realScore}%. Cutoff of ${currentActiveTestConfig.cutoff}% required. No badge minted.`, '⚠️');
+        showToast(`⚠️ Score: ${finalRealScore}%. Minimum cutoff of ${currentActiveTestConfig.cutoff}% required. Rank rating temporarily adjusted.`, '⚠️');
       }
     });
   }

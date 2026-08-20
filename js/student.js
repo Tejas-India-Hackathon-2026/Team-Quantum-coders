@@ -455,48 +455,6 @@ function renderStudentProfile(user, profile) {
   // 5. Render Skills & Readiness Score Based On Real Assessment Results!
   renderStudentSkillsAndReadiness(uid, user);
 }
-  const email = (profile && profile.email) || user.email || 'student@university.edu';
-  const uid = user.uid || (profile && profile.uid) || 'LP-AUTH-9482';
-  const photoURL = (profile && profile.photoURL) || user.photoURL || '';
-  const initials = displayName
-    .split(' ')
-    .map(n => n[0])
-    .join('')
-    .substring(0, 2)
-    .toUpperCase() || 'AS';
-
-  // 1. Update Student Name Elements
-  const nameElements = document.querySelectorAll('.auth-user-name, #topbarStudentName, #welcomeStudentName');
-  nameElements.forEach(el => {
-    el.textContent = displayName;
-  });
-
-  // 2. Update Email Elements
-  const emailElements = document.querySelectorAll('.auth-user-email, #welcomeStudentEmail');
-  emailElements.forEach(el => {
-    el.textContent = email;
-  });
-
-  // 3. Update UID Elements
-  const uidElements = document.querySelectorAll('.auth-user-uid, #welcomeStudentUid');
-  uidElements.forEach(el => {
-    el.textContent = uid;
-  });
-
-  // 4. Update Profile Photo & Avatar
-  const avatarElements = document.querySelectorAll('.auth-user-avatar, #topbarAvatar');
-  avatarElements.forEach(el => {
-    if (photoURL) {
-      el.style.backgroundImage = `url('${photoURL}')`;
-      el.style.backgroundSize = 'cover';
-      el.style.backgroundPosition = 'center';
-      el.textContent = '';
-    } else {
-      el.style.backgroundImage = 'none';
-      el.textContent = initials;
-    }
-  });
-}
 
 /**
  * 2. Secure Sign-Out using central logoutUser()

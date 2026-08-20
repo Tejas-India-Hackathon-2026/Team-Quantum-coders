@@ -380,6 +380,81 @@
         </section>
 
         <!-- ==========================================================================
+             SECTION 1.5: AI CAREER PATH & TARGET SKILL-GAP SIMULATOR
+             ========================================================================== -->
+        <section class="dashboard-section" id="skill-gap-section">
+          <div class="section-title-row">
+            <div class="section-heading-group">
+              <span class="section-icon-badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">🎯</span>
+              <div>
+                <h2 class="section-main-title">1.5 AI Career Path & Target Skill-Gap Simulator</h2>
+                <p class="section-subtitle">Select your dream recruiter role to run a live gap analysis against your cryptographically verified proofs</p>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span class="badge-tag badge-partner" style="font-size: 0.75rem; margin: 0;">AI MATCH ENGINE ACTIVE</span>
+            </div>
+          </div>
+
+          <div style="background: rgba(13, 19, 34, 0.85); border: 1px solid var(--border-highlight); border-radius: var(--radius-xl); padding: 1.75rem; backdrop-filter: var(--blur-glass); box-shadow: 0 15px 40px rgba(0,0,0,0.5); position: relative; overflow: hidden;">
+            
+            <!-- Top Selector Row -->
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 1.25rem;">
+              <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <span style="font-size: 0.9rem; font-weight: 700; color: #fff;">Target Dream Role:</span>
+                <select id="targetRoleSelect" style="padding: 0.6rem 1rem; background: rgba(10, 14, 26, 0.9); border: 1px solid var(--border-highlight); border-radius: var(--radius-md); color: #38bdf8; font-family: var(--font-heading); font-size: 0.92rem; font-weight: 700; outline: none; cursor: pointer;">
+                  <option value="stripe_backend">Stripe • Senior Distributed Backend Engineer (₹38 LPA)</option>
+                  <option value="google_ai">Google Cloud • AI & LLM Systems Fellow (₹36 LPA)</option>
+                  <option value="razorpay_fullstack">Razorpay • Full Stack Systems SDE (₹30 LPA)</option>
+                  <option value="microsoft_azure">Microsoft • Cloud Infrastructure Architect (₹34 LPA)</option>
+                </select>
+              </div>
+
+              <!-- Target Match Badge -->
+              <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">Role Fit Score:</span>
+                <span id="targetRoleMatchBadge" style="padding: 0.35rem 0.85rem; border-radius: 9999px; background: rgba(56, 189, 248, 0.18); border: 1px solid rgba(56, 189, 248, 0.4); color: #38bdf8; font-size: 0.9rem; font-weight: 800; font-family: var(--font-heading);">
+                  0% Match
+                </span>
+              </div>
+            </div>
+
+            <!-- Gap Analysis Grid -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+              
+              <!-- Column 1: Verified Requirements Met -->
+              <div style="background: rgba(16, 185, 129, 0.04); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: var(--radius-lg); padding: 1.25rem;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="color: #34d399; font-size: 1.1rem;">✓</span>
+                    <h4 style="font-size: 0.95rem; font-weight: 700; color: #fff;">Verified Skills Met</h4>
+                  </div>
+                  <span id="countSkillsMet" style="font-size: 0.78rem; color: #34d399; font-weight: 700;">0 Met</span>
+                </div>
+                <div id="listSkillsMet" style="display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.85rem;">
+                  <div style="color: var(--text-subtle); font-style: italic; padding: 0.5rem 0;">No verified proofs match this target role yet. Take tests to qualify!</div>
+                </div>
+              </div>
+
+              <!-- Column 2: Missing Skill Gaps to Close -->
+              <div style="background: rgba(245, 158, 11, 0.04); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: var(--radius-lg); padding: 1.25rem;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="color: #fbbf24; font-size: 1.1rem;">⚠️</span>
+                    <h4 style="font-size: 0.95rem; font-weight: 700; color: #fff;">Missing Skill Gaps to Close</h4>
+                  </div>
+                  <span id="countSkillsMissing" style="font-size: 0.78rem; color: #fbbf24; font-weight: 700;">3 Missing</span>
+                </div>
+                <div id="listSkillsMissing" style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem;">
+                  <!-- Dynamic Missing Skill Cards with 1-Click Action -->
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
              SECTION 2: RECOMMENDED JOBS
              ========================================================================== -->
         <section class="dashboard-section" id="jobs-section">

@@ -253,9 +253,141 @@ document.addEventListener('DOMContentLoaded', () => {
   initGoogleAuth();
   initLoginForm();
   initQuickAccountSwitcher();
+  initOnboardingFlow();
   initPasswordToggle();
   initSessionListener();
 });
+
+/**
+ * First-Time User Onboarding Modal Controller
+ */
+export function initOnboardingFlow() {
+  const form = document.getElementById('onboardingForm');
+  const closeBtn = document.getElementById('closeOnboardingBtn');
+  const backdrop = document.getElementById('onboardingBackdrop');
+
+  if (closeBtn && backdrop) {
+    closeBtn.addEventListener('click', () => {
+      backdrop.classList.remove('active');
+      // If closed, proceed with standard session
+      if (window._pendingOnboardingUser) {
+        const u = window._pendingOnboardingUser;
+        sessionStorage.setItem('lp_active_session', JSON.stringify(u));
+        const targetPage = LifeProofAuth.dashboardRoutes[u.role] || 'pages/student.html';
+        const isInsidePagesDir = window.location.pathname.includes('/pages/');
+        const redirectUrl = isInsidePagesDir ? targetPage.replace('pages/', '') : targetPage;
+        window.location.href = redirectUrl;
+      }
+    });
+  }
+
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = document.getElementById('btnSubmitOnboarding');
+      if (submitBtn) setButtonLoading(submitBtn, true, 'Saving Profile & Launching...');
+
+      const u = window._pendingOnboardingUser || {
+        uid: 'LP-' + Date.now().toString(36).toUpperCase() + '-SYS',
+        displayName: 'LifeProof Member',
+        name: 'LifeProof Member',
+        email: 'user@university.edu',
+        role: LifeProofAuth.getRole()
+      };
+
+      const role = u.role || LifeProofAuth.getRole();
+
+      // Extract role-specific fields
+      let extendedData = {
+        isOnboarded: true
+      };
+
+      if (role === 'student') {
+        extendedData.college = (document.getElementById('obCollege') ? document.getElementById('obCollege').value.trim() : '') || 'BITS Pilani';
+        extendedData.branch = (document.getElementById('obBranch') ? document.getElementById('obBranch').value.trim() : '') || 'Computer Science';
+        extendedData.batch = (document.getElementById('obBatch') ? document.getElementById('obBatch').value : '') || '2026';
+        extendedData.cgpa = (document.getElementById('obCgpa') ? document.getElementById('obCgpa').value.trim() : '') || '8.9';
+        extendedData.skills = (document.getElementById('obSkills') ? document.getElementById('obSkills').value.trim() : '') || 'React, Node.js, Python, Cloud';
+      } else if (role === 'recruiter') {
+        extendedData.company = (document.getElementById('obCompany') ? document.getElementById('obCompany').value.trim() : '') || 'Stripe Technologies';
+        extendedData.domain = (document.getElementById('obDomain') ? document.getElementById('obDomain').value.trim() : '') || 'FinTech & Cloud';
+        extendedData.designation = (document.getElementById('obDesignation') ? document.getElementById('obDesignation').value.trim() : '') || 'Senior Talent Lead';
+        extendedData.hiringRoles = (document.getElementById('obHiringRoles') ? document.getElementById('obHiringRoles').value.trim() : '') || 'Full Stack & AI Engineers';
+      } else if (role === 'faculty') {
+        extendedData.facultyInstitute = (document.getElementById('obFacultyInstitute') ? document.getElementById('obFacultyInstitute').value.trim() : '') || 'National Institute of Technology';
+        extendedData.facultyDept = (document.getElementById('obFacultyDept') ? document.getElementById('obFacultyDept').value.trim() : '') || 'Computer Science';
+        extendedData.facultyRole = (document.getElementById('obFacultyRole') ? document.getElementById('obFacultyRole').value.trim() : '') || 'Head of Department';
+      }
+
+      const completeUserProfile = {
+        ...u,
+        ...extendedData
+      };
+
+      // Save to Session Storage
+      sessionStorage.setItem('lp_active_session', JSON.stringify(completeUserProfile));
+
+      // Sync to Firestore if authenticated
+      if (auth.currentUser) {
+        try {
+          await saveOrUpdateUserProfile({
+            ...auth.currentUser,
+            displayName: completeUserProfile.name || completeUserProfile.displayName
+          }, role);
+        } catch (err) {
+          console.warn('[LifeProof Auth] Firestore profile save notice:', err);
+        }
+      }
+
+      if (backdrop) backdrop.classList.remove('active');
+
+      showAuthAlert(`⚡ Profile Verified & Setup Completed! Opening ${role.toUpperCase()} Portal...`, 'success');
+
+      const targetPage = LifeProofAuth.dashboardRoutes[role] || 'pages/student.html';
+      const isInsidePagesDir = window.location.pathname.includes('/pages/');
+      const redirectUrl = isInsidePagesDir ? targetPage.replace('pages/', '') : targetPage;
+
+      setTimeout(() => {
+        window.location.href = redirectUrl;
+      }, 500);
+    });
+  }
+}
+
+/**
+ * Opens Onboarding Modal to collect user details
+ */
+export function openOnboardingModal(userObj, role) {
+  const backdrop = document.getElementById('onboardingBackdrop');
+  if (!backdrop) return;
+
+  window._pendingOnboardingUser = { ...userObj, role };
+
+  const nameEl = document.getElementById('onboardingUserName');
+  const emailEl = document.getElementById('onboardingUserEmail');
+  const roleBadge = document.getElementById('onboardingRoleBadge');
+  const avatarEl = document.getElementById('onboardingAvatar');
+
+  const displayName = userObj.name || userObj.displayName || 'LifeProof Member';
+  const email = userObj.email || `${role}@university.edu`;
+  const initials = displayName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'LP';
+
+  if (nameEl) nameEl.textContent = displayName;
+  if (emailEl) emailEl.textContent = email;
+  if (roleBadge) roleBadge.textContent = role.toUpperCase();
+  if (avatarEl) avatarEl.textContent = initials;
+
+  // Toggle role fields
+  const studentGroup = document.getElementById('onboardingStudentFields');
+  const recruiterGroup = document.getElementById('onboardingRecruiterFields');
+  const facultyGroup = document.getElementById('onboardingFacultyFields');
+
+  if (studentGroup) studentGroup.style.display = role === 'student' ? 'block' : 'none';
+  if (recruiterGroup) recruiterGroup.style.display = role === 'recruiter' ? 'block' : 'none';
+  if (facultyGroup) facultyGroup.style.display = role === 'faculty' ? 'block' : 'none';
+
+  backdrop.classList.add('active');
+}
 
 /**
  * Quick Switcher for different demo / test accounts
@@ -337,7 +469,7 @@ export function initGoogleAuth() {
 }
 
 /**
- * Core Google Authentication Trigger with Name & Another Email Support
+ * Core Google Authentication Trigger with First-Time Onboarding
  */
 export async function triggerGoogleSignIn() {
   const googleBtn = document.getElementById('btnGoogleAuth');
@@ -352,7 +484,7 @@ export async function triggerGoogleSignIn() {
   if (googleBtn) setButtonLoading(googleBtn, true, 'Connecting...');
   if (submitBtn) setButtonLoading(submitBtn, true, 'Connecting...');
 
-  // 1. If user entered a specific email (Another Email), directly log in with that email & name!
+  // 1. If user entered a specific email (Another Email), trigger onboarding or direct login
   if (customEmail) {
     const finalDisplayName = customName || customEmail.split('@')[0].split(/[\._-]/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
     const cleanUid = 'LP-' + Math.abs(customEmail.split('').reduce((a, b) => ((a << 5) - a) + b.charCodeAt(0), 0)).toString(36).toUpperCase() + '-SYS';
@@ -366,20 +498,11 @@ export async function triggerGoogleSignIn() {
       role: role
     };
 
-    sessionStorage.setItem('lp_active_session', JSON.stringify(userObj));
-
     if (googleBtn) setButtonLoading(googleBtn, false, 'Continue with Google / Selected Account');
     if (submitBtn) setButtonLoading(submitBtn, false, 'Sign In with this Name & Email &rarr;');
 
-    showAuthAlert(`⚡ Logged in as: <strong>${finalDisplayName}</strong> (${customEmail}). Opening ${role.toUpperCase()} Portal...`, 'success');
-
-    const targetPage = LifeProofAuth.dashboardRoutes[role] || 'pages/student.html';
-    const isInsidePagesDir = window.location.pathname.includes('/pages/');
-    const redirectUrl = isInsidePagesDir ? targetPage.replace('pages/', '') : targetPage;
-
-    setTimeout(() => {
-      window.location.href = redirectUrl;
-    }, 600);
+    // Launch First-Time Setup Modal
+    openOnboardingModal(userObj, role);
     return;
   }
 
@@ -395,42 +518,35 @@ export async function triggerGoogleSignIn() {
     const finalName = customName || user.displayName || 'Google Member';
     const email = user.email || `${role}@university.edu`;
 
-    let profile;
+    let profile = null;
     try {
-      profile = await saveOrUpdateUserProfile({
-        ...user,
-        displayName: finalName
-      }, role);
-    } catch (firestoreError) {
-      profile = {
-        uid: user.uid,
-        name: finalName,
-        email: email,
-        photoURL: user.photoURL || '',
-        role: role
-      };
-    }
+      profile = await getUserProfile(user.uid);
+    } catch (err) {}
 
-    const finalRole = (profile && profile.role) ? profile.role : role;
-
-    sessionStorage.setItem('lp_active_session', JSON.stringify({
+    const userObj = {
       uid: user.uid,
       displayName: finalName,
       name: finalName,
       email: email,
       photoURL: user.photoURL || '',
-      role: finalRole
-    }));
+      role: (profile && profile.role) ? profile.role : role
+    };
 
-    showAuthAlert(`Welcome, ${finalName}! (${email}) Opening ${finalRole.toUpperCase()} Portal...`, 'success');
+    if (googleBtn) setButtonLoading(googleBtn, false, 'Continue with Google / Selected Account');
+    if (submitBtn) setButtonLoading(submitBtn, false, 'Sign In with this Name & Email &rarr;');
 
-    const targetPage = LifeProofAuth.dashboardRoutes[finalRole] || 'pages/student.html';
-    const isInsidePagesDir = window.location.pathname.includes('/pages/');
-    const redirectUrl = isInsidePagesDir ? targetPage.replace('pages/', '') : targetPage;
-
-    setTimeout(() => {
-      window.location.href = redirectUrl;
-    }, 700);
+    // If profile is already onboarded in Firestore, redirect immediately
+    if (profile && profile.isOnboarded) {
+      sessionStorage.setItem('lp_active_session', JSON.stringify({ ...userObj, ...profile }));
+      showAuthAlert(`Welcome back, ${finalName}! Opening ${userObj.role.toUpperCase()} Portal...`, 'success');
+      const targetPage = LifeProofAuth.dashboardRoutes[userObj.role] || 'pages/student.html';
+      const isInsidePagesDir = window.location.pathname.includes('/pages/');
+      const redirectUrl = isInsidePagesDir ? targetPage.replace('pages/', '') : targetPage;
+      setTimeout(() => { window.location.href = redirectUrl; }, 600);
+    } else {
+      // First time Google Signup $\rightarrow$ open Onboarding Modal
+      openOnboardingModal(userObj, role);
+    }
 
   } catch (error) {
     const defaultNames = {
@@ -457,20 +573,11 @@ export async function triggerGoogleSignIn() {
       role: role
     };
 
-    sessionStorage.setItem('lp_active_session', JSON.stringify(userObj));
-
     if (googleBtn) setButtonLoading(googleBtn, false, 'Continue with Google / Selected Account');
     if (submitBtn) setButtonLoading(submitBtn, false, 'Sign In with this Name & Email &rarr;');
 
-    showAuthAlert(`⚡ Connected: <strong>${finalDisplayName}</strong> (${generatedEmail}). Opening ${role.toUpperCase()} Portal...`, 'success');
-
-    const targetPage = LifeProofAuth.dashboardRoutes[role] || 'pages/student.html';
-    const isInsidePagesDir = window.location.pathname.includes('/pages/');
-    const redirectUrl = isInsidePagesDir ? targetPage.replace('pages/', '') : targetPage;
-
-    setTimeout(() => {
-      window.location.href = redirectUrl;
-    }, 600);
+    // Launch First-Time Setup Modal
+    openOnboardingModal(userObj, role);
   }
 }
 

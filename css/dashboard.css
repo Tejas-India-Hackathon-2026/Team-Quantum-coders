@@ -1943,3 +1943,30 @@ body.dashboard-body {
   }
 }
 
+/* ==========================================================================
+   SKILL ASSESSMENTS & EXAMINATION STYLES
+   ========================================================================== */
+
+.recruiter-test-card,
+.student-test-card {
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.recruiter-test-card:hover,
+.student-test-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(56, 189, 248, 0.4);
+  box-shadow: 0 10px 25px -5px rgba(6, 182, 212, 0.15);
+}
+
+.exam-question-card label {
+  transition: background 0.15s ease, border-color 0.15s ease;
+  border: 1px solid transparent;
+}
+
+.exam-question-card label:hover {
+  background: rgba(56, 189, 248, 0.08);
+  border-color: rgba(56, 189, 248, 0.25);
+}
+
+

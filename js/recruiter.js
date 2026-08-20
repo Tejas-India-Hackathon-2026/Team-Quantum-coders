@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initJobManagement();
   initPostJobModal();
   initInterviewActions();
+  initAssessmentSuite();
 });
 
 /**
@@ -430,6 +431,133 @@ function initPostJobModal() {
       postJobForm.reset();
       closePostJobModal();
       showToast(`Job posting '${title}' published successfully!`, '🎉');
+      initJobManagement();
+  initPostJobModal();
+  initInterviewActions();
+  initAssessmentSuite();
+});
+
+/**
+ * 12. Recruiter Skill Assessment Suite (Test Builder & Evaluation)
+ */
+function initAssessmentSuite() {
+  const openBtnTop = document.getElementById('btnCreateTestTop');
+  const openBtnSection = document.getElementById('btnOpenCreateTestSection');
+  const closeBtn = document.getElementById('closeCreateAssessmentModalBtn');
+  const modalOverlay = document.getElementById('createAssessmentModalOverlay');
+  const form = document.getElementById('createAssessmentForm');
+  const testsContainer = document.getElementById('recruiterTestsContainer');
+
+  const resultsModal = document.getElementById('testResultsModalOverlay');
+  const closeResultsBtn = document.getElementById('closeTestResultsModalBtn');
+  const resultsButtons = document.querySelectorAll('.btn-view-test-results');
+
+  const openModal = () => {
+    if (modalOverlay) modalOverlay.classList.add('active');
+  };
+
+  const closeModal = () => {
+    if (modalOverlay) modalOverlay.classList.remove('active');
+  };
+
+  if (openBtnTop) openBtnTop.addEventListener('click', openModal);
+  if (openBtnSection) openBtnSection.addEventListener('click', openModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+  if (closeResultsBtn && resultsModal) {
+    closeResultsBtn.addEventListener('click', () => {
+      resultsModal.classList.remove('active');
+    });
+  }
+
+  // Bind existing results buttons
+  resultsButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const testName = btn.getAttribute('data-test') || 'Assessment';
+      const modalTitle = document.getElementById('testResultsModalTitle');
+      if (modalTitle) modalTitle.textContent = `${testName} - Candidate Scores`;
+      if (resultsModal) resultsModal.classList.add('active');
+    });
+  });
+
+  // Handle Assessment Form Submission
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const title = document.getElementById('testTitleInput').value.trim();
+      const category = document.getElementById('testCategoryInput').value;
+      const duration = document.getElementById('testDurationInput').value;
+      const cutoff = document.getElementById('testCutoffInput').value;
+      const batch = document.getElementById('testBatchInput').value;
+      const skills = document.getElementById('testSkillsInput').value.trim();
+
+      const newTest = {
+        id: 'test_' + Date.now(),
+        title,
+        category,
+        duration,
+        cutoff: cutoff + '% Cutoff',
+        batch,
+        skills: skills.split(',').map(s => s.trim()),
+        tested: '0 Tested',
+        avgScore: '0%',
+        qualified: '0 Qualified',
+        createdAt: new Date().toISOString()
+      };
+
+      // Persist in localStorage for Student Dashboard live synchronization
+      try {
+        const savedTests = JSON.parse(localStorage.getItem('lp_recruiter_tests') || '[]');
+        savedTests.unshift(newTest);
+        localStorage.setItem('lp_recruiter_tests', JSON.stringify(savedTests));
+      } catch (err) {}
+
+      // Prepend to UI
+      if (testsContainer) {
+        const testCard = document.createElement('div');
+        testCard.className = 'opportunity-card recruiter-test-card';
+        testCard.setAttribute('data-category', category);
+        testCard.innerHTML = `
+          <div class="opportunity-header">
+            <div class="opportunity-company-box">
+              <div class="company-logo-avatar" style="background: rgba(6, 182, 212, 0.15); color: #38bdf8;">✨</div>
+              <div class="company-details">
+                <h4>${escapeHtml(title)}</h4>
+                <span class="company-name">${escapeHtml(skills)} &bull; ${escapeHtml(batch)}</span>
+              </div>
+            </div>
+            <span class="badge-tag badge-user">${escapeHtml(cutoff)}% Cutoff</span>
+          </div>
+          <div class="opportunity-tags">
+            <span class="tag-pill">${escapeHtml(duration)}</span>
+            <span class="tag-pill">Auto-Badge</span>
+            <span class="tag-pill" style="color: #34d399;">Active Live</span>
+          </div>
+          <div class="recruiter-test-stats-row" style="display: flex; justify-content: space-between; padding: 0.75rem 0; border-top: 1px solid var(--border-subtle); margin-top: 0.75rem; font-size: 0.8rem; color: var(--text-muted);">
+            <span>👥 <strong>0</strong> Tested</span>
+            <span>⭐ Avg: <strong>-</strong></span>
+            <span style="color: #34d399;">🏆 <strong>0</strong> Qualified</span>
+          </div>
+          <div class="opportunity-footer">
+            <button type="button" class="btn-apply-action btn-view-test-results" data-test="${escapeHtml(title)}" style="width: 100%; justify-content: center; background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3);">
+              View Candidate Scores & Leaderboard &rarr;
+            </button>
+          </div>
+        `;
+
+        testCard.querySelector('.btn-view-test-results').addEventListener('click', () => {
+          const modalTitle = document.getElementById('testResultsModalTitle');
+          if (modalTitle) modalTitle.textContent = `${title} - Candidate Scores`;
+          if (resultsModal) resultsModal.classList.add('active');
+        });
+
+        testsContainer.insertBefore(testCard, testsContainer.firstChild);
+      }
+
+      form.reset();
+      closeModal();
+      showToast(`Skill Assessment '${title}' published live for student cohorts!`, '🎯');
     });
   }
 }

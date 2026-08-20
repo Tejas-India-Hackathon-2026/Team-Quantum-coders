@@ -21,7 +21,153 @@ document.addEventListener('DOMContentLoaded', () => {
   initOpportunityInteractions();
   initResumeActions();
   initNotificationToast();
+  initStudentAssessmentFlow();
 });
+
+/**
+ * 10. Student Recruiter Assessment Suite & Badge Verification
+ */
+function initStudentAssessmentFlow() {
+  const testsGrid = document.getElementById('studentRecruiterTestsGrid');
+  const modalOverlay = document.getElementById('takeAssessmentModalOverlay');
+  const closeBtn = document.getElementById('closeTakeAssessmentModalBtn');
+  const examForm = document.getElementById('studentExamForm');
+  const examResultScreen = document.getElementById('examResultScreen');
+  const claimBadgeBtn = document.getElementById('btnClaimBadgeDone');
+  const examModalTitle = document.getElementById('examModalTitle');
+  const timerEl = document.getElementById('examTimer');
+
+  // 1. Render custom recruiter tests if published from Recruiter Dashboard
+  try {
+    const savedTests = JSON.parse(localStorage.getItem('lp_recruiter_tests') || '[]');
+    if (savedTests.length > 0 && testsGrid) {
+      savedTests.forEach(test => {
+        const card = document.createElement('div');
+        card.className = 'opportunity-card student-test-card';
+        card.innerHTML = `
+          <div class="opportunity-header">
+            <div class="opportunity-company-box">
+              <div class="company-logo-avatar" style="background: rgba(168, 85, 247, 0.15); color: #c084fc;">🚀</div>
+              <div class="company-details">
+                <h4>${escapeHtml(test.title)}</h4>
+                <span class="company-name">${escapeHtml(test.skills ? test.skills.join(', ') : 'Verified Recruiter Test')}</span>
+              </div>
+            </div>
+            <span class="badge-tag badge-user">${escapeHtml(test.cutoff || '80% Cutoff')}</span>
+          </div>
+          <div class="opportunity-tags">
+            <span class="tag-pill">${escapeHtml(test.duration || '45 Mins')}</span>
+            <span class="tag-pill" style="color: #34d399;">Live Challenge</span>
+          </div>
+          <div class="opportunity-footer">
+            <button type="button" class="btn-apply-action btn-start-student-test" data-test="${escapeHtml(test.title)}" style="width: 100%; justify-content: center; background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);">
+              Take Assessment &rarr;
+            </button>
+          </div>
+        `;
+        testsGrid.insertBefore(card, testsGrid.firstChild);
+      });
+    }
+  } catch (err) {}
+
+  let timerInterval = null;
+
+  const startTimer = () => {
+    let timeLeft = 45 * 60; // 45 minutes
+    if (timerInterval) clearInterval(timerInterval);
+
+    timerInterval = setInterval(() => {
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        return;
+      }
+      timeLeft--;
+      const mins = Math.floor(timeLeft / 60);
+      const secs = timeLeft % 60;
+      if (timerEl) {
+        timerEl.textContent = `⏳ ${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      }
+    }, 1000);
+  };
+
+  const bindStartButtons = () => {
+    const startButtons = document.querySelectorAll('.btn-start-student-test');
+    startButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const testName = btn.getAttribute('data-test') || 'Technical Assessment';
+        if (examModalTitle) examModalTitle.textContent = testName;
+
+        if (examForm) {
+          examForm.style.display = 'block';
+          examForm.reset();
+        }
+        if (examResultScreen) examResultScreen.style.display = 'none';
+
+        if (modalOverlay) modalOverlay.classList.add('active');
+        startTimer();
+      });
+    });
+  };
+
+  bindStartButtons();
+
+  const closeModal = () => {
+    if (modalOverlay) modalOverlay.classList.remove('active');
+    if (timerInterval) clearInterval(timerInterval);
+  };
+
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+  // Examination submission
+  if (examForm) {
+    examForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (timerInterval) clearInterval(timerInterval);
+
+      examForm.style.display = 'none';
+      if (examResultScreen) examResultScreen.style.display = 'block';
+
+      showToast('Assessment submitted! Calculating verified cryptographic score...', '⚡');
+    });
+  }
+
+  // Claim Badge Action
+  if (claimBadgeBtn) {
+    claimBadgeBtn.addEventListener('click', () => {
+      closeModal();
+
+      // Append new verified badge into Skills grid
+      const skillsGrid = document.getElementById('skillsGrid');
+      if (skillsGrid) {
+        const verifiedCard = document.createElement('div');
+        verifiedCard.className = 'skill-item-card';
+        verifiedCard.setAttribute('data-category', 'engineering');
+        verifiedCard.innerHTML = `
+          <div class="skill-item-header">
+            <span class="skill-name-title">🏆 Recruiter Verified: Distributed Systems</span>
+            <span class="skill-verified-tag" style="background: rgba(16, 185, 129, 0.2); color: #34d399;">✓ 100% PROOF</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-progress" style="width: 100%; background: linear-gradient(90deg, #10b981, #06b6d4);"></div>
+          </div>
+          <div class="skill-meta-footer">
+            <span>Proof: #LP-RECRUITER-VERIFIED</span>
+            <span style="color: #34d399; font-weight: 700;">Score: 100% (Passed)</span>
+          </div>
+        `;
+        skillsGrid.insertBefore(verifiedCard, skillsGrid.firstChild);
+      }
+
+      // Boost Career Readiness score
+      const scoreNumber = document.querySelector('.score-number');
+      if (scoreNumber) {
+        scoreNumber.textContent = '98.4';
+      }
+
+      showToast('🎉 Cryptographic LifeProof Skill Badge earned and attached to your portfolio!', '🏆');
+    });
+  }
+}
 
 /**
  * 1. Central Security Guard: Enforces Student Role

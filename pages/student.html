@@ -694,6 +694,94 @@
               </div>
 
             </div>
+
+            <!-- Recruiter Skill Challenges / Tests Stream -->
+            <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-subtle);">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+                <div>
+                  <h3 style="font-size: 1.15rem; font-weight: 700; color: #fff;">🏆 Recruiter Skill Assessments & Proof Challenges</h3>
+                  <p style="font-size: 0.8rem; color: var(--text-muted);">Take technical assessments set by verified enterprise recruiters to earn badges and fast-track interviews.</p>
+                </div>
+                <span class="badge-tag badge-partner">Direct Recruiter Access</span>
+              </div>
+
+              <div class="cards-slider-grid" id="studentRecruiterTestsGrid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
+                
+                <!-- Test Card 1 -->
+                <div class="opportunity-card student-test-card" data-test="Full Stack Engineer Assessment">
+                  <div class="opportunity-header">
+                    <div class="opportunity-company-box">
+                      <div class="company-logo-avatar" style="background: rgba(6, 182, 212, 0.15); color: #38bdf8;">⚛️</div>
+                      <div class="company-details">
+                        <h4>Full Stack Assessment</h4>
+                        <span class="company-name">Razorpay &bull; React, Node & System Design</span>
+                      </div>
+                    </div>
+                    <span class="badge-tag badge-user">85% Cutoff</span>
+                  </div>
+                  <div class="opportunity-tags">
+                    <span class="tag-pill">60 Mins</span>
+                    <span class="tag-pill">Auto-Badge</span>
+                    <span class="tag-pill" style="color: #34d399;">Active</span>
+                  </div>
+                  <div class="opportunity-footer">
+                    <button type="button" class="btn-apply-action btn-start-student-test" data-test="Full Stack Engineer Assessment" data-company="Razorpay" data-time="60 Mins" data-cutoff="85%" style="width: 100%; justify-content: center; background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);">
+                      Take Assessment &rarr;
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Test Card 2 -->
+                <div class="opportunity-card student-test-card" data-test="Cloud Infrastructure & DevOps Challenge">
+                  <div class="opportunity-header">
+                    <div class="opportunity-company-box">
+                      <div class="company-logo-avatar" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">🌐</div>
+                      <div class="company-details">
+                        <h4>Cloud & DevOps Challenge</h4>
+                        <span class="company-name">Google Cloud &bull; Kubernetes & Docker</span>
+                      </div>
+                    </div>
+                    <span class="badge-tag badge-user">80% Cutoff</span>
+                  </div>
+                  <div class="opportunity-tags">
+                    <span class="tag-pill">45 Mins</span>
+                    <span class="tag-pill">Proctored</span>
+                    <span class="tag-pill" style="color: #34d399;">Active</span>
+                  </div>
+                  <div class="opportunity-footer">
+                    <button type="button" class="btn-apply-action btn-start-student-test" data-test="Cloud Infrastructure & DevOps Challenge" data-company="Google Cloud" data-time="45 Mins" data-cutoff="80%" style="width: 100%; justify-content: center; background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);">
+                      Take Assessment &rarr;
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Test Card 3 -->
+                <div class="opportunity-card student-test-card" data-test="AI Systems & LLM Engineering Test">
+                  <div class="opportunity-header">
+                    <div class="opportunity-company-box">
+                      <div class="company-logo-avatar" style="background: rgba(168, 85, 247, 0.15); color: #c084fc;">🧠</div>
+                      <div class="company-details">
+                        <h4>AI Systems & LLM Test</h4>
+                        <span class="company-name">Stripe &bull; Python & Vector DBs</span>
+                      </div>
+                    </div>
+                    <span class="badge-tag badge-user">75% Cutoff</span>
+                  </div>
+                  <div class="opportunity-tags">
+                    <span class="tag-pill">50 Mins</span>
+                    <span class="tag-pill">Badge + Interview</span>
+                    <span class="tag-pill" style="color: #34d399;">Active</span>
+                  </div>
+                  <div class="opportunity-footer">
+                    <button type="button" class="btn-apply-action btn-start-student-test" data-test="AI Systems & LLM Engineering Test" data-company="Stripe" data-time="50 Mins" data-cutoff="75%" style="width: 100%; justify-content: center; background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);">
+                      Take Assessment &rarr;
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
           </div>
         </section>
 
@@ -944,6 +1032,114 @@
 
     </div>
 
+  </div>
+
+  <!-- Interactive Take Assessment Examination Modal -->
+  <div class="post-job-modal-overlay" id="takeAssessmentModalOverlay">
+    <div class="post-job-modal" style="max-width: 640px; max-height: 90vh; overflow-y: auto;">
+      
+      <!-- Test Header -->
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem;">
+        <div>
+          <span class="badge-tag badge-user" style="margin-bottom: 0.35rem; display: inline-block;">PROCTORED ASSESSMENT</span>
+          <h3 id="examModalTitle" style="font-size: 1.2rem; font-weight: 700; color: #fff;">Technical Skill Challenge</h3>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <div style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); padding: 0.35rem 0.75rem; border-radius: 8px; font-weight: 700; color: #f87171; font-family: var(--font-mono);" id="examTimer">
+            ⏳ 44:59
+          </div>
+          <button type="button" id="closeTakeAssessmentModalBtn" style="background: transparent; border: none; color: var(--text-muted); font-size: 1.3rem; cursor: pointer;">✕</button>
+        </div>
+      </div>
+
+      <!-- Examination Body -->
+      <form id="studentExamForm">
+        
+        <!-- Question 1 -->
+        <div class="exam-question-card" style="background: rgba(255, 255, 255, 0.03); padding: 1rem; border-radius: 12px; border: 1px solid var(--border-subtle); margin-bottom: 1rem;">
+          <div style="font-size: 0.82rem; color: #38bdf8; font-weight: 700; margin-bottom: 0.35rem;">QUESTION 1 OF 3</div>
+          <p style="font-weight: 600; color: #fff; margin-bottom: 0.75rem; font-size: 0.92rem;">
+            Which data structure is optimal for implementing an LRU Cache with O(1) lookups and O(1) eviction?
+          </p>
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <label style="display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0.75rem; background: rgba(0,0,0,0.3); border-radius: 8px; cursor: pointer;">
+              <input type="radio" name="q1" value="A" required style="accent-color: #38bdf8;" />
+              <span style="font-size: 0.85rem;">A) Binary Search Tree with Timestamp</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0.75rem; background: rgba(0,0,0,0.3); border-radius: 8px; cursor: pointer;">
+              <input type="radio" name="q1" value="B" style="accent-color: #38bdf8;" />
+              <span style="font-size: 0.85rem; color: #34d399; font-weight: 600;">B) Doubly Linked List combined with Hash Map</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0.75rem; background: rgba(0,0,0,0.3); border-radius: 8px; cursor: pointer;">
+              <input type="radio" name="q1" value="C" style="accent-color: #38bdf8;" />
+              <span style="font-size: 0.85rem;">C) Sorted Array with Binary Search</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="exam-question-card" style="background: rgba(255, 255, 255, 0.03); padding: 1rem; border-radius: 12px; border: 1px solid var(--border-subtle); margin-bottom: 1rem;">
+          <div style="font-size: 0.82rem; color: #38bdf8; font-weight: 700; margin-bottom: 0.35rem;">QUESTION 2 OF 3</div>
+          <p style="font-weight: 600; color: #fff; margin-bottom: 0.75rem; font-size: 0.92rem;">
+            In high-scale microservices, what is the primary purpose of an API Gateway?
+          </p>
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <label style="display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0.75rem; background: rgba(0,0,0,0.3); border-radius: 8px; cursor: pointer;">
+              <input type="radio" name="q2" value="A" required style="accent-color: #38bdf8;" />
+              <span style="font-size: 0.85rem; color: #34d399; font-weight: 600;">A) Centralized request routing, rate limiting, and auth verification</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0.75rem; background: rgba(0,0,0,0.3); border-radius: 8px; cursor: pointer;">
+              <input type="radio" name="q2" value="B" style="accent-color: #38bdf8;" />
+              <span style="font-size: 0.85rem;">B) Compiling backend C++ binaries into WebAssembly</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0.75rem; background: rgba(0,0,0,0.3); border-radius: 8px; cursor: pointer;">
+              <input type="radio" name="q2" value="C" style="accent-color: #38bdf8;" />
+              <span style="font-size: 0.85rem;">C) Managing SQL schema migrations</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="exam-question-card" style="background: rgba(255, 255, 255, 0.03); padding: 1rem; border-radius: 12px; border: 1px solid var(--border-subtle); margin-bottom: 1.25rem;">
+          <div style="font-size: 0.82rem; color: #38bdf8; font-weight: 700; margin-bottom: 0.35rem;">QUESTION 3 OF 3</div>
+          <p style="font-weight: 600; color: #fff; margin-bottom: 0.75rem; font-size: 0.92rem;">
+            Which caching pattern guarantees that stale data is never read under sudden traffic spikes?
+          </p>
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <label style="display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0.75rem; background: rgba(0,0,0,0.3); border-radius: 8px; cursor: pointer;">
+              <input type="radio" name="q3" value="A" required style="accent-color: #38bdf8;" />
+              <span style="font-size: 0.85rem; color: #34d399; font-weight: 600;">A) Write-Through with Distributed Cache Invalidation</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0.75rem; background: rgba(0,0,0,0.3); border-radius: 8px; cursor: pointer;">
+              <input type="radio" name="q3" value="B" style="accent-color: #38bdf8;" />
+              <span style="font-size: 0.85rem;">B) Client-side localStorage polling</span>
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="btnSubmitExam" style="width: 100%; padding: 0.75rem; background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%); font-weight: 700;">
+          Submit Assessment & Calculate Verified Score &rarr;
+        </button>
+      </form>
+
+      <!-- Exam Result Celebration Screen (Hidden Initially) -->
+      <div id="examResultScreen" style="display: none; text-align: center; padding: 1.5rem 1rem;">
+        <div style="width: 72px; height: 72px; border-radius: 50%; background: rgba(16, 185, 129, 0.2); color: #34d399; font-size: 2.2rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">🏆</div>
+        <h2 style="font-size: 1.4rem; font-weight: 800; color: #fff; margin-bottom: 0.35rem;">Assessment Passed! Score: <span style="color: #34d399;" id="examResultScore">100%</span></h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Congratulations! You met the cutoff criteria. A verified proof badge has been awarded to your LifeProof portfolio.</p>
+        
+        <div style="background: rgba(255, 255, 255, 0.04); padding: 1rem; border-radius: 12px; border: 1px solid var(--border-subtle); margin-bottom: 1.5rem; text-align: left;">
+          <div style="font-size: 0.8rem; color: var(--text-muted);">Verified Proof Certificate:</div>
+          <div style="font-family: var(--font-mono); color: #38bdf8; font-weight: 700; font-size: 0.95rem; margin-top: 0.25rem;">#LP-RECRUITER-VERIFIED-2026</div>
+          <div style="font-size: 0.78rem; color: #34d399; margin-top: 0.4rem;">✓ Recruiter Direct Shortlist Status: ACTIVE</div>
+        </div>
+
+        <button type="button" class="btn btn-primary" id="btnClaimBadgeDone" style="width: 100%; background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);">
+          Claim Verified Proof Badge & Return to Dashboard &rarr;
+        </button>
+      </div>
+
+    </div>
   </div>
 
   <!-- Interactive Toast Notification Element -->

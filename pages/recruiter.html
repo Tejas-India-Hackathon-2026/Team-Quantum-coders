@@ -104,16 +104,23 @@
           <span class="sidebar-item-badge" style="background: rgba(244, 63, 94, 0.2); color: #fda4af;">5</span>
         </a>
 
+        <!-- 9. Skill Assessments -->
+        <a href="#skill-assessments" class="sidebar-item" id="sidebarAssessmentsBtn" data-nav="assessments" style="color: #38bdf8;">
+          <span class="sidebar-item-icon">📝</span>
+          <span>Skill Assessments</span>
+          <span class="sidebar-item-badge badge-green" id="sidebarAssessmentsCount">4 Live</span>
+        </a>
+
         <span class="sidebar-section-title">Intelligence</span>
 
-        <!-- 9. Analytics -->
+        <!-- 10. Analytics -->
         <a href="#recruitment-analytics" class="sidebar-item" data-nav="analytics">
           <span class="sidebar-item-icon">📈</span>
           <span>Analytics</span>
           <span class="sidebar-item-badge badge-green">96% SLA</span>
         </a>
 
-        <!-- 10. Settings -->
+        <!-- 11. Settings -->
         <a href="#settings" class="sidebar-item" data-nav="settings">
           <span class="sidebar-item-icon">⚙️</span>
           <span>Settings</span>
@@ -122,7 +129,7 @@
 
       <!-- Sidebar Footer with Logout Button -->
       <div class="sidebar-footer">
-        <!-- 11. Logout -->
+        <!-- 12. Logout -->
         <button type="button" class="btn-sidebar-logout" id="sidebarLogoutBtn" title="Sign Out of Recruiter Portal">
           <span class="sidebar-item-icon">🚪</span>
           <span>Sign Out</span>
@@ -139,23 +146,27 @@
       <header class="dashboard-topbar">
         <div class="topbar-left">
           <!-- Mobile Sidebar Toggle -->
-          <button type="button" class="mobile-sidebar-toggle" id="mobileSidebarToggle" aria-label="Open navigation menu">
-            ☰
+          <button type="button" class="sidebar-toggle-btn" id="mobileSidebarToggle" aria-label="Toggle Sidebar Navigation">
+            <span>☰</span>
           </button>
-
-          <!-- Global Candidate / Job Search Input -->
-          <div class="topbar-search-box">
-            <span class="topbar-search-icon">🔍</span>
-            <input type="text" class="topbar-search-input" id="dashboardSearchInput"
-              placeholder="Search candidate skills, proofs, applications, active jobs..." />
+          
+          <!-- Search Bar with Live Filter Support -->
+          <div class="topbar-search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="topbar-search-input" id="topbarSearch"
+              placeholder="Search candidate profiles, test results, skill proofs..." />
           </div>
         </div>
 
-        <!-- Topbar Right Actions -->
         <div class="topbar-right">
-          <!-- Post Job Fast CTA Button -->
-          <button type="button" class="btn btn-primary btn-sm" id="topbarPostJobBtn" style="background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%); font-size: 0.82rem; padding: 0.45rem 0.9rem;">
-            <span>+ Post Job</span>
+          <!-- Create Test Quick Action Button -->
+          <button type="button" class="btn-topbar-post-job" id="btnCreateTestTop" style="background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);">
+            <span>+ Create Skill Test</span>
+          </button>
+
+          <!-- Post Job Quick Action Button -->
+          <button type="button" class="btn-topbar-post-job" id="btnPostJobTop" style="background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);">
+            <span>+ Post New Job</span>
           </button>
 
           <!-- Notification Bell Icon with Badge -->
@@ -866,6 +877,121 @@
 
       </main>
 
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             SECTION 7: RECRUITER SKILL ASSESSMENTS & TEST CREATOR
+             ========================================================================== -->
+        <section class="dashboard-section" id="skill-assessments">
+          <div class="section-title-row">
+            <div class="section-heading-group">
+              <span class="section-icon-badge">📝</span>
+              <div>
+                <h2 class="section-main-title">7. Recruiter Skill Assessments & Challenges</h2>
+                <p class="section-subtitle">Set custom technical challenges, evaluate candidate cohorts, and auto-award verified LifeProof Badges.</p>
+              </div>
+            </div>
+            <button type="button" class="section-action-btn" id="btnOpenCreateTestSection" style="background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);">
+              <span>+ Create New Assessment</span>
+            </button>
+          </div>
+
+          <!-- Assessment Cards Grid -->
+          <div class="cards-slider-grid" id="recruiterTestsContainer" style="grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));">
+            
+            <!-- Test Card 1 -->
+            <div class="opportunity-card recruiter-test-card" data-category="fullstack">
+              <div class="opportunity-header">
+                <div class="opportunity-company-box">
+                  <div class="company-logo-avatar" style="background: rgba(6, 182, 212, 0.15); color: #38bdf8;">⚛️</div>
+                  <div class="company-details">
+                    <h4>Full Stack Engineer Assessment</h4>
+                    <span class="company-name">React, Node.js & System Design &bull; 2026 Batch</span>
+                  </div>
+                </div>
+                <span class="badge-tag badge-user">85% Cutoff</span>
+              </div>
+              <div class="opportunity-tags">
+                <span class="tag-pill">60 Mins</span>
+                <span class="tag-pill">15 MCQs + 1 Coding</span>
+                <span class="tag-pill">Auto-Badge</span>
+              </div>
+              <div class="recruiter-test-stats-row" style="display: flex; justify-content: space-between; padding: 0.75rem 0; border-top: 1px solid var(--border-subtle); margin-top: 0.75rem; font-size: 0.8rem; color: var(--text-muted);">
+                <span>👥 <strong>142</strong> Tested</span>
+                <span>⭐ Avg: <strong>78.4%</strong></span>
+                <span style="color: #34d399;">🏆 <strong>34</strong> Qualified</span>
+              </div>
+              <div class="opportunity-footer">
+                <button type="button" class="btn-apply-action btn-view-test-results" data-test="Full Stack Engineer Assessment" style="width: 100%; justify-content: center; background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3);">
+                  View Candidate Scores & Leaderboard &rarr;
+                </button>
+              </div>
+            </div>
+
+            <!-- Test Card 2 -->
+            <div class="opportunity-card recruiter-test-card" data-category="cloud">
+              <div class="opportunity-header">
+                <div class="opportunity-company-box">
+                  <div class="company-logo-avatar" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">🌐</div>
+                  <div class="company-details">
+                    <h4>Cloud Infrastructure & DevOps Challenge</h4>
+                    <span class="company-name">Docker, Kubernetes & AWS Architecture</span>
+                  </div>
+                </div>
+                <span class="badge-tag badge-user">80% Cutoff</span>
+              </div>
+              <div class="opportunity-tags">
+                <span class="tag-pill">45 Mins</span>
+                <span class="tag-pill">12 Questions</span>
+                <span class="tag-pill">Proctored</span>
+              </div>
+              <div class="recruiter-test-stats-row" style="display: flex; justify-content: space-between; padding: 0.75rem 0; border-top: 1px solid var(--border-subtle); margin-top: 0.75rem; font-size: 0.8rem; color: var(--text-muted);">
+                <span>👥 <strong>98</strong> Tested</span>
+                <span>⭐ Avg: <strong>81.2%</strong></span>
+                <span style="color: #34d399;">🏆 <strong>28</strong> Qualified</span>
+              </div>
+              <div class="opportunity-footer">
+                <button type="button" class="btn-apply-action btn-view-test-results" data-test="Cloud Infrastructure & DevOps Challenge" style="width: 100%; justify-content: center; background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3);">
+                  View Candidate Scores & Leaderboard &rarr;
+                </button>
+              </div>
+            </div>
+
+            <!-- Test Card 3 -->
+            <div class="opportunity-card recruiter-test-card" data-category="ai">
+              <div class="opportunity-header">
+                <div class="opportunity-company-box">
+                  <div class="company-logo-avatar" style="background: rgba(168, 85, 247, 0.15); color: #c084fc;">🧠</div>
+                  <div class="company-details">
+                    <h4>AI Systems & LLM Engineering Test</h4>
+                    <span class="company-name">Python, PyTorch & Vector Databases</span>
+                  </div>
+                </div>
+                <span class="badge-tag badge-user">75% Cutoff</span>
+              </div>
+              <div class="opportunity-tags">
+                <span class="tag-pill">50 Mins</span>
+                <span class="tag-pill">10 MCQs + 1 Jupyter Code</span>
+                <span class="tag-pill">Live Badge</span>
+              </div>
+              <div class="recruiter-test-stats-row" style="display: flex; justify-content: space-between; padding: 0.75rem 0; border-top: 1px solid var(--border-subtle); margin-top: 0.75rem; font-size: 0.8rem; color: var(--text-muted);">
+                <span>👥 <strong>115</strong> Tested</span>
+                <span>⭐ Avg: <strong>76.0%</strong></span>
+                <span style="color: #34d399;">🏆 <strong>22</strong> Qualified</span>
+              </div>
+              <div class="opportunity-footer">
+                <button type="button" class="btn-apply-action btn-view-test-results" data-test="AI Systems & LLM Engineering Test" style="width: 100%; justify-content: center; background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3);">
+                  View Candidate Scores & Leaderboard &rarr;
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </main>
+
       <!-- Dashboard Footer -->
       <footer class="site-footer" style="margin-top: auto; border-top: 1px solid var(--border-subtle); padding: 1.5rem 2rem;">
         <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
@@ -909,6 +1035,147 @@
           Publish Job Drive &rarr;
         </button>
       </form>
+    </div>
+  </div>
+
+  <!-- Interactive Create Skill Assessment Modal -->
+  <div class="post-job-modal-overlay" id="createAssessmentModalOverlay">
+    <div class="post-job-modal" style="max-width: 580px; max-height: 90vh; overflow-y: auto;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+        <div>
+          <span class="badge-tag badge-user" style="margin-bottom: 0.35rem; display: inline-block;">✨ TEST BUILDER</span>
+          <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main);">Create Custom Skill Assessment</h3>
+        </div>
+        <button type="button" id="closeCreateAssessmentModalBtn" style="background: transparent; border: none; color: var(--text-muted); font-size: 1.3rem; cursor: pointer;">✕</button>
+      </div>
+
+      <form id="createAssessmentForm" style="display: flex; flex-direction: column; gap: 1rem;">
+        <div>
+          <label style="font-size: 0.82rem; color: var(--text-muted); display: block; margin-bottom: 0.3rem;">Assessment Title</label>
+          <input type="text" id="testTitleInput" class="form-input" placeholder="e.g. Razorpay Distributed Backend Challenge" required style="width: 100%; padding: 0.6rem 0.9rem; background: rgba(10, 14, 26, 0.9); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); color: var(--text-main);" />
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div>
+            <label style="font-size: 0.82rem; color: var(--text-muted); display: block; margin-bottom: 0.3rem;">Domain / Category</label>
+            <select id="testCategoryInput" class="form-input" style="width: 100%; padding: 0.6rem 0.9rem; background: rgba(10, 14, 26, 0.9); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); color: var(--text-main);">
+              <option value="fullstack">Full Stack & Web</option>
+              <option value="cloud">Cloud & DevOps</option>
+              <option value="ai">AI & Machine Learning</option>
+              <option value="dsa">Data Structures & Algo</option>
+              <option value="cyber">Cybersecurity</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 0.82rem; color: var(--text-muted); display: block; margin-bottom: 0.3rem;">Duration</label>
+            <select id="testDurationInput" class="form-input" style="width: 100%; padding: 0.6rem 0.9rem; background: rgba(10, 14, 26, 0.9); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); color: var(--text-main);">
+              <option value="30 Mins">30 Minutes</option>
+              <option value="45 Mins" selected>45 Minutes</option>
+              <option value="60 Mins">60 Minutes</option>
+              <option value="90 Mins">90 Minutes</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div>
+            <label style="font-size: 0.82rem; color: var(--text-muted); display: block; margin-bottom: 0.3rem;">Cutoff Score (%)</label>
+            <input type="number" id="testCutoffInput" min="50" max="100" value="80" class="form-input" required style="width: 100%; padding: 0.6rem 0.9rem; background: rgba(10, 14, 26, 0.9); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); color: var(--text-main);" />
+          </div>
+          <div>
+            <label style="font-size: 0.82rem; color: var(--text-muted); display: block; margin-bottom: 0.3rem;">Target Batch</label>
+            <select id="testBatchInput" class="form-input" style="width: 100%; padding: 0.6rem 0.9rem; background: rgba(10, 14, 26, 0.9); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); color: var(--text-main);">
+              <option value="2026 Batch">2026 Batch</option>
+              <option value="2025 Batch">2025 Batch</option>
+              <option value="All Batches">All Student Batches</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size: 0.82rem; color: var(--text-muted); display: block; margin-bottom: 0.3rem;">Key Skill Tags (Comma separated)</label>
+          <input type="text" id="testSkillsInput" class="form-input" placeholder="e.g. React, PostgreSQL, Docker, Redis" required style="width: 100%; padding: 0.6rem 0.9rem; background: rgba(10, 14, 26, 0.9); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); color: var(--text-main);" />
+        </div>
+
+        <!-- Sample Question 1 Builder -->
+        <div style="background: rgba(255, 255, 255, 0.03); padding: 0.75rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+          <label style="font-size: 0.8rem; color: #38bdf8; font-weight: 700; display: block; margin-bottom: 0.4rem;">Sample Technical MCQ Question:</label>
+          <input type="text" id="testQ1Question" class="form-input" placeholder="e.g. How does Redis achieve single-threaded ultra-low latency?" value="Which caching strategy prevents Cache Stampede under sudden high traffic?" style="width: 100%; padding: 0.5rem 0.75rem; font-size: 0.82rem; background: rgba(10, 14, 26, 0.8); border: 1px solid var(--border-subtle); border-radius: 6px; color: #fff; margin-bottom: 0.4rem;" />
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem;">
+            <input type="text" id="testQ1OptA" class="form-input" placeholder="Option A" value="A) Mutex Locking with TTL" style="font-size: 0.78rem; padding: 0.4rem 0.6rem; background: rgba(10, 14, 26, 0.8); border: 1px solid var(--border-subtle); border-radius: 6px; color: #fff;" />
+            <input type="text" id="testQ1OptB" class="form-input" placeholder="Option B" value="B) Cache Warming" style="font-size: 0.78rem; padding: 0.4rem 0.6rem; background: rgba(10, 14, 26, 0.8); border: 1px solid var(--border-subtle); border-radius: 6px; color: #fff;" />
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <input type="checkbox" id="testAutoBadge" checked style="accent-color: #38bdf8;" />
+          <label for="testAutoBadge" style="font-size: 0.8rem; color: var(--text-muted); cursor: pointer;">Automatically issue verified LifeProof Skill Badge to passing students</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="margin-top: 0.5rem; background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);">
+          Publish Assessment to LifeProof Network &rarr;
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Interactive Test Results & Leaderboard Modal -->
+  <div class="post-job-modal-overlay" id="testResultsModalOverlay">
+    <div class="post-job-modal" style="max-width: 620px; max-height: 90vh; overflow-y: auto;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+        <div>
+          <span class="badge-tag badge-partner" style="margin-bottom: 0.35rem; display: inline-block;">📊 CANDIDATE LEADERBOARD</span>
+          <h3 id="testResultsModalTitle" style="font-size: 1.25rem; font-weight: 700; color: var(--text-main);">Assessment Results</h3>
+        </div>
+        <button type="button" id="closeTestResultsModalBtn" style="background: transparent; border: none; color: var(--text-muted); font-size: 1.3rem; cursor: pointer;">✕</button>
+      </div>
+
+      <div id="testResultsList" style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <!-- Candidate 1 -->
+        <div style="display: flex; align-items: center; justify-content: space-between; background: rgba(255, 255, 255, 0.04); padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--border-subtle);">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <div style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #3b82f6, #06b6d4); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff;">AS</div>
+            <div>
+              <div style="font-weight: 700; font-size: 0.9rem; color: #fff;">Akrit Sharma &bull; BITS Pilani</div>
+              <div style="font-size: 0.76rem; color: var(--text-muted);">Completed in 38 Mins &bull; Badge Awarded</div>
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <span style="font-size: 1.1rem; font-weight: 800; color: #34d399;">96%</span>
+            <div><button type="button" class="badge-tag badge-user" style="font-size: 0.65rem; margin: 0; cursor: pointer;">Schedule Interview &rarr;</button></div>
+          </div>
+        </div>
+
+        <!-- Candidate 2 -->
+        <div style="display: flex; align-items: center; justify-content: space-between; background: rgba(255, 255, 255, 0.04); padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--border-subtle);">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <div style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #ec4899, #8b5cf6); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff;">PP</div>
+            <div>
+              <div style="font-weight: 700; font-size: 0.9rem; color: #fff;">Priya Patel &bull; IIT Delhi</div>
+              <div style="font-size: 0.76rem; color: var(--text-muted);">Completed in 42 Mins &bull; Badge Awarded</div>
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <span style="font-size: 1.1rem; font-weight: 800; color: #34d399;">92%</span>
+            <div><button type="button" class="badge-tag badge-user" style="font-size: 0.65rem; margin: 0; cursor: pointer;">Schedule Interview &rarr;</button></div>
+          </div>
+        </div>
+
+        <!-- Candidate 3 -->
+        <div style="display: flex; align-items: center; justify-content: space-between; background: rgba(255, 255, 255, 0.04); padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--border-subtle);">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <div style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #10b981, #3b82f6); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff;">RM</div>
+            <div>
+              <div style="font-weight: 700; font-size: 0.9rem; color: #fff;">Rohan Mathur &bull; NIT Trichy</div>
+              <div style="font-size: 0.76rem; color: var(--text-muted);">Completed in 44 Mins &bull; Badge Awarded</div>
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <span style="font-size: 1.1rem; font-weight: 800; color: #34d399;">88%</span>
+            <div><button type="button" class="badge-tag badge-user" style="font-size: 0.65rem; margin: 0; cursor: pointer;">Schedule Interview &rarr;</button></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

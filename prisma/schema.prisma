@@ -1,0 +1,397 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Difficulty {
+  Beginner
+  Intermediate
+  Advanced
+  Mastery
+}
+
+enum ChallengeStatus {
+  Active
+  Draft
+  Archived
+}
+
+enum AttemptStatus {
+  IN_PROGRESS
+  SUBMITTED
+  PASSED
+  FAILED
+}
+
+enum AchievementRarity {
+  Common
+  Rare
+  Epic
+  Legendary
+}
+
+enum ActivityType {
+  LOGIN
+  CHALLENGE_STARTED
+  CHALLENGE_COMPLETED
+  ACHIEVEMENT_UNLOCKED
+  PROFILE_UPDATED
+  SETTINGS_CHANGED
+  COACH_INSIGHT
+}
+
+enum InsightSeverity {
+  INFO
+  RECOMMENDATION
+  WARNING
+  SUCCESS
+}
+
+// ----------------------------------------------------
+// NextAuth & Core User Models
+// ----------------------------------------------------
+
+model User {
+  id                  String    @id @default(cuid())
+  name                String?
+  email               String?   @unique
+  emailVerified       DateTime?
+  image               String?
+  passwordHash        String?
+  username            String?   @unique
+  headline            String?
+  bio                 String?
+  location            String?
+  role                Role      @default(USER)
+  profileCompleteness Int       @default(30)
+  totalXp             Int       @default(0)
+  rank                String    @default("Challenger I")
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  accounts            Account[]
+  sessions            Session[]
+  profile             Profile?
+  settings            UserSettings?
+  notificationPrefs   NotificationPreference?
+  skills              UserSkill[]
+  attempts            ChallengeAttempt[]
+  achievements        UserAchievement[]
+  activities          ActivityLog[]
+  aiInsights          AiInsight[]
+  connectedAccounts   ConnectedAccount[]
+  savedChallenges     SavedChallenge[]
+  profileViews        ProfileView[]      @relation("ViewedProfile")
+
+  @@index([email])
+  @@index([username])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ----------------------------------------------------
+// User Profile & Preferences
+// ----------------------------------------------------
+
+model Profile {
+  id                       String   @id @default(cuid())
+  userId                   String   @unique
+  avatarUrl                String?
+  fullName                 String
+  headline                 String?
+  bio                      String?  @db.Text
+  location                 String?
+  website                  String?
+  socialLinks              Json?    // e.g. { github: "", twitter: "", linkedin: "" }
+  publicProfileEnabled     Boolean  @default(true)
+  showSkillDNA             Boolean  @default(true)
+  showAchievements         Boolean  @default(true)
+  showCompletedChallenges  Boolean  @default(true)
+  recruiterVisible         Boolean  @default(true)
+  proofBadgeId             String?  @default("LP-PROOF-GENESIS")
+  verifiedSince            String?
+  globalPercentile         Float    @default(0.0)
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model UserSettings {
+  id                    String   @id @default(cuid())
+  userId                String   @unique
+  theme                 String   @default("dark")
+  accentColor           String   @default("indigo")
+  layoutDensity         String   @default("comfortable")
+  emailNotifications    Boolean  @default(true)
+  challengeNotifications Boolean @default(true)
+  coachNotifications    Boolean  @default(true)
+  badgeNotifications    Boolean  @default(true)
+  securityAlerts        Boolean  @default(true)
+  weeklySummary         Boolean  @default(true)
+  twoFactorEnabled      Boolean  @default(false)
+  loginAlertsEnabled    Boolean  @default(true)
+  profileVisibility     Boolean  @default(true)
+  searchEngineIndexing  Boolean  @default(false)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model NotificationPreference {
+  id                    String   @id @default(cuid())
+  userId                String   @unique
+  emailNotifications    Boolean  @default(true)
+  challengeUpdates      Boolean  @default(true)
+  aiCoachInsights       Boolean  @default(true)
+  achievementBadges     Boolean  @default(true)
+  securityAlerts        Boolean  @default(true)
+  weeklyProgressSummary Boolean  @default(true)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ConnectedAccount {
+  id                String   @id @default(cuid())
+  userId            String
+  providerName      String   // Google, GitHub, LinkedIn, Supabase
+  providerAccountId String
+  connected         Boolean  @default(true)
+  connectedAt       DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, providerName])
+  @@index([userId])
+}
+
+// ----------------------------------------------------
+// Skill Verification & Skill DNA
+// ----------------------------------------------------
+
+model SkillCategory {
+  id          String      @id @default(cuid())
+  name        String      @unique
+  description String?
+  iconName    String      @default("Code2")
+  skills      UserSkill[]
+  createdAt   DateTime    @default(now())
+}
+
+model UserSkill {
+  id                  String         @id @default(cuid())
+  userId              String
+  categoryName        String
+  score               Int            @default(0)
+  level               Int            @default(0)   // 1-100
+  percentage          Float          @default(0.0)
+  progressColor       String         @default("indigo")
+  strengthLabel       String         @default("Novice")
+  verified            Boolean        @default(false)
+  verificationDate    DateTime?
+  challengesCompleted Int            @default(0)
+  totalChallenges     Int            @default(20)
+  topPercentile       Float          @default(0.0)
+  updatedAt           DateTime       @updatedAt
+
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  categoryRef SkillCategory? @relation(fields: [categoryName], references: [name])
+
+  @@unique([userId, categoryName])
+  @@index([userId])
+}
+
+// ----------------------------------------------------
+// Challenges Marketplace & Sandbox Attempts
+// ----------------------------------------------------
+
+model Challenge {
+  id                String          @id @default(cuid())
+  title             String
+  slug              String          @unique
+  companyName       String
+  companyLogo       String?
+  description       String          @db.Text
+  difficulty        Difficulty      @default(Intermediate)
+  prizeAmount       String?         // e.g. "$2,500 Bounty"
+  participantsCount Int             @default(0)
+  estimatedTime     Int             @default(45) // minutes
+  status            ChallengeStatus @default(Active)
+  featured          Boolean         @default(false)
+  endingSoon        Boolean         @default(false)
+  category          String          // Frontend Architecture, Distributed Systems, etc.
+  tags              String[]
+  deadline          String?
+  starterCode       String?         @db.Text
+  testSuiteCode     String?         @db.Text
+  xpReward          Int             @default(300)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  attempts          ChallengeAttempt[]
+  savedBy           SavedChallenge[]
+
+  @@index([category])
+  @@index([difficulty])
+  @@index([featured])
+}
+
+model ChallengeAttempt {
+  id            String        @id @default(cuid())
+  userId        String
+  challengeId   String
+  status        AttemptStatus @default(IN_PROGRESS)
+  score         Int           @default(0) // 0 - 100
+  codeSubmitted String?       @db.Text
+  feedback      String?       @db.Text
+  proofHash     String?       // 0x8f4b...39a1
+  submissionUrl String?
+  submittedAt   DateTime?
+  completedAt   DateTime?
+  createdAt     DateTime      @default(now())
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  challenge Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([challengeId])
+}
+
+model SavedChallenge {
+  id          String   @id @default(cuid())
+  userId      String
+  challengeId String
+  createdAt   DateTime @default(now())
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  challenge Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, challengeId])
+  @@index([userId])
+}
+
+// ----------------------------------------------------
+// Achievements & Proof Badges
+// ----------------------------------------------------
+
+model Achievement {
+  id              String            @id @default(cuid())
+  title           String            @unique
+  description     String
+  icon            String            @default("ShieldCheck")
+  verificationTag String            @default("AST-AUDITED")
+  category        String            @default("Engineering")
+  rarity          AchievementRarity @default(Rare)
+  proofHash       String?
+  createdAt       DateTime          @default(now())
+
+  userAchievements UserAchievement[]
+}
+
+model UserAchievement {
+  id            String   @id @default(cuid())
+  userId        String
+  achievementId String
+  proofHash     String?
+  earnedAt      DateTime @default(now())
+
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievement Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, achievementId])
+  @@index([userId])
+}
+
+// ----------------------------------------------------
+// Activity Logs, AI Insights & Analytics
+// ----------------------------------------------------
+
+model ActivityLog {
+  id          String       @id @default(cuid())
+  userId      String
+  type        ActivityType @default(LOGIN)
+  title       String
+  description String?
+  metadata    Json?
+  createdAt   DateTime     @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model AiInsight {
+  id                  String          @id @default(cuid())
+  userId              String
+  title               String
+  message             String          @db.Text
+  severity            InsightSeverity @default(RECOMMENDATION)
+  recommendedAction   String?
+  relatedChallengeId  String?
+  createdAt           DateTime        @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model ProfileView {
+  id        String   @id @default(cuid())
+  profileId String   // The User ID whose profile was viewed
+  viewerIp  String?
+  viewerUser String?
+  viewedAt  DateTime @default(now())
+
+  profileOwner User @relation("ViewedProfile", fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([profileId])
+}

@@ -15,6 +15,7 @@ import userRoutes from './routes/userRoutes.js';
 import jobRoutes from './routes/jobRoutes.js';
 import assessmentRoutes from './routes/assessmentRoutes.js';
 import facultyRoutes from './routes/facultyRoutes.js';
+import resumeRoutes from './routes/resumeRoutes.js';
 
 // Load environment configuration
 dotenv.config();
@@ -62,6 +63,9 @@ app.use('/api/assessments', assessmentRoutes);
 
 // Faculty Academic Intelligence & NAAC/NIRF Telemetry Routes
 app.use('/api/faculty', facultyRoutes);
+
+// AI Resume Parser & ATS Optimization Routes
+app.use('/api/resume', resumeRoutes);
 
 /**
  * Healthcheck & Telemetry Endpoint

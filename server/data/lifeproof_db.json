@@ -1,0 +1,187 @@
+{
+  "users": [
+    {
+      "uid": "LP-STUDENT-001",
+      "name": "Akrit Sharma",
+      "email": "akrit.sharma@gmail.com",
+      "role": "student",
+      "college": "BITS Pilani",
+      "branch": "Computer Science & Engineering",
+      "batch": "2026",
+      "cgpa": 8.9,
+      "skills": ["React", "Node.js", "Python", "Cloud Firestore", "Docker"],
+      "verifiedBadges": [
+        {
+          "id": "badge-fsd-01",
+          "name": "Full Stack Distributed Systems",
+          "proofHash": "#LP-VERIFIED-PROOF-9482",
+          "awardedAt": "2026-08-15T10:00:00.000Z",
+          "score": 100
+        }
+      ],
+      "createdAt": "2026-08-01T00:00:00.000Z"
+    },
+    {
+      "uid": "LP-STUDENT-002",
+      "name": "Priya Patel",
+      "email": "priya.patel@gmail.com",
+      "role": "student",
+      "college": "IIT Delhi",
+      "branch": "Artificial Intelligence & Data",
+      "batch": "2026",
+      "cgpa": 9.4,
+      "skills": ["Python", "PyTorch", "TensorFlow", "Distributed Systems"],
+      "verifiedBadges": [],
+      "createdAt": "2026-08-05T00:00:00.000Z"
+    },
+    {
+      "uid": "LP-RECRUITER-001",
+      "name": "Sarah Jenkins",
+      "email": "sarah.jenkins@enterprise.com",
+      "role": "recruiter",
+      "company": "Stripe Technologies",
+      "designation": "Staff Talent Lead",
+      "domain": "FinTech & Infrastructure",
+      "createdAt": "2026-07-20T00:00:00.000Z"
+    },
+    {
+      "uid": "LP-FACULTY-001",
+      "name": "Dr. Rajiv Menon",
+      "email": "dr.rajiv.menon@faculty.edu",
+      "role": "faculty",
+      "institute": "National Institute of Technology",
+      "department": "Computer Science & Engineering",
+      "designation": "Head of Department / Placement Chair",
+      "createdAt": "2026-07-15T00:00:00.000Z"
+    }
+  ],
+  "jobs": [
+    {
+      "id": "job_101",
+      "title": "Senior Distributed Backend Engineer",
+      "company": "Stripe",
+      "logo": "💳",
+      "location": "Bengaluru (Hybrid)",
+      "type": "Full-Time SDE",
+      "salary": "₹28 - 38 LPA",
+      "batch": "2025 & 2026 Batch",
+      "skills": ["Go", "Node.js", "PostgreSQL", "Distributed Systems", "Redis"],
+      "matchScore": "98% Match",
+      "postedAt": "2 days ago",
+      "applicantsCount": 42,
+      "status": "active"
+    },
+    {
+      "id": "job_102",
+      "title": "Full Stack Frontend Architect",
+      "company": "Microsoft",
+      "logo": "💻",
+      "location": "Hyderabad (On-Site)",
+      "type": "Full-Time SDE",
+      "salary": "₹26 - 34 LPA",
+      "batch": "2026 Batch",
+      "skills": ["React", "Next.js", "TypeScript", "Tailwind", "GraphQL"],
+      "matchScore": "96% Match",
+      "postedAt": "1 day ago",
+      "applicantsCount": 68,
+      "status": "active"
+    },
+    {
+      "id": "job_103",
+      "title": "High-Throughput FinTech Intern",
+      "company": "Razorpay",
+      "logo": "⚡",
+      "location": "Bengaluru / Remote",
+      "type": "6-Month Internship",
+      "salary": "₹65,000 / month",
+      "batch": "2026 & 2027 Batch",
+      "skills": ["Node.js", "Python", "AWS", "Docker", "REST APIs"],
+      "matchScore": "94% Match",
+      "postedAt": "Just now",
+      "applicantsCount": 115,
+      "status": "active"
+    }
+  ],
+  "applications": [
+    {
+      "id": "app_001",
+      "jobId": "job_101",
+      "jobTitle": "Senior Distributed Backend Engineer",
+      "company": "Stripe",
+      "salary": "₹28 - 38 LPA",
+      "studentUid": "LP-STUDENT-001",
+      "studentName": "Akrit Sharma",
+      "studentEmail": "akrit.sharma@gmail.com",
+      "proofHash": "#LP-VERIFIED-PROOF-9482",
+      "appliedAt": "2026-08-16T12:00:00.000Z",
+      "status": "Shortlisted"
+    }
+  ],
+  "assessments": [
+    {
+      "id": "test_201",
+      "title": "Full Stack Engineer Assessment",
+      "category": "fullstack",
+      "company": "Razorpay",
+      "logo": "⚛️",
+      "duration": "60 Mins",
+      "cutoff": 85,
+      "cutoffDisplay": "85% Cutoff",
+      "batch": "2026 Batch",
+      "skills": ["React", "Node.js", "PostgreSQL", "System Design"],
+      "testedCount": 142,
+      "avgScore": "78.4%",
+      "qualifiedCount": 34,
+      "questions": [
+        {
+          "id": "q1",
+          "question": "Which data structure is optimal for implementing an LRU Cache with O(1) lookups and O(1) eviction?",
+          "options": ["A) Binary Search Tree with Timestamp", "B) Doubly Linked List combined with Hash Map", "C) Sorted Array with Binary Search"],
+          "correctAnswer": "B"
+        },
+        {
+          "id": "q2",
+          "question": "In high-scale microservices, what is the primary purpose of an API Gateway?",
+          "options": ["A) Centralized request routing, rate limiting, and auth verification", "B) Compiling backend C++ binaries into WebAssembly", "C) Managing SQL schema migrations"],
+          "correctAnswer": "A"
+        },
+        {
+          "id": "q3",
+          "question": "Which caching pattern guarantees that stale data is never read under sudden traffic spikes?",
+          "options": ["A) Write-Through with Distributed Cache Invalidation", "B) Client-side localStorage polling", "C) Periodic random cache eviction"],
+          "correctAnswer": "A"
+        }
+      ],
+      "leaderboard": [
+        { "studentName": "Akrit Sharma", "college": "BITS Pilani", "score": 96, "duration": "38 Mins", "proofHash": "#LP-VERIFIED-9482" },
+        { "studentName": "Priya Patel", "college": "IIT Delhi", "score": 92, "duration": "42 Mins", "proofHash": "#LP-VERIFIED-8910" }
+      ],
+      "status": "active",
+      "createdAt": "2026-08-10T10:00:00.000Z"
+    }
+  ],
+  "badges": [
+    {
+      "id": "LP-VERIFIED-PROOF-9482",
+      "proofHash": "#LP-VERIFIED-PROOF-9482",
+      "studentUid": "LP-STUDENT-001",
+      "studentName": "Akrit Sharma",
+      "testTitle": "Full Stack Engineer Assessment",
+      "score": 100,
+      "status": "VERIFIED_ACTIVE",
+      "tamperProofSignature": "ECDSA_SHA256_9482A0F8291B7C",
+      "issuedAt": "2026-08-15T10:00:00.000Z"
+    }
+  ],
+  "faculty_telemetry": {
+    "instituteName": "National Institute of Technology",
+    "academicYear": "2025-2026",
+    "totalRegisteredStudents": 190,
+    "totalPlacedStudents": 184,
+    "placementRate": "96.8%",
+    "averagePackage": "₹14.8 LPA",
+    "highestPackage": "₹48.0 LPA",
+    "naacCriterion5Score": "3.88 / 4.00 (A++ Benchmark)",
+    "nirfPlacementRank": "Top 15 Nationally"
+  }
+}

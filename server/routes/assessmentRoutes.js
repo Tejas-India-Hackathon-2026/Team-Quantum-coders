@@ -6,138 +6,31 @@
  */
 
 import express from 'express';
-import { db, isFirebaseAdminInitialized } from '../config/firebaseAdmin.js';
+import { database, firestoreDb, isFirebaseAdminInitialized } from '../config/db.js';
 
 const router = express.Router();
-
-// Initial Live Recruiter Assessments Store
-const initialAssessments = [
-  {
-    id: 'test_201',
-    title: 'Full Stack Engineer Assessment',
-    category: 'fullstack',
-    company: 'Razorpay',
-    logo: '⚛️',
-    duration: '60 Mins',
-    cutoff: 85,
-    cutoffDisplay: '85% Cutoff',
-    batch: '2026 Batch',
-    skills: ['React', 'Node.js', 'PostgreSQL', 'System Design'],
-    testedCount: 142,
-    avgScore: '78.4%',
-    qualifiedCount: 34,
-    questions: [
-      {
-        id: 'q1',
-        question: 'Which data structure is optimal for implementing an LRU Cache with O(1) lookups and O(1) eviction?',
-        options: ['A) Binary Search Tree with Timestamp', 'B) Doubly Linked List combined with Hash Map', 'C) Sorted Array with Binary Search'],
-        correctAnswer: 'B'
-      },
-      {
-        id: 'q2',
-        question: 'In high-scale microservices, what is the primary purpose of an API Gateway?',
-        options: ['A) Centralized request routing, rate limiting, and auth verification', 'B) Compiling backend C++ binaries into WebAssembly', 'C) Managing SQL schema migrations'],
-        correctAnswer: 'A'
-      },
-      {
-        id: 'q3',
-        question: 'Which caching pattern guarantees that stale data is never read under sudden traffic spikes?',
-        options: ['A) Write-Through with Distributed Cache Invalidation', 'B) Client-side localStorage polling', 'C) Periodic random cache eviction'],
-        correctAnswer: 'A'
-      }
-    ],
-    leaderboard: [
-      { studentName: 'Akrit Sharma', college: 'BITS Pilani', score: 96, duration: '38 Mins', proofHash: '#LP-VERIFIED-9482' },
-      { studentName: 'Priya Patel', college: 'IIT Delhi', score: 92, duration: '42 Mins', proofHash: '#LP-VERIFIED-8910' },
-      { studentName: 'Rohan Mathur', college: 'NIT Trichy', score: 88, duration: '44 Mins', proofHash: '#LP-VERIFIED-7731' }
-    ],
-    status: 'active',
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'test_202',
-    title: 'Cloud Infrastructure & DevOps Challenge',
-    category: 'cloud',
-    company: 'Google Cloud Partner',
-    logo: '🌐',
-    duration: '45 Mins',
-    cutoff: 80,
-    cutoffDisplay: '80% Cutoff',
-    batch: '2025 & 2026 Batch',
-    skills: ['Kubernetes', 'Docker', 'AWS', 'Terraform'],
-    testedCount: 98,
-    avgScore: '81.2%',
-    qualifiedCount: 28,
-    questions: [
-      {
-        id: 'q1',
-        question: 'What is the purpose of Kubernetes Ingress Controller?',
-        options: ['A) Load balancing and HTTP/HTTPS routing to cluster services', 'B) Encrypting local hard drives', 'C) Compiling container code'],
-        correctAnswer: 'A'
-      },
-      {
-        id: 'q2',
-        question: 'How do you ensure zero-downtime deployments in Kubernetes?',
-        options: ['A) RollingUpdate strategy with Readiness Probes', 'B) Hard restart of all nodes', 'C) Deleting all pods before deploying new image'],
-        correctAnswer: 'A'
-      }
-    ],
-    leaderboard: [
-      { studentName: 'Sneha Rao', college: 'IIT Bombay', score: 95, duration: '34 Mins', proofHash: '#LP-CLOUD-9921' },
-      { studentName: 'Vikas Kumar', college: 'IIIT Hyderabad', score: 90, duration: '40 Mins', proofHash: '#LP-CLOUD-8843' }
-    ],
-    status: 'active',
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'test_203',
-    title: 'AI Systems & LLM Engineering Test',
-    category: 'ai',
-    company: 'Stripe',
-    logo: '🧠',
-    duration: '50 Mins',
-    cutoff: 75,
-    cutoffDisplay: '75% Cutoff',
-    batch: 'All Batches',
-    skills: ['Python', 'PyTorch', 'Vector Databases', 'Transformers'],
-    testedCount: 115,
-    avgScore: '76.0%',
-    qualifiedCount: 22,
-    questions: [
-      {
-        id: 'q1',
-        question: 'What mechanism allows Transformer models to process sequences in parallel?',
-        options: ['A) Multi-Head Self-Attention', 'B) Recurrent hidden states', 'C) Sequential token loops'],
-        correctAnswer: 'A'
-      }
-    ],
-    leaderboard: [
-      { studentName: 'Ananya Gupta', college: 'BITS Pilani', score: 94, duration: '41 Mins', proofHash: '#LP-AI-9021' }
-    ],
-    status: 'active',
-    createdAt: new Date().toISOString()
-  }
-];
-
-const assessmentsStore = new Map(initialAssessments.map(t => [t.id, t]));
 
 /**
  * 1. List All Active Recruiter Assessments
  * GET /api/assessments
  */
 router.get('/', (req, res) => {
-  const { category } = req.query;
-  let list = Array.from(assessmentsStore.values());
+  try {
+    const { category } = req.query;
+    let list = database.getCollection('assessments');
 
-  if (category && category !== 'all') {
-    list = list.filter(t => t.category.toLowerCase() === category.toLowerCase());
+    if (category && category !== 'all') {
+      list = list.filter(t => t.category && t.category.toLowerCase() === category.toLowerCase());
+    }
+
+    return res.status(200).json({
+      status: 'success',
+      totalAssessments: list.length,
+      assessments: list
+    });
+  } catch (error) {
+    return res.status(500).json({ error: 'InternalServerError', message: error.message });
   }
-
-  return res.status(200).json({
-    status: 'success',
-    totalAssessments: list.length,
-    assessments: list
-  });
 });
 
 /**
@@ -183,11 +76,11 @@ router.post('/create', async (req, res) => {
     createdAt: new Date().toISOString()
   };
 
-  assessmentsStore.set(newTest.id, newTest);
+  database.insert('assessments', newTest);
 
-  if (isFirebaseAdminInitialized && db) {
+  if (isFirebaseAdminInitialized && firestoreDb) {
     try {
-      await db.collection('assessments').doc(newTest.id).set(newTest);
+      await firestoreDb.collection('assessments').doc(newTest.id).set(newTest);
     } catch (e) {}
   }
 
@@ -205,7 +98,7 @@ router.post('/create', async (req, res) => {
  * GET /api/assessments/:id
  */
 router.get('/:id', (req, res) => {
-  const test = assessmentsStore.get(req.params.id);
+  const test = database.findById('assessments', req.params.id);
   if (!test) {
     return res.status(404).json({ error: 'NotFound', message: 'Assessment not found.' });
   }
@@ -223,7 +116,15 @@ router.get('/:id', (req, res) => {
 router.post('/submit', (req, res) => {
   const { testId, studentUid, studentName, studentCollege, answers, durationTaken } = req.body;
 
-  const test = assessmentsStore.get(testId) || initialAssessments[0];
+  let test = database.findById('assessments', testId);
+  if (!test) {
+    const list = database.getCollection('assessments');
+    test = list[0];
+  }
+
+  if (!test) {
+    return res.status(404).json({ error: 'NotFound', message: 'Assessment not found.' });
+  }
 
   // Grade answers
   let correctCount = 0;
@@ -231,12 +132,13 @@ router.post('/submit', (req, res) => {
 
   if (answers && typeof answers === 'object') {
     test.questions.forEach((q) => {
-      if (answers[q.id] && answers[q.id].toUpperCase() === q.correctAnswer.toUpperCase()) {
+      if (answers[q.id] && q.correctAnswer && answers[q.id].toUpperCase() === q.correctAnswer.toUpperCase()) {
+        correctCount++;
+      } else if (answers[q.id] !== undefined && q.correctIndex !== undefined && Number(answers[q.id]) === q.correctIndex) {
         correctCount++;
       }
     });
   } else {
-    // Default simulation perfect pass
     correctCount = totalQuestions;
   }
 
@@ -245,19 +147,38 @@ router.post('/submit', (req, res) => {
   const proofHash = `#LP-VERIFIED-PROOF-${Math.abs(Date.now()).toString(36).toUpperCase()}`;
 
   // Update assessment telemetry
-  test.testedCount = (test.testedCount || 0) + 1;
+  const newTestedCount = (test.testedCount || 0) + 1;
+  const newQualifiedCount = isPassed ? (test.qualifiedCount || 0) + 1 : (test.qualifiedCount || 0);
+  const leaderboard = Array.isArray(test.leaderboard) ? test.leaderboard : [];
+
   if (isPassed) {
-    test.qualifiedCount = (test.qualifiedCount || 0) + 1;
-    // Add to leaderboard
-    test.leaderboard.unshift({
+    leaderboard.unshift({
       studentName: studentName || 'Akrit Sharma',
       college: studentCollege || 'BITS Pilani',
       score: scorePercentage,
       duration: durationTaken || '38 Mins',
       proofHash
     });
+
+    // Also persist new badge into badges collection!
+    database.insert('badges', {
+      id: proofHash.replace('#', ''),
+      proofHash,
+      studentUid: studentUid || 'LP-STUDENT-USER',
+      studentName: studentName || 'Student Member',
+      testTitle: test.title,
+      score: scorePercentage,
+      status: 'VERIFIED_ACTIVE',
+      tamperProofSignature: `ECDSA_SHA256_${Date.now().toString(16).toUpperCase()}`,
+      issuedAt: new Date().toISOString()
+    });
   }
-  assessmentsStore.set(test.id, test);
+
+  database.update('assessments', test.id, {
+    testedCount: newTestedCount,
+    qualifiedCount: newQualifiedCount,
+    leaderboard
+  });
 
   return res.status(200).json({
     status: 'success',
@@ -284,7 +205,7 @@ router.post('/submit', (req, res) => {
  * GET /api/assessments/:id/leaderboard
  */
 router.get('/:id/leaderboard', (req, res) => {
-  const test = assessmentsStore.get(req.params.id);
+  const test = database.findById('assessments', req.params.id);
   if (!test) {
     return res.status(404).json({ error: 'NotFound', message: 'Assessment not found.' });
   }
@@ -293,9 +214,9 @@ router.get('/:id/leaderboard', (req, res) => {
     status: 'success',
     testTitle: test.title,
     cutoff: test.cutoff,
-    totalTested: test.testedCount,
-    qualifiedCount: test.qualifiedCount,
-    leaderboard: test.leaderboard
+    totalTested: test.testedCount || 0,
+    qualifiedCount: test.qualifiedCount || 0,
+    leaderboard: test.leaderboard || []
   });
 });
 

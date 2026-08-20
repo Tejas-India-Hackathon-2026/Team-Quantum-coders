@@ -14,6 +14,7 @@ import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import jobRoutes from './routes/jobRoutes.js';
 import assessmentRoutes from './routes/assessmentRoutes.js';
+import facultyRoutes from './routes/facultyRoutes.js';
 
 // Load environment configuration
 dotenv.config();
@@ -58,6 +59,9 @@ app.use('/api/jobs', jobRoutes);
 
 // Recruiter Skill Assessments & Exam Verification Routes
 app.use('/api/assessments', assessmentRoutes);
+
+// Faculty Academic Intelligence & NAAC/NIRF Telemetry Routes
+app.use('/api/faculty', facultyRoutes);
 
 /**
  * Healthcheck & Telemetry Endpoint

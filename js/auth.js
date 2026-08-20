@@ -261,6 +261,96 @@ document.addEventListener('DOMContentLoaded', () => {
   initSessionListener();
 });
 
+// ==========================================================================
+// MASTER REGISTERED USERS DATABASE (Seeds + LocalStorage Persistence)
+// ==========================================================================
+export const DEFAULT_REGISTERED_USERS = [
+  {
+    name: 'Akrit Sharma',
+    email: 'akrit.sharma@gmail.com',
+    role: 'student',
+    uid: 'LP-STUDENT-001',
+    college: 'BITS Pilani',
+    branch: 'Computer Science & Engineering',
+    batch: '2026',
+    cgpa: 8.9,
+    skills: ['React', 'Node.js', 'Python', 'Cloud Firestore', 'Docker']
+  },
+  {
+    name: 'Priya Patel',
+    email: 'priya.patel@gmail.com',
+    role: 'student',
+    uid: 'LP-STUDENT-002',
+    college: 'IIT Delhi',
+    branch: 'Artificial Intelligence & Data',
+    batch: '2026',
+    cgpa: 9.4,
+    skills: ['Python', 'PyTorch', 'TensorFlow', 'Distributed Systems']
+  },
+  {
+    name: 'Tanmay Roy',
+    email: 'tanmay.roy@gmail.com',
+    role: 'student',
+    uid: 'LP-STUDENT-003',
+    college: 'IIIT Hyderabad',
+    branch: 'Computer Systems & Networks',
+    batch: '2026',
+    cgpa: 9.2,
+    skills: ['Docker', 'Kubernetes', 'Go', 'CI/CD']
+  },
+  {
+    name: 'Sarah Jenkins',
+    email: 'sarah.jenkins@enterprise.com',
+    role: 'recruiter',
+    uid: 'LP-RECRUITER-001',
+    company: 'Stripe Technologies',
+    designation: 'Staff Talent Lead',
+    domain: 'FinTech & Infrastructure'
+  },
+  {
+    name: 'Dr. Rajiv Menon',
+    email: 'dr.rajiv.menon@faculty.edu',
+    role: 'faculty',
+    uid: 'LP-FACULTY-001',
+    institute: 'National Institute of Technology',
+    department: 'Computer Science & Engineering',
+    designation: 'Head of Department / Placement Chair'
+  }
+];
+
+export function getRegisteredUsers() {
+  try {
+    const custom = JSON.parse(localStorage.getItem('lp_registered_users') || '[]');
+    return [...DEFAULT_REGISTERED_USERS, ...custom];
+  } catch (e) {
+    return DEFAULT_REGISTERED_USERS;
+  }
+}
+
+export function findRegisteredUser(email) {
+  if (!email) return null;
+  const cleanEmail = email.trim().toLowerCase();
+  const allUsers = getRegisteredUsers();
+  return allUsers.find(u => u.email && u.email.trim().toLowerCase() === cleanEmail) || null;
+}
+
+export function registerNewUser(userData) {
+  try {
+    const existing = JSON.parse(localStorage.getItem('lp_registered_users') || '[]');
+    const cleanEmail = userData.email.trim().toLowerCase();
+    const idx = existing.findIndex(u => u.email && u.email.trim().toLowerCase() === cleanEmail);
+    if (idx >= 0) {
+      existing[idx] = { ...existing[idx], ...userData };
+    } else {
+      existing.unshift(userData);
+    }
+    localStorage.setItem('lp_registered_users', JSON.stringify(existing));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
 /**
  * Dedicated Signup Page Controller
  */
@@ -271,8 +361,45 @@ export function initSignupPage() {
   const contextHint = document.getElementById('signupRoleContextHint');
   const togglePassBtn = document.getElementById('toggleSignupPasswordBtn');
   const passInput = document.getElementById('signupPassword');
+  const nameInput = document.getElementById('signupName');
+  const emailInput = document.getElementById('signupEmail');
 
   if (!signupForm && !btnGoogleSignup) return;
+
+  // 0. Prefill from URL Parameters if redirected from login
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const paramEmail = params.get('email');
+    const paramName = params.get('name');
+    const paramRole = params.get('role');
+
+    if (paramEmail && emailInput) {
+      emailInput.value = paramEmail;
+    }
+    if (paramName && nameInput) {
+      nameInput.value = paramName;
+    }
+    if (paramRole && ['student', 'recruiter', 'faculty'].includes(paramRole)) {
+      LifeProofAuth.setRole(paramRole);
+      roleButtons.forEach(b => {
+        const isActive = b.getAttribute('data-role') === paramRole;
+        b.classList.toggle('active', isActive);
+        b.setAttribute('aria-selected', String(isActive));
+      });
+
+      const studentFields = document.getElementById('signupStudentFields');
+      const recruiterFields = document.getElementById('signupRecruiterFields');
+      const facultyFields = document.getElementById('signupFacultyFields');
+
+      if (studentFields) studentFields.style.display = paramRole === 'student' ? 'block' : 'none';
+      if (recruiterFields) recruiterFields.style.display = paramRole === 'recruiter' ? 'block' : 'none';
+      if (facultyFields) facultyFields.style.display = paramRole === 'faculty' ? 'block' : 'none';
+    }
+
+    if (paramEmail) {
+      showAuthAlert(`👋 No existing account was found for <strong>${escapeHtml(paramEmail)}</strong>. Please fill your profile details to create your account!`, 'info');
+    }
+  } catch (e) {}
 
   // 1. Role Toggle on Signup Page
   if (roleButtons.length) {
@@ -359,12 +486,18 @@ export function initSignupPage() {
         email: email,
         photoURL: '',
         role: role,
+        createdAt: new Date().toISOString(),
         ...extendedData
       };
 
-      sessionStorage.setItem('lp_active_session', JSON.stringify(userProfile));
+      // Save user to registered database
+      registerNewUser(userProfile);
 
-      showAuthAlert(`⚡ Account Created! Welcome to LifeProof, <strong>${name}</strong>. Opening ${role.toUpperCase()} Portal...`, 'success');
+      // Save active session
+      sessionStorage.setItem('lp_active_session', JSON.stringify(userProfile));
+      sessionStorage.setItem('lp_user_role', role);
+
+      showAuthAlert(`⚡ Account Created! Welcome to LifeProof, <strong>${escapeHtml(name)}</strong>. Opening ${role.toUpperCase()} Portal...`, 'success');
 
       const targetPage = LifeProofAuth.dashboardRoutes[role] || 'pages/student.html';
       const isInsidePagesDir = window.location.pathname.includes('/pages/');
@@ -652,7 +785,7 @@ export function initGoogleAuth() {
 }
 
 /**
- * Core Google Authentication Trigger with First-Time Onboarding
+ * Core User Sign In Flow with Existence Check & Auto-Redirect for New Users
  */
 export async function triggerGoogleSignIn() {
   const googleBtn = document.getElementById('btnGoogleAuth');
@@ -664,104 +797,57 @@ export async function triggerGoogleSignIn() {
   const role = LifeProofAuth.getRole();
 
   hideAuthAlert();
-  if (googleBtn) setButtonLoading(googleBtn, true, 'Connecting...');
-  if (submitBtn) setButtonLoading(submitBtn, true, 'Connecting...');
 
-  // 1. If user entered a specific email (Another Email), trigger onboarding or direct login
-  if (customEmail) {
-    const finalDisplayName = customName || customEmail.split('@')[0].split(/[\._-]/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-    const cleanUid = 'LP-' + Math.abs(customEmail.split('').reduce((a, b) => ((a << 5) - a) + b.charCodeAt(0), 0)).toString(36).toUpperCase() + '-SYS';
-
-    const userObj = {
-      uid: cleanUid,
-      displayName: finalDisplayName,
-      name: finalDisplayName,
-      email: customEmail,
-      photoURL: '',
-      role: role
-    };
-
-    if (googleBtn) setButtonLoading(googleBtn, false, 'Continue with Google / Selected Account');
-    if (submitBtn) setButtonLoading(submitBtn, false, 'Sign In with this Name & Email &rarr;');
-
-    // Launch First-Time Setup Modal
-    openOnboardingModal(userObj, role);
+  if (!customEmail) {
+    showAuthAlert('Please enter an email address to sign in.', 'error');
     return;
   }
 
-  // 2. Otherwise trigger Google OAuth Popup
-  try {
-    googleProvider.setCustomParameters({
-      prompt: 'select_account'
-    });
+  if (googleBtn) setButtonLoading(googleBtn, true, 'Verifying Account...');
+  if (submitBtn) setButtonLoading(submitBtn, true, 'Verifying Account...');
 
-    const userCredential = await signInWithPopup(auth, googleProvider);
-    const user = userCredential.user;
+  // 1. Check if user is registered in the database / ledger
+  const existingUser = findRegisteredUser(customEmail);
 
-    const finalName = customName || user.displayName || 'Google Member';
-    const email = user.email || `${role}@university.edu`;
+  if (!existingUser) {
+    // USER IS NEW -> Warn & Redirect to Signup Page!
+    if (googleBtn) setButtonLoading(googleBtn, false, 'Redirecting to Sign Up...');
+    if (submitBtn) setButtonLoading(submitBtn, false, 'Redirecting to Sign Up...');
 
-    let profile = null;
-    try {
-      profile = await getUserProfile(user.uid);
-    } catch (err) {}
+    showAuthAlert(
+      `⚠️ No existing account found for <strong>${escapeHtml(customEmail)}</strong>.<br/>Please create an account first! Redirecting to Sign Up page...`,
+      'error'
+    );
 
-    const userObj = {
-      uid: user.uid,
-      displayName: finalName,
-      name: finalName,
-      email: email,
-      photoURL: user.photoURL || '',
-      role: (profile && profile.role) ? profile.role : role
-    };
-
-    if (googleBtn) setButtonLoading(googleBtn, false, 'Continue with Google / Selected Account');
-    if (submitBtn) setButtonLoading(submitBtn, false, 'Sign In with this Name & Email &rarr;');
-
-    // If profile is already onboarded in Firestore, redirect immediately
-    if (profile && profile.isOnboarded) {
-      sessionStorage.setItem('lp_active_session', JSON.stringify({ ...userObj, ...profile }));
-      showAuthAlert(`Welcome back, ${finalName}! Opening ${userObj.role.toUpperCase()} Portal...`, 'success');
-      const targetPage = LifeProofAuth.dashboardRoutes[userObj.role] || 'pages/student.html';
+    setTimeout(() => {
       const isInsidePagesDir = window.location.pathname.includes('/pages/');
-      const redirectUrl = isInsidePagesDir ? targetPage.replace('pages/', '') : targetPage;
-      setTimeout(() => { window.location.href = redirectUrl; }, 600);
-    } else {
-      // First time Google Signup $\rightarrow$ open Onboarding Modal
-      openOnboardingModal(userObj, role);
-    }
-
-  } catch (error) {
-    const defaultNames = {
-      student: 'Akrit Sharma',
-      recruiter: 'Sarah Jenkins',
-      faculty: 'Dr. Rajiv Menon'
-    };
-    const defaultEmails = {
-      student: 'akrit.sharma@gmail.com',
-      recruiter: 'sarah.jenkins@enterprise.com',
-      faculty: 'dr.rajiv.menon@faculty.edu'
-    };
-
-    const finalDisplayName = customName || defaultNames[role] || 'LifeProof Member';
-    const generatedEmail = defaultEmails[role] || `${role}@university.edu`;
-    const cleanUid = 'LP-' + Math.abs(generatedEmail.split('').reduce((a, b) => ((a << 5) - a) + b.charCodeAt(0), 0)).toString(36).toUpperCase() + '-SYS';
-
-    const userObj = {
-      uid: cleanUid,
-      displayName: finalDisplayName,
-      name: finalDisplayName,
-      email: generatedEmail,
-      photoURL: '',
-      role: role
-    };
-
-    if (googleBtn) setButtonLoading(googleBtn, false, 'Continue with Google / Selected Account');
-    if (submitBtn) setButtonLoading(submitBtn, false, 'Sign In with this Name & Email &rarr;');
-
-    // Launch First-Time Setup Modal
-    openOnboardingModal(userObj, role);
+      const signupTarget = isInsidePagesDir ? '../signup.html' : 'signup.html';
+      window.location.href = `${signupTarget}?email=${encodeURIComponent(customEmail)}&name=${encodeURIComponent(customName)}&role=${encodeURIComponent(role)}`;
+    }, 1200);
+    return;
   }
+
+  // 2. USER EXISTS -> Complete Sign In & Redirect to Dashboard
+  const activeRole = existingUser.role || role;
+  const sessionUser = {
+    ...existingUser,
+    displayName: customName || existingUser.name || existingUser.displayName,
+    name: customName || existingUser.name,
+    role: activeRole
+  };
+
+  sessionStorage.setItem('lp_active_session', JSON.stringify(sessionUser));
+  sessionStorage.setItem('lp_user_role', activeRole);
+
+  showAuthAlert(`⚡ Welcome back, <strong>${escapeHtml(sessionUser.name)}</strong>! Opening ${activeRole.toUpperCase()} Portal...`, 'success');
+
+  const targetPage = LifeProofAuth.dashboardRoutes[activeRole] || 'pages/student.html';
+  const isInsidePagesDir = window.location.pathname.includes('/pages/');
+  const redirectUrl = isInsidePagesDir ? targetPage.replace('pages/', '') : targetPage;
+
+  setTimeout(() => {
+    window.location.href = redirectUrl;
+  }, 600);
 }
 
 /**
@@ -781,15 +867,7 @@ export function initLoginForm() {
   if (forgotLink) {
     forgotLink.addEventListener('click', (e) => {
       e.preventDefault();
-      showAuthAlert("Use 'Continue with Google' for instant, secure authentication.", "info");
-    });
-  }
-
-  const createAccountLink = document.getElementById('createAccountLink');
-  if (createAccountLink) {
-    createAccountLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      showAuthAlert("Enter your name above and click 'Continue with Google' to create your account.", "info");
+      showAuthAlert("If you forgot your credentials or need a new account, please click 'Sign Up' below.", "info");
     });
   }
 }

@@ -65,7 +65,6 @@ app.get('/api/health', (req, res) => {
     }
   });
 });
-});
 
 /**
  * Root Welcome Route

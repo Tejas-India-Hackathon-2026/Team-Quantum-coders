@@ -805,6 +805,133 @@
 
   </div>
 
+  <!-- ==========================================================================
+       NAAC / NIRF INSTITUTIONAL AUDIT & ACCREDITATION REPORT MODAL
+       ========================================================================== -->
+  <div class="modal-overlay" id="naacReportModalOverlay" style="position: fixed; inset: 0; background: rgba(5, 8, 15, 0.85); backdrop-filter: blur(16px); z-index: 9999; display: none; align-items: center; justify-content: center; padding: 1.5rem; overflow-y: auto;">
+    <div class="modal-card" style="background: linear-gradient(145deg, rgba(13, 19, 34, 0.98) 0%, rgba(20, 28, 46, 0.95) 100%); border: 2px solid rgba(16, 185, 129, 0.4); border-radius: var(--radius-xl); width: 100%; max-width: 860px; padding: 2.5rem; box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8), 0 0 50px rgba(16, 185, 129, 0.2); position: relative; max-height: 90vh; overflow-y: auto;">
+      
+      <!-- Close Button -->
+      <button type="button" id="closeNaacModalBtn" style="position: absolute; top: 1.25rem; right: 1.25rem; background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border-subtle); color: #fff; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">✕</button>
+
+      <!-- Institutional Report Header -->
+      <div style="border-bottom: 2px solid rgba(16, 185, 129, 0.3); padding-bottom: 1.5rem; margin-bottom: 1.5rem; text-align: center;">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+          <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); display: flex; align-items: center; justify-content: center; font-size: 1.6rem;">🏛️</div>
+          <div>
+            <h2 style="font-size: 1.4rem; font-weight: 800; color: #fff; letter-spacing: -0.02em;">NATIONAL INSTITUTE OF TECHNOLOGY</h2>
+            <p style="font-size: 0.8rem; color: #34d399; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;">Center for Career Progression & Institutional Accreditation</p>
+          </div>
+        </div>
+        <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); padding: 0.35rem 0.9rem; border-radius: 9999px; font-size: 0.82rem; color: #34d399; font-weight: 700; margin-top: 0.5rem;">
+          <span>✓ NAAC CRITERION 5.2.1 & NIRF GO AUDIT DOSSIER</span>
+          <span>•</span>
+          <span>ACADEMIC YEAR 2025-2026</span>
+        </div>
+      </div>
+
+      <!-- Key Telemetry Metrics Grid -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+        <div style="background: rgba(10, 14, 26, 0.8); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem; text-align: center;">
+          <small style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 0.25rem;">Total Eligible Cohort</small>
+          <span style="font-size: 1.3rem; font-weight: 800; color: #fff; font-family: var(--font-heading);">1,240</span>
+        </div>
+        <div style="background: rgba(10, 14, 26, 0.8); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem; text-align: center;">
+          <small style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 0.25rem;">Verified Placements</small>
+          <span style="font-size: 1.3rem; font-weight: 800; color: #34d399; font-family: var(--font-heading);">1,186 (95.6%)</span>
+        </div>
+        <div style="background: rgba(10, 14, 26, 0.8); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem; text-align: center;">
+          <small style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 0.25rem;">Average CTC</small>
+          <span style="font-size: 1.3rem; font-weight: 800; color: #38bdf8; font-family: var(--font-heading);">₹14.8 LPA</span>
+        </div>
+        <div style="background: rgba(10, 14, 26, 0.8); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem; text-align: center;">
+          <small style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 0.25rem;">Highest Package</small>
+          <span style="font-size: 1.3rem; font-weight: 800; color: #c084fc; font-family: var(--font-heading);">₹48.5 LPA</span>
+        </div>
+      </div>
+
+      <!-- Department Outcomes Table -->
+      <div style="background: rgba(10, 14, 26, 0.8); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem;">
+        <h4 style="font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 0.75rem; display: flex; justify-content: space-between;">
+          <span>Department-Wise Placement Breakdown</span>
+          <span style="color: #34d399; font-size: 0.8rem;">100% Cryptographically Verified</span>
+        </h4>
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.84rem; text-align: left;">
+            <thead>
+              <tr style="border-bottom: 1px solid var(--border-subtle); color: var(--text-muted);">
+                <th style="padding: 0.5rem;">Department / Discipline</th>
+                <th style="padding: 0.5rem;">Eligible</th>
+                <th style="padding: 0.5rem;">Placed</th>
+                <th style="padding: 0.5rem;">Placement Rate</th>
+                <th style="padding: 0.5rem;">Average CTC</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.05); color: #fff;">
+                <td style="padding: 0.6rem 0.5rem; font-weight: 600;">Computer Science & Engineering</td>
+                <td style="padding: 0.6rem 0.5rem;">320</td>
+                <td style="padding: 0.6rem 0.5rem; color: #34d399;">308</td>
+                <td style="padding: 0.6rem 0.5rem;"><strong style="color: #34d399;">96.2%</strong></td>
+                <td style="padding: 0.6rem 0.5rem; color: #38bdf8;">₹18.5 LPA</td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.05); color: #fff;">
+                <td style="padding: 0.6rem 0.5rem; font-weight: 600;">Information Technology & AI</td>
+                <td style="padding: 0.6rem 0.5rem;">210</td>
+                <td style="padding: 0.6rem 0.5rem; color: #34d399;">199</td>
+                <td style="padding: 0.6rem 0.5rem;"><strong style="color: #34d399;">94.8%</strong></td>
+                <td style="padding: 0.6rem 0.5rem; color: #38bdf8;">₹16.2 LPA</td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.05); color: #fff;">
+                <td style="padding: 0.6rem 0.5rem; font-weight: 600;">Electronics & Communication</td>
+                <td style="padding: 0.6rem 0.5rem;">280</td>
+                <td style="padding: 0.6rem 0.5rem; color: #34d399;">250</td>
+                <td style="padding: 0.6rem 0.5rem;"><strong style="color: #34d399;">89.4%</strong></td>
+                <td style="padding: 0.6rem 0.5rem; color: #38bdf8;">₹12.8 LPA</td>
+              </tr>
+              <tr style="color: #fff;">
+                <td style="padding: 0.6rem 0.5rem; font-weight: 600;">Electrical & Instrumentation</td>
+                <td style="padding: 0.6rem 0.5rem;">190</td>
+                <td style="padding: 0.6rem 0.5rem; color: #34d399;">160</td>
+                <td style="padding: 0.6rem 0.5rem;"><strong style="color: #34d399;">84.0%</strong></td>
+                <td style="padding: 0.6rem 0.5rem; color: #38bdf8;">₹10.5 LPA</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Cryptographic Proof & Sign-off Stamp -->
+      <div style="background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.5rem; font-size: 0.78rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+          <span style="color: var(--text-muted); font-weight: 600;">Tamper-Proof Audit Hash:</span>
+          <span style="color: #34d399; font-weight: 700;">ECDSA SHA-256 Verified</span>
+        </div>
+        <code style="display: block; font-family: var(--font-mono); color: #38bdf8; font-size: 0.8rem; word-break: break-all;">
+          SHA256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+        </code>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem; color: var(--text-subtle);">
+          <span>Authority: Dr. Rajiv Menon (HoD CSE & Placement Chair)</span>
+          <span id="auditTimestampDisplay">Timestamp: August 20, 2026</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: flex-end;">
+        <button type="button" class="btn btn-secondary" id="btnCopyAuditJson" style="font-size: 0.85rem;">
+          <span>📋 Copy Official JSON</span>
+        </button>
+        <button type="button" class="btn btn-secondary" id="btnVerifyAuditOnLedger" style="font-size: 0.85rem;">
+          <span>🔗 Verify on Ledger &rarr;</span>
+        </button>
+        <button type="button" class="btn btn-primary" id="btnPrintNaacDossier" style="font-size: 0.85rem; background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);">
+          <span>🖨️ Print / Save Official PDF</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
   <!-- Interactive Toast Notification Element -->
   <div class="dashboard-toast" id="dashboardToast">
     <span id="toastIcon">✨</span>

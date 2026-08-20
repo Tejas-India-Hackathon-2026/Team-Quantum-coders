@@ -124,7 +124,17 @@ app.use((req, res) => {
     error: 'Not Found',
     message: `The endpoint ${req.method} ${req.originalUrl} does not exist on LifeProof API Server.`,
     availableEndpoints: [
-      'GET /api/health'
+      'GET  /api/health',
+      'POST /api/auth/session-check',
+      'GET  /api/users/profile/:uid',
+      'POST /api/users/onboarding',
+      'GET  /api/jobs',
+      'POST /api/jobs/apply',
+      'GET  /api/assessments',
+      'POST /api/assessments/submit',
+      'GET  /api/faculty/analytics',
+      'GET  /api/faculty/student-feed',
+      'POST /api/faculty/export-report'
     ]
   });
 });

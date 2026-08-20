@@ -13,6 +13,7 @@ import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import jobRoutes from './routes/jobRoutes.js';
+import assessmentRoutes from './routes/assessmentRoutes.js';
 
 // Load environment configuration
 dotenv.config();
@@ -54,6 +55,9 @@ app.use('/api/users', userRoutes);
 
 // Enterprise Jobs & Applications Routes
 app.use('/api/jobs', jobRoutes);
+
+// Recruiter Skill Assessments & Exam Verification Routes
+app.use('/api/assessments', assessmentRoutes);
 
 /**
  * Healthcheck & Telemetry Endpoint

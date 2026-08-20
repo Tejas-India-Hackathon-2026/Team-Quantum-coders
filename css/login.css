@@ -430,8 +430,8 @@ body {
 /* Submit Button: Continue to Platform */
 .btn-submit-login {
   width: 100%;
-  padding: 0.88rem 1.5rem;
-  background: var(--grad-primary);
+  padding: 0.9rem 1.5rem;
+  background: linear-gradient(135deg, #3b82f6 0%, #6366f1 50%, #8b5cf6 100%);
   color: #ffffff;
   font-family: var(--font-heading);
   font-size: 1.02rem;
@@ -440,7 +440,7 @@ body {
   border-radius: var(--radius-md);
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 4px 22px rgba(99, 102, 241, 0.45);
   transition: all var(--transition-normal);
   display: flex;
   align-items: center;
@@ -451,8 +451,8 @@ body {
 
 .btn-submit-login:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(99, 102, 241, 0.6);
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #0891b2 100%);
+  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.7);
+  background: linear-gradient(135deg, #2563eb 0%, #4f46e5 50%, #7c3aed 100%);
 }
 
 .btn-submit-login:active {
@@ -491,26 +491,26 @@ body {
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  padding: 0.82rem 1.4rem;
+  padding: 0.84rem 1.4rem;
   background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--border-highlight);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: var(--radius-md);
-  color: var(--text-main);
+  color: #ffffff;
   font-family: var(--font-heading);
   font-size: 0.98rem;
   font-weight: 700;
   letter-spacing: -0.01em;
   cursor: pointer;
-  backdrop-filter: var(--blur-glass);
+  backdrop-filter: blur(12px);
   transition: all var(--transition-normal);
 }
 
 .btn-google-auth:hover {
   background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  border-color: #38bdf8;
   color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(56, 189, 248, 0.25);
 }
 
 .btn-google-auth .google-icon-svg {

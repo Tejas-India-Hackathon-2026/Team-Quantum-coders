@@ -10,6 +10,7 @@ import express from 'express';
 import crypto from 'crypto';
 import { database } from '../config/db.js';
 import { verifyToken } from '../middleware/authMiddleware.js';
+import auditLedger from '../services/auditLogger.js';
 
 const router = express.Router();
 
@@ -152,6 +153,14 @@ router.post('/issue', verifyToken, (req, res) => {
     };
 
     database.insert('badges', newBadge);
+
+    // Record Immutable Transaction on Cryptographic Audit Ledger
+    auditLedger.recordAudit('BADGE_MINTED', studentUid, {
+      proofHash,
+      testTitle,
+      score: newBadge.score,
+      signature: newBadge.tamperProofSignature
+    });
 
     // Also update student user record in users collection
     const user = database.findById('users', studentUid, 'uid');

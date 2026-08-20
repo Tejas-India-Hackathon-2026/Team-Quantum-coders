@@ -16,6 +16,9 @@ import jobRoutes from './routes/jobRoutes.js';
 import assessmentRoutes from './routes/assessmentRoutes.js';
 import facultyRoutes from './routes/facultyRoutes.js';
 import resumeRoutes from './routes/resumeRoutes.js';
+import badgeRoutes from './routes/badgeRoutes.js';
+
+import { database } from './config/db.js';
 
 // Load environment configuration
 dotenv.config();
@@ -66,6 +69,22 @@ app.use('/api/faculty', facultyRoutes);
 
 // AI Resume Parser & ATS Optimization Routes
 app.use('/api/resume', resumeRoutes);
+
+// Step 8: Public Cryptographic Proof Verification & Badge Lookup API
+app.use('/api/badges', badgeRoutes);
+
+/**
+ * Database Telemetry & Health Endpoint
+ * GET /api/database/status
+ */
+app.get('/api/database/status', (req, res) => {
+  const stats = database.getStats();
+  res.status(200).json({
+    success: true,
+    timestamp: new Date().toISOString(),
+    database: stats
+  });
+});
 
 /**
  * Healthcheck & Telemetry Endpoint

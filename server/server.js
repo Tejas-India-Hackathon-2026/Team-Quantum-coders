@@ -12,6 +12,7 @@ import dotenv from 'dotenv';
 // Import Route Handlers
 import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+import jobRoutes from './routes/jobRoutes.js';
 
 // Load environment configuration
 dotenv.config();
@@ -50,6 +51,9 @@ app.use('/api/auth', authRoutes);
 
 // User Profile & Onboarding Routes
 app.use('/api/users', userRoutes);
+
+// Enterprise Jobs & Applications Routes
+app.use('/api/jobs', jobRoutes);
 
 /**
  * Healthcheck & Telemetry Endpoint

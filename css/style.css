@@ -110,24 +110,27 @@ a:hover {
 
 /* --- Gradient Text --- */
 .gradient-text {
-  background: var(--grad-primary);
+  background: linear-gradient(135deg, #38bdf8 0%, #818cf8 35%, #c084fc 70%, #34d399 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
+  filter: drop-shadow(0 0 25px rgba(56, 189, 248, 0.3));
 }
 
 .gradient-text-cyan {
-  background: var(--grad-blue-cyan);
+  background: linear-gradient(135deg, #38bdf8 0%, #06b6d4 50%, #34d399 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
+  filter: drop-shadow(0 0 20px rgba(6, 182, 212, 0.25));
 }
 
 .gradient-text-purple {
-  background: var(--grad-purple-pink);
+  background: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #fb7185 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
+  filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.25));
 }
 
 /* --- Buttons --- */
@@ -136,42 +139,46 @@ a:hover {
   align-items: center;
   justify-content: center;
   gap: var(--spacing-sm);
-  padding: 0.8rem 1.8rem;
+  padding: 0.82rem 1.85rem;
   font-family: var(--font-heading);
-  font-size: 0.95rem;
-  font-weight: 600;
+  font-size: 0.96rem;
+  font-weight: 700;
   border-radius: var(--radius-full);
   border: 1px solid transparent;
   cursor: pointer;
   transition: all var(--transition-normal);
   text-align: center;
   white-space: nowrap;
+  letter-spacing: -0.01em;
 }
 
 .btn-primary {
-  background: var(--grad-primary);
+  background: linear-gradient(135deg, #3b82f6 0%, #6366f1 50%, #8b5cf6 100%);
   color: #ffffff;
-  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35);
+  box-shadow: 0 4px 24px rgba(99, 102, 241, 0.45);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(99, 102, 241, 0.55);
+  box-shadow: 0 8px 34px rgba(99, 102, 241, 0.65);
   color: #ffffff;
+  background: linear-gradient(135deg, #2563eb 0%, #4f46e5 50%, #7c3aed 100%);
 }
 
 .btn-secondary {
-  background: var(--bg-glass-card);
+  background: rgba(255, 255, 255, 0.05);
   color: var(--text-main);
   border: 1px solid var(--border-highlight);
-  backdrop-filter: var(--blur-glass);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
 }
 
 .btn-secondary:hover {
   background: rgba(255, 255, 255, 0.12);
-  border-color: var(--accent-secondary);
+  border-color: rgba(56, 189, 248, 0.6);
   color: #ffffff;
   transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(56, 189, 248, 0.25);
 }
 
 .btn-outline-cyan {

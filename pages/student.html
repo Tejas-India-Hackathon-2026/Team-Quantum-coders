@@ -262,13 +262,13 @@
           <div class="metric-card">
             <div class="metric-card-top">
               <div class="metric-icon-box icon-cyan">⚡</div>
-              <span class="metric-trend trend-up">Top 3% Index</span>
+              <span class="metric-trend trend-up" id="skillsIndexTrend">Pass Tests to Verify</span>
             </div>
-            <div class="metric-value">18</div>
+            <div class="metric-value" id="kpiVerifiedSkillsCount">0</div>
             <div class="metric-label">Verified Skills & Proofs</div>
             <div class="metric-progress-wrapper">
               <div class="metric-progress-bar">
-                <div class="metric-progress-fill" style="width: 95%; background: linear-gradient(90deg, #06b6d4, #10b981);"></div>
+                <div class="metric-progress-fill" id="kpiVerifiedSkillsBar" style="width: 0%; background: linear-gradient(90deg, #06b6d4, #10b981);"></div>
               </div>
             </div>
           </div>
@@ -277,13 +277,13 @@
           <div class="metric-card">
             <div class="metric-card-top">
               <div class="metric-icon-box icon-amber">🎯</div>
-              <span class="metric-trend trend-up">Next: Tomorrow</span>
+              <span class="metric-trend trend-up">Drive 2026</span>
             </div>
-            <div class="metric-value">3</div>
+            <div class="metric-value" id="kpiInterviewsCount">0</div>
             <div class="metric-label">Scheduled Interviews</div>
             <div class="metric-progress-wrapper">
               <div class="metric-progress-bar">
-                <div class="metric-progress-fill" style="width: 60%; background: linear-gradient(90deg, #f59e0b, #fbbf24);"></div>
+                <div class="metric-progress-fill" style="width: 25%; background: linear-gradient(90deg, #f59e0b, #fbbf24);"></div>
               </div>
             </div>
           </div>
@@ -320,16 +320,16 @@
                     </linearGradient>
                   </defs>
                   <circle class="score-circle-bg" cx="70" cy="70" r="60"></circle>
-                  <circle class="score-circle-fill" id="scoreCircleFill" cx="70" cy="70" r="60"></circle>
+                  <circle class="score-circle-fill" id="scoreCircleFill" cx="70" cy="70" r="60" style="stroke-dashoffset: 380;"></circle>
                 </svg>
                 <div class="score-center-text">
-                  <span class="score-number">94.8</span>
+                  <span class="score-number" id="readinessScoreNumber">0.0</span>
                   <span class="score-max">/ 100</span>
                 </div>
               </div>
               <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main);">Ecosystem Readiness Score</h3>
-              <p style="font-size: 0.8rem; color: var(--accent-emerald); font-weight: 600; margin-top: 0.2rem;">
-                ★ Ranked in top 3% for Software Engineering (Batch 2026)
+              <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600; margin-top: 0.2rem;" id="readinessScoreHint">
+                ★ Take recruiter skill assessments below to calculate your verified score
               </p>
             </div>
 
@@ -337,37 +337,37 @@
             <div class="progress-milestones-col">
               <!-- Milestone 1 -->
               <div class="milestone-item">
-                <span class="milestone-status-icon">✅</span>
+                <span class="milestone-status-icon" id="m1Icon">✅</span>
                 <div class="milestone-info">
                   <div class="milestone-title">
                     <span>University Academic Verification</span>
                     <span class="badge-tag badge-user" style="font-size: 0.65rem; margin: 0;">VERIFIED</span>
                   </div>
-                  <p class="milestone-desc">B.Tech Computer Science GPA 8.9 authenticated via institutional registry.</p>
+                  <p class="milestone-desc" id="m1Desc">Student profile authenticated via institutional registry.</p>
                 </div>
               </div>
 
               <!-- Milestone 2 -->
               <div class="milestone-item">
-                <span class="milestone-status-icon">✅</span>
+                <span class="milestone-status-icon" id="m2Icon">⏳</span>
                 <div class="milestone-info">
                   <div class="milestone-title">
                     <span>Cryptographic Proof Portfolio</span>
-                    <span class="badge-tag badge-user" style="font-size: 0.65rem; margin: 0;">3 BADGES</span>
+                    <span class="badge-tag badge-user" id="m2BadgeTag" style="font-size: 0.65rem; margin: 0; background: rgba(245, 158, 11, 0.15); color: #fbbf24;">0 BADGES</span>
                   </div>
-                  <p class="milestone-desc">Full Stack System, Distributed Cache & Cloud microservice proofs attached.</p>
+                  <p class="milestone-desc" id="m2Desc">Complete technical assessments to attach verified cryptographic proofs.</p>
                 </div>
               </div>
 
               <!-- Milestone 3 -->
               <div class="milestone-item">
-                <span class="milestone-status-icon">⏳</span>
+                <span class="milestone-status-icon" id="m3Icon">⏳</span>
                 <div class="milestone-info">
                   <div class="milestone-title">
                     <span>Enterprise Recruiter Match</span>
-                    <span class="badge-tag badge-partner" style="font-size: 0.65rem; margin: 0;">IN PROGRESS</span>
+                    <span class="badge-tag badge-partner" id="m3BadgeTag" style="font-size: 0.65rem; margin: 0;">PENDING TESTS</span>
                   </div>
-                  <p class="milestone-desc">Shortlisted by 4 Tier-1 enterprise recruiters for Campus Drive 2026.</p>
+                  <p class="milestone-desc" id="m3Desc">Pass required skill cutoffs to unlock direct recruiter shortlisting.</p>
                 </div>
               </div>
             </div>

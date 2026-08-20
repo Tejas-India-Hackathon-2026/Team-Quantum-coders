@@ -13,7 +13,7 @@
       "verifiedBadges": [
         {
           "id": "badge-fsd-01",
-          "name": "Full Stack Distributed Systems",
+          "name": "Full Stack Engineer Assessment",
           "proofHash": "#LP-VERIFIED-PROOF-9482",
           "awardedAt": "2026-08-15T10:00:00.000Z",
           "score": 100
@@ -31,8 +31,37 @@
       "batch": "2026",
       "cgpa": 9.4,
       "skills": ["Python", "PyTorch", "TensorFlow", "Distributed Systems"],
-      "verifiedBadges": [],
+      "verifiedBadges": [
+        {
+          "id": "badge-ai-01",
+          "name": "AI Systems & LLM Engineering Test",
+          "proofHash": "#LP-VERIFIED-PROOF-8819",
+          "awardedAt": "2026-08-18T14:30:00.000Z",
+          "score": 100
+        }
+      ],
       "createdAt": "2026-08-05T00:00:00.000Z"
+    },
+    {
+      "uid": "LP-STUDENT-003",
+      "name": "Tanmay Roy",
+      "email": "tanmay.roy@gmail.com",
+      "role": "student",
+      "college": "IIIT Hyderabad",
+      "branch": "Computer Systems & Networks",
+      "batch": "2026",
+      "cgpa": 9.2,
+      "skills": ["Docker", "Kubernetes", "Go", "CI/CD"],
+      "verifiedBadges": [
+        {
+          "id": "badge-cloud-01",
+          "name": "Cloud Infrastructure & DevOps Challenge",
+          "proofHash": "#LP-VERIFIED-PROOF-7201",
+          "awardedAt": "2026-08-19T09:15:00.000Z",
+          "score": 80
+        }
+      ],
+      "createdAt": "2026-08-08T00:00:00.000Z"
     },
     {
       "uid": "LP-RECRUITER-001",
@@ -115,6 +144,19 @@
       "proofHash": "#LP-VERIFIED-PROOF-9482",
       "appliedAt": "2026-08-16T12:00:00.000Z",
       "status": "Shortlisted"
+    },
+    {
+      "id": "app_002",
+      "jobId": "job_101",
+      "jobTitle": "Senior Distributed Backend Engineer",
+      "company": "Stripe",
+      "salary": "₹28 - 38 LPA",
+      "studentUid": "LP-STUDENT-002",
+      "studentName": "Priya Patel",
+      "studentEmail": "priya.patel@gmail.com",
+      "proofHash": "#LP-VERIFIED-PROOF-8819",
+      "appliedAt": "2026-08-17T15:30:00.000Z",
+      "status": "Shortlisted"
     }
   ],
   "assessments": [
@@ -124,11 +166,11 @@
       "category": "fullstack",
       "company": "Razorpay",
       "logo": "⚛️",
-      "duration": "60 Mins",
-      "cutoff": 85,
-      "cutoffDisplay": "85% Cutoff",
+      "duration": "45 Mins",
+      "cutoff": 80,
+      "cutoffDisplay": "80% Cutoff",
       "batch": "2026 Batch",
-      "skills": ["React", "Node.js", "PostgreSQL", "System Design"],
+      "skills": ["React", "Node.js", "PostgreSQL", "System Architecture"],
       "testedCount": 142,
       "avgScore": "78.4%",
       "qualifiedCount": 34,
@@ -136,28 +178,144 @@
         {
           "id": "q1",
           "question": "Which data structure is optimal for implementing an LRU Cache with O(1) lookups and O(1) eviction?",
-          "options": ["A) Binary Search Tree with Timestamp", "B) Doubly Linked List combined with Hash Map", "C) Sorted Array with Binary Search"],
+          "options": ["A) Binary Search Tree with Timestamp", "B) Doubly Linked List combined with Hash Map", "C) Sorted Array with Binary Search", "D) Single Queue with Linear Search"],
           "correctAnswer": "B"
         },
         {
           "id": "q2",
-          "question": "In high-scale microservices, what is the primary purpose of an API Gateway?",
-          "options": ["A) Centralized request routing, rate limiting, and auth verification", "B) Compiling backend C++ binaries into WebAssembly", "C) Managing SQL schema migrations"],
+          "question": "In the Node.js event loop, which phase executes callbacks registered with setImmediate()?",
+          "options": ["A) Timers phase", "B) Poll phase", "C) Check phase", "D) Close callbacks phase"],
+          "correctAnswer": "C"
+        },
+        {
+          "id": "q3",
+          "question": "Which HTTP response header is mandatory on the backend to allow cross-origin browser credential requests?",
+          "options": ["A) Access-Control-Allow-Credentials: true", "B) Authorization: Bearer", "C) Content-Security-Policy: none", "D) X-Frame-Options: SAMEORIGIN"],
+          "correctAnswer": "A"
+        },
+        {
+          "id": "q4",
+          "question": "In PostgreSQL / relational databases, what is the search time complexity of an index constructed using a standard B-Tree?",
+          "options": ["A) O(log N)", "B) O(1)", "C) O(N)", "D) O(N log N)"],
+          "correctAnswer": "A"
+        },
+        {
+          "id": "q5",
+          "question": "In React, what is the primary benefit of the Virtual DOM reconciliation algorithm?",
+          "options": ["A) Directly compiles JSX into native machine code", "B) Computes minimal diffs before batching real browser DOM manipulations", "C) Encrypts HTTP state sent across WebSockets", "D) Replaces browser CSS layout engines"],
+          "correctAnswer": "B"
+        }
+      ],
+      "leaderboard": [
+        { "studentName": "Akrit Sharma", "college": "BITS Pilani", "score": 100, "duration": "38 Mins", "proofHash": "#LP-VERIFIED-PROOF-9482" },
+        { "studentName": "Priya Patel", "college": "IIT Delhi", "score": 80, "duration": "42 Mins", "proofHash": "#LP-VERIFIED-PROOF-8819" }
+      ],
+      "status": "active",
+      "createdAt": "2026-08-10T10:00:00.000Z"
+    },
+    {
+      "id": "test_202",
+      "title": "AI Systems & LLM Engineering Test",
+      "category": "ai",
+      "company": "Google Cloud",
+      "logo": "🧠",
+      "duration": "45 Mins",
+      "cutoff": 80,
+      "cutoffDisplay": "80% Cutoff",
+      "batch": "2026 Batch",
+      "skills": ["Python", "Transformers", "Vector Embeddings", "LoRA"],
+      "testedCount": 98,
+      "avgScore": "81.2%",
+      "qualifiedCount": 28,
+      "questions": [
+        {
+          "id": "q1",
+          "question": "In Transformer architectures, which core mechanism computes relationships between all tokens across a sequence?",
+          "options": ["A) Recurrent Hidden State Passing", "B) Scaled Dot-Product Multi-Head Attention", "C) Convolutional Max Pooling", "D) Greedy Beam Search"],
+          "correctAnswer": "B"
+        },
+        {
+          "id": "q2",
+          "question": "Which mathematical metric is most commonly used to measure semantic similarity between high-dimensional vector embeddings?",
+          "options": ["A) Cosine Similarity", "B) Manhattan Grid Distance", "C) Hamming XOR Distance", "D) Jaccard Set Index"],
           "correctAnswer": "A"
         },
         {
           "id": "q3",
-          "question": "Which caching pattern guarantees that stale data is never read under sudden traffic spikes?",
-          "options": ["A) Write-Through with Distributed Cache Invalidation", "B) Client-side localStorage polling", "C) Periodic random cache eviction"],
+          "question": "When sampling tokens from an LLM, reducing the temperature parameter closer to 0 results in:",
+          "options": ["A) Higher creative hallucinations and random tokens", "B) Faster GPU fan speed", "C) Highly deterministic and focused greedy token selections", "D) Larger context window capacity"],
+          "correctAnswer": "C"
+        },
+        {
+          "id": "q4",
+          "question": "Which parameter-efficient fine-tuning (PEFT) method injects low-rank decomposition matrices while freezing pretrained weights?",
+          "options": ["A) RLHF", "B) LoRA (Low-Rank Adaptation)", "C) Standard Full Fine-Tuning", "D) K-Means Clustering"],
+          "correctAnswer": "B"
+        },
+        {
+          "id": "q5",
+          "question": "In a Retrieval-Augmented Generation (RAG) pipeline, what is the primary role of the Vector Database?",
+          "options": ["A) Storing and indexing semantic text chunks for similarity retrieval before prompting the LLM", "B) Rendering 3D WebGL graphics for the UI", "C) Executing Python scripts in sandboxed Docker containers", "D) Managing OAuth2 authentication sessions"],
           "correctAnswer": "A"
         }
       ],
       "leaderboard": [
-        { "studentName": "Akrit Sharma", "college": "BITS Pilani", "score": 96, "duration": "38 Mins", "proofHash": "#LP-VERIFIED-9482" },
-        { "studentName": "Priya Patel", "college": "IIT Delhi", "score": 92, "duration": "42 Mins", "proofHash": "#LP-VERIFIED-8910" }
+        { "studentName": "Priya Patel", "college": "IIT Delhi", "score": 100, "duration": "35 Mins", "proofHash": "#LP-VERIFIED-PROOF-8819" }
       ],
       "status": "active",
-      "createdAt": "2026-08-10T10:00:00.000Z"
+      "createdAt": "2026-08-12T10:00:00.000Z"
+    },
+    {
+      "id": "test_203",
+      "title": "Cloud Infrastructure & DevOps Challenge",
+      "category": "cloud",
+      "company": "Microsoft",
+      "logo": "☁️",
+      "duration": "45 Mins",
+      "cutoff": 80,
+      "cutoffDisplay": "80% Cutoff",
+      "batch": "2026 Batch",
+      "skills": ["Docker", "Kubernetes", "CI/CD", "Cloud Architecture"],
+      "testedCount": 112,
+      "avgScore": "75.0%",
+      "qualifiedCount": 24,
+      "questions": [
+        {
+          "id": "q1",
+          "question": "In Kubernetes, which controller guarantees that exactly one copy of a Pod runs on every worker node in the cluster?",
+          "options": ["A) Deployment", "B) DaemonSet", "C) StatefulSet", "D) ReplicaSet"],
+          "correctAnswer": "B"
+        },
+        {
+          "id": "q2",
+          "question": "In Dockerfile optimization, what is the primary purpose of Multi-Stage builds?",
+          "options": ["A) Eliminating build-time compilers and SDKs from the final lean runtime container image", "B) Running multiple operating systems inside one container", "C) Encrypting the root filesystem with AES-256", "D) Automatically deploying to Kubernetes"],
+          "correctAnswer": "A"
+        },
+        {
+          "id": "q3",
+          "question": "In distributed consensus systems (such as Raft or etcd), what is the minimum cluster size required to tolerate 1 node failure without losing quorum?",
+          "options": ["A) 2 nodes", "B) 3 nodes", "C) 4 nodes", "D) 5 nodes"],
+          "correctAnswer": "B"
+        },
+        {
+          "id": "q4",
+          "question": "In AWS / Cloud VPCs, what enables private subnets without public IPs to initiate outbound internet requests?",
+          "options": ["A) Internet Gateway directly attached to instance", "B) NAT Gateway in a public subnet", "C) Direct Connect circuit", "D) Elastic Load Balancer"],
+          "correctAnswer": "B"
+        },
+        {
+          "id": "q5",
+          "question": "Which deployment strategy updates Pods incrementally with zero downtime and automatic rollback capability?",
+          "options": ["A) Rolling Update", "B) Recreate Strategy", "C) Hard Restart", "D) Cold Migration"],
+          "correctAnswer": "A"
+        }
+      ],
+      "leaderboard": [
+        { "studentName": "Tanmay Roy", "college": "IIIT Hyderabad", "score": 80, "duration": "40 Mins", "proofHash": "#LP-VERIFIED-PROOF-7201" }
+      ],
+      "status": "active",
+      "createdAt": "2026-08-14T10:00:00.000Z"
     }
   ],
   "badges": [
@@ -171,6 +329,28 @@
       "status": "VERIFIED_ACTIVE",
       "tamperProofSignature": "ECDSA_SHA256_9482A0F8291B7C",
       "issuedAt": "2026-08-15T10:00:00.000Z"
+    },
+    {
+      "id": "LP-VERIFIED-PROOF-8819",
+      "proofHash": "#LP-VERIFIED-PROOF-8819",
+      "studentUid": "LP-STUDENT-002",
+      "studentName": "Priya Patel",
+      "testTitle": "AI Systems & LLM Engineering Test",
+      "score": 100,
+      "status": "VERIFIED_ACTIVE",
+      "tamperProofSignature": "ECDSA_SHA256_8819C2E490FA31",
+      "issuedAt": "2026-08-18T14:30:00.000Z"
+    },
+    {
+      "id": "LP-VERIFIED-PROOF-7201",
+      "proofHash": "#LP-VERIFIED-PROOF-7201",
+      "studentUid": "LP-STUDENT-003",
+      "studentName": "Tanmay Roy",
+      "testTitle": "Cloud Infrastructure & DevOps Challenge",
+      "score": 80,
+      "status": "VERIFIED_ACTIVE",
+      "tamperProofSignature": "ECDSA_SHA256_7201F188AB2990",
+      "issuedAt": "2026-08-19T09:15:00.000Z"
     }
   ],
   "faculty_telemetry": {

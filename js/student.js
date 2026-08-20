@@ -411,54 +411,225 @@ function renderSkillGapAnalysis(roleKey, uid) {
   });
 }
 
+// ==========================================================================
+// AUTHENTIC TECHNICAL QUESTION BANKS (Domain-Specific Verified Exams)
+// ==========================================================================
+const ASSESSMENT_QUESTION_BANKS = {
+  'Full Stack Engineer Assessment': {
+    title: 'Full Stack Engineer Assessment',
+    cutoff: 80,
+    durationMins: 45,
+    skills: ['React', 'Node.js', 'PostgreSQL', 'System Architecture'],
+    questions: [
+      {
+        id: 'q1',
+        text: 'Which data structure is optimal for implementing an LRU Cache with O(1) lookups and O(1) eviction?',
+        options: [
+          { key: 'A', text: 'Binary Search Tree with Timestamp' },
+          { key: 'B', text: 'Doubly Linked List combined with Hash Map' },
+          { key: 'C', text: 'Sorted Array with Binary Search' },
+          { key: 'D', text: 'Single Queue with Linear Search' }
+        ],
+        correctAnswer: 'B'
+      },
+      {
+        id: 'q2',
+        text: 'In the Node.js event loop, which phase executes callbacks registered with setImmediate()?',
+        options: [
+          { key: 'A', text: 'Timers phase' },
+          { key: 'B', text: 'Poll phase' },
+          { key: 'C', text: 'Check phase' },
+          { key: 'D', text: 'Close callbacks phase' }
+        ],
+        correctAnswer: 'C'
+      },
+      {
+        id: 'q3',
+        text: 'Which HTTP response header is mandatory on the backend to allow cross-origin browser credential requests?',
+        options: [
+          { key: 'A', text: 'Access-Control-Allow-Credentials: true' },
+          { key: 'B', text: 'Authorization: Bearer' },
+          { key: 'C', text: 'Content-Security-Policy: none' },
+          { key: 'D', text: 'X-Frame-Options: SAMEORIGIN' }
+        ],
+        correctAnswer: 'A'
+      },
+      {
+        id: 'q4',
+        text: 'In PostgreSQL / relational databases, what is the search time complexity of an index constructed using a standard B-Tree?',
+        options: [
+          { key: 'A', text: 'O(log N)' },
+          { key: 'B', text: 'O(1)' },
+          { key: 'C', text: 'O(N)' },
+          { key: 'D', text: 'O(N log N)' }
+        ],
+        correctAnswer: 'A'
+      },
+      {
+        id: 'q5',
+        text: 'In React, what is the primary benefit of the Virtual DOM reconciliation algorithm?',
+        options: [
+          { key: 'A', text: 'Directly compiles JSX into native machine code' },
+          { key: 'B', text: 'Computes minimal diffs before batching real browser DOM manipulations' },
+          { key: 'C', text: 'Encrypts HTTP state sent across WebSockets' },
+          { key: 'D', text: 'Replaces browser CSS layout engines' }
+        ],
+        correctAnswer: 'B'
+      }
+    ]
+  },
+  'AI Systems & LLM Engineering Test': {
+    title: 'AI Systems & LLM Engineering Test',
+    cutoff: 80,
+    durationMins: 45,
+    skills: ['Python', 'Transformers', 'Vector Embeddings', 'LoRA'],
+    questions: [
+      {
+        id: 'q1',
+        text: 'In Transformer architectures (Vaswani et al.), which core mechanism computes relationships between all tokens across a sequence?',
+        options: [
+          { key: 'A', text: 'Recurrent Hidden State Passing' },
+          { key: 'B', text: 'Scaled Dot-Product Multi-Head Attention' },
+          { key: 'C', text: 'Convolutional Max Pooling' },
+          { key: 'D', text: 'Greedy Beam Search' }
+        ],
+        correctAnswer: 'B'
+      },
+      {
+        id: 'q2',
+        text: 'Which mathematical metric is most commonly used to measure semantic similarity between high-dimensional vector embeddings?',
+        options: [
+          { key: 'A', text: 'Cosine Similarity' },
+          { key: 'B', text: 'Manhattan Grid Distance' },
+          { key: 'C', text: 'Hamming XOR Distance' },
+          { key: 'D', text: 'Jaccard Set Index' }
+        ],
+        correctAnswer: 'A'
+      },
+      {
+        id: 'q3',
+        text: 'When sampling tokens from an LLM, reducing the "temperature" parameter closer to 0 results in:',
+        options: [
+          { key: 'A', text: 'Higher creative hallucinations and random tokens' },
+          { key: 'B', text: 'Faster GPU fan speed' },
+          { key: 'C', text: 'Highly deterministic and focused greedy token selections' },
+          { key: 'D', text: 'Larger context window capacity' }
+        ],
+        correctAnswer: 'C'
+      },
+      {
+        id: 'q4',
+        text: 'Which parameter-efficient fine-tuning (PEFT) method injects low-rank decomposition matrices while freezing pretrained weights?',
+        options: [
+          { key: 'A', text: 'RLHF' },
+          { key: 'B', text: 'LoRA (Low-Rank Adaptation)' },
+          { key: 'C', text: 'Standard Full Fine-Tuning' },
+          { key: 'D', text: 'K-Means Clustering' }
+        ],
+        correctAnswer: 'B'
+      },
+      {
+        id: 'q5',
+        text: 'In a Retrieval-Augmented Generation (RAG) pipeline, what is the primary role of the Vector Database?',
+        options: [
+          { key: 'A', text: 'Storing and indexing semantic text chunks for similarity retrieval before prompting the LLM' },
+          { key: 'B', text: 'Rendering 3D WebGL graphics for the UI' },
+          { key: 'C', text: 'Executing Python scripts in sandboxed Docker containers' },
+          { key: 'D', text: 'Managing OAuth2 authentication sessions' }
+        ],
+        correctAnswer: 'A'
+      }
+    ]
+  },
+  'Cloud Infrastructure & DevOps Challenge': {
+    title: 'Cloud Infrastructure & DevOps Challenge',
+    cutoff: 80,
+    durationMins: 45,
+    skills: ['Docker', 'Kubernetes', 'CI/CD', 'Cloud Architecture'],
+    questions: [
+      {
+        id: 'q1',
+        text: 'In Kubernetes, which controller guarantees that exactly one copy of a Pod runs on every worker node in the cluster?',
+        options: [
+          { key: 'A', text: 'Deployment' },
+          { key: 'B', text: 'DaemonSet' },
+          { key: 'C', text: 'StatefulSet' },
+          { key: 'D', text: 'ReplicaSet' }
+        ],
+        correctAnswer: 'B'
+      },
+      {
+        id: 'q2',
+        text: 'In Dockerfile optimization, what is the primary purpose of Multi-Stage builds?',
+        options: [
+          { key: 'A', text: 'Eliminating build-time compilers and SDKs from the final lean runtime container image' },
+          { key: 'B', text: 'Running multiple operating systems inside one container' },
+          { key: 'C', text: 'Encrypting the root filesystem with AES-256' },
+          { key: 'D', text: 'Automatically deploying to Kubernetes' }
+        ],
+        correctAnswer: 'A'
+      },
+      {
+        id: 'q3',
+        text: 'In distributed consensus systems (such as Raft or etcd), what is the minimum cluster size required to tolerate 1 node failure without losing quorum?',
+        options: [
+          { key: 'A', text: '2 nodes' },
+          { key: 'B', text: '3 nodes' },
+          { key: 'C', text: '4 nodes' },
+          { key: 'D', text: '5 nodes' }
+        ],
+        correctAnswer: 'B'
+      },
+      {
+        id: 'q4',
+        text: 'In AWS / Cloud VPCs, what enables private subnets without public IPs to initiate outbound internet requests (e.g. for software updates)?',
+        options: [
+          { key: 'A', text: 'Internet Gateway directly attached to instance' },
+          { key: 'B', text: 'NAT Gateway in a public subnet' },
+          { key: 'C', text: 'Direct Connect circuit' },
+          { key: 'D', text: 'Elastic Load Balancer' }
+        ],
+        correctAnswer: 'B'
+      },
+      {
+        id: 'q5',
+        text: 'Which deployment strategy updates Pods incrementally with zero downtime and automatic rollback capability?',
+        options: [
+          { key: 'A', text: 'Rolling Update' },
+          { key: 'B', text: 'Recreate Strategy' },
+          { key: 'C', text: 'Hard Restart' },
+          { key: 'D', text: 'Cold Migration' }
+        ],
+        correctAnswer: 'A'
+      }
+    ]
+  }
+};
+
 /**
- * 10. Student Recruiter Assessment Suite & Badge Verification
+ * 10. Student Recruiter Assessment Suite & Authentic Evaluation Engine
  */
 function initStudentAssessmentFlow() {
-  const testsGrid = document.getElementById('studentRecruiterTestsGrid');
   const modalOverlay = document.getElementById('takeAssessmentModalOverlay');
   const closeBtn = document.getElementById('closeTakeAssessmentModalBtn');
   const examForm = document.getElementById('studentExamForm');
+  const questionsContainer = document.getElementById('examQuestionsContainer');
   const examResultScreen = document.getElementById('examResultScreen');
+  const passedView = document.getElementById('examResultPassedView');
+  const failedView = document.getElementById('examResultFailedView');
+  const passedScoreEl = document.getElementById('examResultScorePassed');
+  const failedScoreEl = document.getElementById('examResultScoreFailed');
+  const proofHashDisplay = document.getElementById('examResultProofHashDisplay');
+  const cutoffRequiredEl = document.getElementById('examCutoffRequired');
   const claimBadgeBtn = document.getElementById('btnClaimBadgeDone');
+  const retakeBtn = document.getElementById('btnRetakeExam');
+  const exitFailedBtn = document.getElementById('btnExitExamFailed');
   const examModalTitle = document.getElementById('examModalTitle');
   const timerEl = document.getElementById('examTimer');
 
   let currentActiveTestName = 'Full Stack Engineer Assessment';
-
-  // 1. Render custom recruiter tests if published from Recruiter Dashboard
-  try {
-    const savedTests = JSON.parse(localStorage.getItem('lp_recruiter_tests') || '[]');
-    if (savedTests.length > 0 && testsGrid) {
-      savedTests.forEach(test => {
-        const card = document.createElement('div');
-        card.className = 'opportunity-card student-test-card';
-        card.innerHTML = `
-          <div class="opportunity-header">
-            <div class="opportunity-company-box">
-              <div class="company-logo-avatar" style="background: rgba(168, 85, 247, 0.15); color: #c084fc;">🚀</div>
-              <div class="company-details">
-                <h4>${escapeHtml(test.title)}</h4>
-                <span class="company-name">${escapeHtml(test.skills ? test.skills.join(', ') : 'Verified Recruiter Test')}</span>
-              </div>
-            </div>
-            <span class="badge-tag badge-user">${escapeHtml(test.cutoff || '80% Cutoff')}</span>
-          </div>
-          <div class="opportunity-tags">
-            <span class="tag-pill">${escapeHtml(test.duration || '45 Mins')}</span>
-            <span class="tag-pill" style="color: #34d399;">Live Challenge</span>
-          </div>
-          <div class="opportunity-footer">
-            <button type="button" class="btn-apply-action btn-start-student-test" data-test="${escapeHtml(test.title)}" style="width: 100%; justify-content: center; background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);">
-              Take Assessment &rarr;
-            </button>
-          </div>
-        `;
-        testsGrid.insertBefore(card, testsGrid.firstChild);
-      });
-    }
-  } catch (err) {}
-
+  let currentActiveTest = ASSESSMENT_QUESTION_BANKS['Full Stack Engineer Assessment'];
+  let currentMutedProof = null;
   let timerInterval = null;
 
   const startTimer = () => {
@@ -479,22 +650,68 @@ function initStudentAssessmentFlow() {
     }, 1000);
   };
 
+  const renderExamQuestions = (testData) => {
+    if (!questionsContainer) return;
+    questionsContainer.innerHTML = '';
+
+    testData.questions.forEach((q, index) => {
+      const qCard = document.createElement('div');
+      qCard.className = 'exam-question-card';
+      qCard.style.cssText = 'background: rgba(10, 14, 26, 0.9); padding: 1.15rem; border-radius: 12px; border: 1px solid var(--border-subtle);';
+      
+      let optionsHtml = q.options.map(opt => `
+        <label style="display: flex; align-items: center; gap: 0.65rem; padding: 0.6rem 0.85rem; background: rgba(255,255,255,0.03); border-radius: 8px; cursor: pointer; border: 1px solid transparent; transition: all 0.2s;">
+          <input type="radio" name="${q.id}" value="${opt.key}" required style="accent-color: #38bdf8; width: 16px; height: 16px; cursor: pointer;" />
+          <span style="font-size: 0.88rem; color: #e2e8f0;"><strong style="color: #38bdf8;">${opt.key})</strong> ${escapeHtml(opt.text)}</span>
+        </label>
+      `).join('');
+
+      qCard.innerHTML = `
+        <div style="font-size: 0.78rem; color: #38bdf8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.35rem;">
+          QUESTION ${index + 1} OF ${testData.questions.length}
+        </div>
+        <p style="font-weight: 700; color: #ffffff; margin-bottom: 0.85rem; font-size: 0.94rem; line-height: 1.45;">
+          ${escapeHtml(q.text)}
+        </p>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          ${optionsHtml}
+        </div>
+      `;
+
+      questionsContainer.appendChild(qCard);
+    });
+  };
+
+  const openExamModal = (testName) => {
+    currentActiveTestName = testName;
+    currentActiveTest = ASSESSMENT_QUESTION_BANKS[testName] || ASSESSMENT_QUESTION_BANKS['Full Stack Engineer Assessment'];
+
+    if (examModalTitle) examModalTitle.textContent = currentActiveTest.title;
+    if (examForm) {
+      examForm.style.display = 'block';
+      examForm.reset();
+    }
+    if (examResultScreen) examResultScreen.style.display = 'none';
+    if (passedView) passedView.style.display = 'none';
+    if (failedView) failedView.style.display = 'none';
+
+    renderExamQuestions(currentActiveTest);
+
+    if (modalOverlay) {
+      modalOverlay.style.display = 'flex';
+      modalOverlay.classList.add('active');
+    }
+    startTimer();
+    showToast(`Proctored Exam Started for '${currentActiveTest.title}'. Genuine evaluation active.`, '⚡');
+  };
+
   const bindStartButtons = () => {
     const startButtons = document.querySelectorAll('.btn-start-student-test');
     startButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
         const testName = btn.getAttribute('data-test') || 'Full Stack Engineer Assessment';
-        currentActiveTestName = testName;
-        if (examModalTitle) examModalTitle.textContent = testName;
-
-        if (examForm) {
-          examForm.style.display = 'block';
-          examForm.reset();
-        }
-        if (examResultScreen) examResultScreen.style.display = 'none';
-
-        if (modalOverlay) modalOverlay.classList.add('active');
-        startTimer();
+        openExamModal(testName);
       });
     });
   };
@@ -502,26 +719,63 @@ function initStudentAssessmentFlow() {
   bindStartButtons();
 
   const closeModal = () => {
-    if (modalOverlay) modalOverlay.classList.remove('active');
+    if (modalOverlay) {
+      modalOverlay.style.display = 'none';
+      modalOverlay.classList.remove('active');
+    }
     if (timerInterval) clearInterval(timerInterval);
   };
 
   if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  if (exitFailedBtn) exitFailedBtn.addEventListener('click', closeModal);
+  if (retakeBtn) retakeBtn.addEventListener('click', () => openExamModal(currentActiveTestName));
 
-  // Examination submission
+  // Genuine Examination Evaluation on Submit
   if (examForm) {
     examForm.addEventListener('submit', (e) => {
       e.preventDefault();
       if (timerInterval) clearInterval(timerInterval);
 
+      // Evaluate actual student choices
+      let correctAnswers = 0;
+      const totalQuestions = currentActiveTest.questions.length;
+
+      currentActiveTest.questions.forEach(q => {
+        const selected = document.querySelector(`input[name="${q.id}"]:checked`);
+        if (selected && selected.value.toUpperCase() === q.correctAnswer.toUpperCase()) {
+          correctAnswers++;
+        }
+      });
+
+      // Calculate Genuine Score %
+      const realScore = Math.round((correctAnswers / totalQuestions) * 100);
+      const isPassed = realScore >= currentActiveTest.cutoff;
+
       examForm.style.display = 'none';
       if (examResultScreen) examResultScreen.style.display = 'block';
 
-      showToast('Assessment submitted! Calculating verified cryptographic score...', '⚡');
+      if (isPassed) {
+        const newProofHash = `#LP-PROOF-${Math.abs(Date.now()).toString(36).toUpperCase()}`;
+        currentMutedProof = newProofHash;
+
+        if (passedView) passedView.style.display = 'block';
+        if (failedView) failedView.style.display = 'none';
+        if (passedScoreEl) passedScoreEl.textContent = `${realScore}% (${correctAnswers}/${totalQuestions} Correct)`;
+        if (proofHashDisplay) proofHashDisplay.textContent = newProofHash;
+
+        showToast(`🎉 Verified Passed! Real Score: ${realScore}%. Minted Proof: ${newProofHash}`, '🏆');
+      } else {
+        if (passedView) passedView.style.display = 'none';
+        if (failedView) failedView.style.display = 'block';
+        if (failedScoreEl) failedScoreEl.textContent = `${realScore}% (${correctAnswers}/${totalQuestions} Correct)`;
+        if (cutoffRequiredEl) cutoffRequiredEl.textContent = `${currentActiveTest.cutoff}%`;
+
+        showToast(`⚠️ Score: ${realScore}%. Cutoff of ${currentActiveTest.cutoff}% required. No badge minted.`, '⚠️');
+      }
     });
   }
 
-  // Claim Badge Action
+  // Claim Badge Action (Only for Passed Exams)
   if (claimBadgeBtn) {
     claimBadgeBtn.addEventListener('click', () => {
       closeModal();
@@ -532,20 +786,20 @@ function initStudentAssessmentFlow() {
         if (saved.uid) activeUid = saved.uid;
       } catch (e) {}
 
-      const newProofHash = `#LP-VERIFIED-PROOF-${Math.abs(Date.now()).toString(36).toUpperCase()}`;
+      const proofHashToSave = currentMutedProof || `#LP-PROOF-${Math.abs(Date.now()).toString(36).toUpperCase()}`;
 
-      // Save the passed test into student's verified badges
+      // Save verified test into student's verified badges
       saveStudentVerifiedBadge(activeUid, {
         testName: currentActiveTestName,
         score: 100,
-        proofHash: newProofHash,
+        proofHash: proofHashToSave,
         awardedAt: new Date().toISOString()
       });
 
       // Dynamically re-render skills and calculate new score
       renderStudentSkillsAndReadiness(activeUid, {});
 
-      showToast(`🎉 Assessment Passed! Verified Proof Badge (${newProofHash}) earned and readiness score boosted!`, '🏆');
+      showToast(`🎉 Verified Proof Badge (${proofHashToSave}) added to ledger and readiness score boosted!`, '🏆');
     });
   }
 }

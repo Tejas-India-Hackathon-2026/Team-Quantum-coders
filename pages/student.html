@@ -1148,88 +1148,57 @@
       <!-- Examination Body -->
       <form id="studentExamForm">
         
-        <!-- Question 1 -->
-        <div class="exam-question-card" style="background: rgba(255, 255, 255, 0.03); padding: 1rem; border-radius: 12px; border: 1px solid var(--border-subtle); margin-bottom: 1rem;">
-          <div style="font-size: 0.82rem; color: #38bdf8; font-weight: 700; margin-bottom: 0.35rem;">QUESTION 1 OF 3</div>
-          <p style="font-weight: 600; color: #fff; margin-bottom: 0.75rem; font-size: 0.92rem;">
-            Which data structure is optimal for implementing an LRU Cache with O(1) lookups and O(1) eviction?
-          </p>
-          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-            <label style="display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0.75rem; background: rgba(0,0,0,0.3); border-radius: 8px; cursor: pointer;">
-              <input type="radio" name="q1" value="A" required style="accent-color: #38bdf8;" />
-              <span style="font-size: 0.85rem;">A) Binary Search Tree with Timestamp</span>
-            </label>
-            <label style="display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0.75rem; background: rgba(0,0,0,0.3); border-radius: 8px; cursor: pointer;">
-              <input type="radio" name="q1" value="B" style="accent-color: #38bdf8;" />
-              <span style="font-size: 0.85rem; color: #34d399; font-weight: 600;">B) Doubly Linked List combined with Hash Map</span>
-            </label>
-            <label style="display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0.75rem; background: rgba(0,0,0,0.3); border-radius: 8px; cursor: pointer;">
-              <input type="radio" name="q1" value="C" style="accent-color: #38bdf8;" />
-              <span style="font-size: 0.85rem;">C) Sorted Array with Binary Search</span>
-            </label>
-          </div>
+        <!-- Dynamic Questions Container populated via JS Question Bank -->
+        <div id="examQuestionsContainer" style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.25rem;">
+          <!-- Populated dynamically based on chosen test -->
         </div>
 
-        <!-- Question 2 -->
-        <div class="exam-question-card" style="background: rgba(255, 255, 255, 0.03); padding: 1rem; border-radius: 12px; border: 1px solid var(--border-subtle); margin-bottom: 1rem;">
-          <div style="font-size: 0.82rem; color: #38bdf8; font-weight: 700; margin-bottom: 0.35rem;">QUESTION 2 OF 3</div>
-          <p style="font-weight: 600; color: #fff; margin-bottom: 0.75rem; font-size: 0.92rem;">
-            In high-scale microservices, what is the primary purpose of an API Gateway?
-          </p>
-          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-            <label style="display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0.75rem; background: rgba(0,0,0,0.3); border-radius: 8px; cursor: pointer;">
-              <input type="radio" name="q2" value="A" required style="accent-color: #38bdf8;" />
-              <span style="font-size: 0.85rem; color: #34d399; font-weight: 600;">A) Centralized request routing, rate limiting, and auth verification</span>
-            </label>
-            <label style="display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0.75rem; background: rgba(0,0,0,0.3); border-radius: 8px; cursor: pointer;">
-              <input type="radio" name="q2" value="B" style="accent-color: #38bdf8;" />
-              <span style="font-size: 0.85rem;">B) Compiling backend C++ binaries into WebAssembly</span>
-            </label>
-            <label style="display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0.75rem; background: rgba(0,0,0,0.3); border-radius: 8px; cursor: pointer;">
-              <input type="radio" name="q2" value="C" style="accent-color: #38bdf8;" />
-              <span style="font-size: 0.85rem;">C) Managing SQL schema migrations</span>
-            </label>
-          </div>
-        </div>
-
-        <!-- Question 3 -->
-        <div class="exam-question-card" style="background: rgba(255, 255, 255, 0.03); padding: 1rem; border-radius: 12px; border: 1px solid var(--border-subtle); margin-bottom: 1.25rem;">
-          <div style="font-size: 0.82rem; color: #38bdf8; font-weight: 700; margin-bottom: 0.35rem;">QUESTION 3 OF 3</div>
-          <p style="font-weight: 600; color: #fff; margin-bottom: 0.75rem; font-size: 0.92rem;">
-            Which caching pattern guarantees that stale data is never read under sudden traffic spikes?
-          </p>
-          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-            <label style="display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0.75rem; background: rgba(0,0,0,0.3); border-radius: 8px; cursor: pointer;">
-              <input type="radio" name="q3" value="A" required style="accent-color: #38bdf8;" />
-              <span style="font-size: 0.85rem; color: #34d399; font-weight: 600;">A) Write-Through with Distributed Cache Invalidation</span>
-            </label>
-            <label style="display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0.75rem; background: rgba(0,0,0,0.3); border-radius: 8px; cursor: pointer;">
-              <input type="radio" name="q3" value="B" style="accent-color: #38bdf8;" />
-              <span style="font-size: 0.85rem;">B) Client-side localStorage polling</span>
-            </label>
-          </div>
-        </div>
-
-        <button type="submit" class="btn btn-primary" id="btnSubmitExam" style="width: 100%; padding: 0.75rem; background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%); font-weight: 700;">
-          Submit Assessment & Calculate Verified Score &rarr;
+        <button type="submit" class="btn btn-primary" id="btnSubmitExam" style="width: 100%; padding: 0.85rem; background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%); font-weight: 800; font-size: 0.96rem; box-shadow: 0 4px 20px rgba(6, 182, 212, 0.4);">
+          <span>Submit Assessment & Evaluate Real Score &rarr;</span>
         </button>
       </form>
 
-      <!-- Exam Result Celebration Screen (Hidden Initially) -->
+      <!-- Exam Result Screen (Dynamic Passed / Failed Views) -->
       <div id="examResultScreen" style="display: none; text-align: center; padding: 1.5rem 1rem;">
-        <div style="width: 72px; height: 72px; border-radius: 50%; background: rgba(16, 185, 129, 0.2); color: #34d399; font-size: 2.2rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">🏆</div>
-        <h2 style="font-size: 1.4rem; font-weight: 800; color: #fff; margin-bottom: 0.35rem;">Assessment Passed! Score: <span style="color: #34d399;" id="examResultScore">100%</span></h2>
-        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Congratulations! You met the cutoff criteria. A verified proof badge has been awarded to your LifeProof portfolio.</p>
         
-        <div style="background: rgba(255, 255, 255, 0.04); padding: 1rem; border-radius: 12px; border: 1px solid var(--border-subtle); margin-bottom: 1.5rem; text-align: left;">
-          <div style="font-size: 0.8rem; color: var(--text-muted);">Verified Proof Certificate:</div>
-          <div style="font-family: var(--font-mono); color: #38bdf8; font-weight: 700; font-size: 0.95rem; margin-top: 0.25rem;">#LP-RECRUITER-VERIFIED-2026</div>
-          <div style="font-size: 0.78rem; color: #34d399; margin-top: 0.4rem;">✓ Recruiter Direct Shortlist Status: ACTIVE</div>
+        <!-- Passed State View -->
+        <div id="examResultPassedView" style="display: none;">
+          <div style="width: 72px; height: 72px; border-radius: 50%; background: rgba(16, 185, 129, 0.2); border: 2px solid rgba(16, 185, 129, 0.4); color: #34d399; font-size: 2.2rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">🏆</div>
+          <h2 style="font-size: 1.4rem; font-weight: 800; color: #fff; margin-bottom: 0.35rem;">Assessment Passed! Score: <span style="color: #34d399;" id="examResultScorePassed">100%</span></h2>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Congratulations! You achieved a passing score on the proctored test. Your genuine verified proof badge has been minted.</p>
+          
+          <div style="background: rgba(10, 14, 26, 0.9); padding: 1rem; border-radius: 12px; border: 1px solid var(--border-highlight); margin-bottom: 1.5rem; text-align: left;">
+            <div style="font-size: 0.78rem; color: var(--text-muted);">Tamper-Proof Cryptographic Hash:</div>
+            <div style="font-family: var(--font-mono); color: #38bdf8; font-weight: 700; font-size: 0.92rem; margin-top: 0.25rem;" id="examResultProofHashDisplay">#LP-VERIFIED-PROOF-9482</div>
+            <div style="font-size: 0.78rem; color: #34d399; margin-top: 0.4rem; font-weight: 600;">✓ Recruiter Direct Shortlist Status: ACTIVE</div>
+          </div>
+
+          <button type="button" class="btn btn-primary" id="btnClaimBadgeDone" style="width: 100%; padding: 0.85rem; background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%); font-weight: 800;">
+            Claim Verified Badge & Update Portfolio &rarr;
+          </button>
         </div>
 
-        <button type="button" class="btn btn-primary" id="btnClaimBadgeDone" style="width: 100%; background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);">
-          Claim Verified Proof Badge & Return to Dashboard &rarr;
-        </button>
+        <!-- Failed / Below Cutoff State View -->
+        <div id="examResultFailedView" style="display: none;">
+          <div style="width: 72px; height: 72px; border-radius: 50%; background: rgba(239, 68, 68, 0.2); border: 2px solid rgba(239, 68, 68, 0.4); color: #f87171; font-size: 2.2rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">⚠️</div>
+          <h2 style="font-size: 1.4rem; font-weight: 800; color: #fff; margin-bottom: 0.35rem;">Assessment Below Cutoff: <span style="color: #f87171;" id="examResultScoreFailed">40%</span></h2>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">The minimum passing cutoff for this recruiter assessment is <strong style="color: #fff;" id="examCutoffRequired">80%</strong>. No badge was awarded for this attempt.</p>
+          
+          <div style="background: rgba(10, 14, 26, 0.9); padding: 1rem; border-radius: 12px; border: 1px solid rgba(239, 68, 68, 0.3); margin-bottom: 1.5rem; text-align: left;">
+            <div style="font-size: 0.8rem; color: #fca5a5; font-weight: 600;">Recommendations:</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem;">Review the core technical concepts and retry when ready. Real scores ensure recruiter credibility.</div>
+          </div>
+
+          <div style="display: flex; gap: 0.75rem;">
+            <button type="button" class="btn btn-secondary" id="btnExitExamFailed" style="flex: 1; padding: 0.75rem;">
+              Back to Dashboard
+            </button>
+            <button type="button" class="btn btn-primary" id="btnRetakeExam" style="flex: 1; padding: 0.75rem; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); font-weight: 800;">
+              🔄 Retake Test
+            </button>
+          </div>
+        </div>
+
       </div>
 
     </div>

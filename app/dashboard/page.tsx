@@ -7,17 +7,24 @@ import { SkillCard } from "@/components/dashboard/SkillCard";
 import { ProgressChart } from "@/components/dashboard/ProgressChart";
 import { RecentChallengeCard } from "@/components/dashboard/RecentChallengeCard";
 import { AchievementCard } from "@/components/dashboard/AchievementCard";
+import { SkillDetailModal } from "@/components/dashboard/SkillDetailModal";
+import { ChallengeSandboxModal } from "@/components/challenges/ChallengeSandboxModal";
 import { MOCK_CHALLENGES } from "@/data/mockChallenges";
 import { STARTER_USER } from "@/data/mockAchievements";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
-import { Sparkles, Code2, ArrowRight, ShieldCheck, Flame, Trophy, UserCheck, RefreshCw } from "lucide-react";
+import { Sparkles, Code2, ArrowRight, ShieldCheck, Flame, Trophy } from "lucide-react";
+import { Skill, Challenge } from "@/types";
 
 export default function DashboardPage() {
-  const { user, loadDemoGrandmasterProfile, signup } = useAuth();
+  const { user, loadDemoGrandmasterProfile } = useAuth();
   const currentUser = user || STARTER_USER;
   const isNewUser = (currentUser.totalXp ?? 0) === 0;
+
+  // Modals state
+  const [selectedSkill, setSelectedSkill] = React.useState<Skill | null>(null);
+  const [sandboxChallenge, setSandboxChallenge] = React.useState<Challenge | null>(null);
 
   return (
     <div className="flex-1 flex min-h-[calc(100vh-4rem)]">
@@ -49,7 +56,7 @@ export default function DashboardPage() {
               <p className="text-sm text-muted-foreground max-w-xl leading-relaxed">
                 {isNewUser ? (
                   <>
-                    You are starting your verified skill journey on LifeProof. Complete your first engineering challenge to mint your immutable proof badge!
+                    You are starting your verified skill journey on LifeProof. Inspect your skill DNA or complete your first engineering challenge to mint your immutable proof badge!
                   </>
                 ) : (
                   <>
@@ -65,19 +72,22 @@ export default function DashboardPage() {
                   variant="outline"
                   size="sm"
                   onClick={loadDemoGrandmasterProfile}
-                  className="w-full sm:w-auto text-xs gap-1.5 border-indigo-500/30 text-indigo-300 hover:bg-indigo-500/10"
+                  className="w-full sm:w-auto text-xs gap-1.5 border-indigo-500/30 text-indigo-300 hover:bg-indigo-500/10 cursor-pointer"
                 >
                   <Sparkles className="h-3.5 w-3.5 text-indigo-400" />
                   Preview Grandmaster Profile
                 </Button>
               )}
-              <Link href="/challenges" className="w-full sm:w-auto">
-                <Button variant="glow" size="lg" className="w-full gap-2 font-bold shadow-glow">
-                  <Sparkles className="h-4 w-4" />
-                  {isNewUser ? "Start 1st Challenge" : "Take Assessment"}
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
+              <Button
+                variant="glow"
+                size="lg"
+                onClick={() => setSandboxChallenge(MOCK_CHALLENGES[0])}
+                className="w-full sm:w-auto gap-2 font-bold shadow-glow cursor-pointer"
+              >
+                <Sparkles className="h-4 w-4" />
+                {isNewUser ? "Start 1st Challenge Sandbox" : "Quick Concurrency Drill"}
+                <ArrowRight className="h-4 w-4" />
+              </Button>
             </div>
           </div>
         </div>
@@ -102,7 +112,7 @@ export default function DashboardPage() {
                 Claimed & Verified Skills
               </h2>
               <p className="text-xs text-muted-foreground">
-                6 core engineering vectors tracked by AI assessment engine
+                Click any skill to inspect deep radar benchmarks & recommended drills
               </p>
             </div>
             <Link href="/challenges">
@@ -114,7 +124,11 @@ export default function DashboardPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {currentUser.skills.map((skill) => (
-              <SkillCard key={skill.id} skill={skill} />
+              <SkillCard
+                key={skill.id}
+                skill={skill}
+                onClick={() => setSelectedSkill(skill)}
+              />
             ))}
           </div>
         </div>
@@ -135,7 +149,13 @@ export default function DashboardPage() {
 
             <div className="space-y-3">
               {MOCK_CHALLENGES.slice(0, 3).map((challenge) => (
-                <RecentChallengeCard key={challenge.id} challenge={challenge} />
+                <div
+                  key={challenge.id}
+                  onClick={() => setSandboxChallenge(challenge)}
+                  className="cursor-pointer"
+                >
+                  <RecentChallengeCard challenge={challenge} />
+                </div>
               ))}
             </div>
           </div>
@@ -170,6 +190,26 @@ export default function DashboardPage() {
           </div>
         </div>
       </main>
+
+      {/* Skill Detail Deep Dive Modal */}
+      <SkillDetailModal
+        skill={selectedSkill}
+        isOpen={!!selectedSkill}
+        onClose={() => setSelectedSkill(null)}
+        onLaunchChallenge={(ch) => {
+          setSelectedSkill(null);
+          setSandboxChallenge(ch);
+        }}
+      />
+
+      {/* Challenge Sandbox Modal */}
+      {sandboxChallenge && (
+        <ChallengeSandboxModal
+          challenge={sandboxChallenge}
+          isOpen={!!sandboxChallenge}
+          onClose={() => setSandboxChallenge(null)}
+        />
+      )}
     </div>
   );
 }

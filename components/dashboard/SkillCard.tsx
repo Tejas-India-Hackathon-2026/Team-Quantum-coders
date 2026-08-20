@@ -1,4 +1,6 @@
-import Link from "next/link";
+"use client";
+
+import * as React from "react";
 import { ShieldCheck, ArrowRight, Layers, Code2, Database, Cpu, Cloud, Network, Shield } from "lucide-react";
 import { Skill } from "@/types";
 import { Card, CardHeader, CardTitle } from "@/components/ui/Card";
@@ -14,11 +16,19 @@ const ICONS: Record<string, React.ElementType> = {
   Network,
 };
 
-export function SkillCard({ skill }: { skill: Skill }) {
+interface SkillCardProps {
+  skill: Skill;
+  onClick?: () => void;
+}
+
+export function SkillCard({ skill, onClick }: SkillCardProps) {
   const IconComponent = ICONS[skill.iconName] || Shield;
 
   return (
-    <Card className="hover:border-primary/50 transition-all duration-300 group">
+    <Card
+      onClick={onClick}
+      className="hover:border-primary/50 transition-all duration-300 group cursor-pointer active:scale-[0.99] text-left"
+    >
       <CardHeader className="space-y-4">
         {/* Header with icon & badge */}
         <div className="flex items-start justify-between gap-2">
@@ -66,11 +76,13 @@ export function SkillCard({ skill }: { skill: Skill }) {
           <span className="text-muted-foreground">
             {skill.challengesCompleted} of {skill.totalChallenges} challenges passed
           </span>
-          <Link href="/challenges">
-            <Button variant="ghost" size="sm" className="h-7 px-2 text-xs gap-1 text-primary group-hover:text-white">
-              Train <ArrowRight className="h-3 w-3" />
-            </Button>
-          </Link>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-7 px-2 text-xs gap-1 text-primary group-hover:text-white group-hover:bg-primary/20"
+          >
+            Train <ArrowRight className="h-3 w-3" />
+          </Button>
         </div>
       </CardHeader>
     </Card>

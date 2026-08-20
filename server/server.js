@@ -11,6 +11,7 @@ import dotenv from 'dotenv';
 
 // Import Route Handlers
 import authRoutes from './routes/authRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 
 // Load environment configuration
 dotenv.config();
@@ -46,6 +47,9 @@ app.use((req, res, next) => {
 
 // Authentication & Session Routes
 app.use('/api/auth', authRoutes);
+
+// User Profile & Onboarding Routes
+app.use('/api/users', userRoutes);
 
 /**
  * Healthcheck & Telemetry Endpoint

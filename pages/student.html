@@ -1292,6 +1292,71 @@
     </div>
   </div>
 
+  <!-- Interactive Add New Skill Modal -->
+  <div class="post-job-modal-overlay" id="addSkillModalOverlay">
+    <div class="post-job-modal" style="max-width: 540px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem;">
+        <div>
+          <span class="badge-tag badge-user" style="margin-bottom: 0.35rem; display: inline-block;">PORTFOLIO BUILDER</span>
+          <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main);">Add New Verified Skill & Proof</h3>
+        </div>
+        <button type="button" id="closeAddSkillModalBtn" style="background: transparent; border: none; color: var(--text-muted); font-size: 1.3rem; cursor: pointer;">✕</button>
+      </div>
+
+      <form id="addSkillForm" style="display: flex; flex-direction: column; gap: 1rem;">
+        <div style="display: grid; grid-template-columns: 80px 1fr; gap: 0.75rem;">
+          <div>
+            <label style="font-size: 0.82rem; color: var(--text-muted); display: block; margin-bottom: 0.3rem;">Icon</label>
+            <select id="newSkillIconInput" class="form-input" style="width: 100%; padding: 0.6rem 0.5rem; background: rgba(10, 14, 26, 0.9); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); color: var(--text-main); font-size: 1.1rem; text-align: center;">
+              <option value="⚡">⚡</option>
+              <option value="⚛️">⚛️</option>
+              <option value="🦀">🦀</option>
+              <option value="🐍">🐍</option>
+              <option value="🐳">🐳</option>
+              <option value="☁️">☁️</option>
+              <option value="🤖">🤖</option>
+              <option value="🔷">🔷</option>
+              <option value="🛡️">🛡️</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 0.82rem; color: var(--text-muted); display: block; margin-bottom: 0.3rem;">Skill / Technology Name</label>
+            <input type="text" id="newSkillNameInput" class="form-input" placeholder="e.g. Rust Systems Programming / GraphQL" required style="width: 100%; padding: 0.6rem 0.9rem; background: rgba(10, 14, 26, 0.9); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); color: var(--text-main);" />
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div>
+            <label style="font-size: 0.82rem; color: var(--text-muted); display: block; margin-bottom: 0.3rem;">Domain Category</label>
+            <select id="newSkillCategoryInput" class="form-input" style="width: 100%; padding: 0.6rem 0.9rem; background: rgba(10, 14, 26, 0.9); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); color: var(--text-main);">
+              <option value="engineering">Core Engineering</option>
+              <option value="ai">AI & Data</option>
+              <option value="cloud">Cloud & DevOps</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 0.82rem; color: var(--text-muted); display: block; margin-bottom: 0.3rem;">Proficiency Level</label>
+            <select id="newSkillProficiencyInput" class="form-input" style="width: 100%; padding: 0.6rem 0.9rem; background: rgba(10, 14, 26, 0.9); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); color: var(--text-main);">
+              <option value="95">Master (95%)</option>
+              <option value="90" selected>Advanced (90%)</option>
+              <option value="82">Intermediate (82%)</option>
+              <option value="70">Beginner (70%)</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size: 0.82rem; color: var(--text-muted); display: block; margin-bottom: 0.3rem;">Proof Artifact / GitHub Repo / Project Link (Optional)</label>
+          <input type="text" id="newSkillArtifactInput" class="form-input" placeholder="e.g. https://github.com/username/project-repo" style="width: 100%; padding: 0.6rem 0.9rem; background: rgba(10, 14, 26, 0.9); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); color: var(--text-main);" />
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="margin-top: 0.5rem; background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%); font-weight: 700; padding: 0.75rem;">
+          🚀 Add Verified Skill & Update Portfolio &rarr;
+        </button>
+      </form>
+    </div>
+  </div>
+
   <!-- Interactive Edit Profile & Name Modal -->
   <div class="post-job-modal-overlay" id="editProfileModalOverlay">
     <div class="post-job-modal" style="max-width: 500px;">

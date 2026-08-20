@@ -75,18 +75,30 @@ body {
 }
 
 .login-card {
-  background: rgba(13, 19, 34, 0.88);
-  border: 1px solid var(--border-highlight);
+  background: linear-gradient(145deg, rgba(13, 19, 34, 0.94) 0%, rgba(20, 28, 46, 0.9) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: var(--radius-xl);
-  padding: 2.25rem 2rem;
+  padding: 2.35rem 2.15rem;
   box-shadow: 
-    0 25px 60px -10px rgba(0, 0, 0, 0.7),
-    0 0 50px -10px rgba(99, 102, 241, 0.2),
-    inset 0 1px 1px rgba(255, 255, 255, 0.12);
-  backdrop-filter: var(--blur-strong);
+    0 30px 80px -15px rgba(0, 0, 0, 0.85),
+    0 0 50px -10px rgba(99, 102, 241, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(20px);
   position: relative;
   overflow: hidden;
   animation: cardFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.login-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, #818cf8, #c084fc, transparent);
+  filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.8));
+  z-index: 5;
 }
 
 @keyframes cardFadeIn {

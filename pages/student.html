@@ -196,6 +196,9 @@
             </div>
           </div>
           <div class="welcome-banner-actions">
+            <button type="button" class="btn btn-secondary btn-sm" id="btnOpenEditProfileModal" style="border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;">
+              <span>✏️ Edit Name & Profile</span>
+            </button>
             <a href="#resume-section" class="btn btn-secondary btn-sm">
               <span>📄 ATS Resume</span>
             </a>
@@ -1139,6 +1142,37 @@
         </button>
       </div>
 
+    </div>
+  </div>
+
+  <!-- Interactive Edit Profile & Name Modal -->
+  <div class="post-job-modal-overlay" id="editProfileModalOverlay">
+    <div class="post-job-modal" style="max-width: 500px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+        <div>
+          <span class="badge-tag badge-user" style="margin-bottom: 0.35rem; display: inline-block;">MY ACCOUNT</span>
+          <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main);">Edit Profile & Name</h3>
+        </div>
+        <button type="button" id="closeEditProfileModalBtn" style="background: transparent; border: none; color: var(--text-muted); font-size: 1.3rem; cursor: pointer;">✕</button>
+      </div>
+
+      <form id="editProfileForm" style="display: flex; flex-direction: column; gap: 1rem;">
+        <div>
+          <label style="font-size: 0.82rem; color: var(--text-muted); display: block; margin-bottom: 0.3rem;">Full Name</label>
+          <input type="text" id="editProfileNameInput" class="form-input" placeholder="e.g. Akrit Sharma" required style="width: 100%; padding: 0.6rem 0.9rem; background: rgba(10, 14, 26, 0.9); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); color: var(--text-main);" />
+        </div>
+        <div>
+          <label style="font-size: 0.82rem; color: var(--text-muted); display: block; margin-bottom: 0.3rem;">College / University</label>
+          <input type="text" id="editProfileCollegeInput" class="form-input" placeholder="e.g. BITS Pilani / IIT Delhi" style="width: 100%; padding: 0.6rem 0.9rem; background: rgba(10, 14, 26, 0.9); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); color: var(--text-main);" />
+        </div>
+        <div>
+          <label style="font-size: 0.82rem; color: var(--text-muted); display: block; margin-bottom: 0.3rem;">Major / Branch</label>
+          <input type="text" id="editProfileBranchInput" class="form-input" placeholder="e.g. Computer Science" style="width: 100%; padding: 0.6rem 0.9rem; background: rgba(10, 14, 26, 0.9); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); color: var(--text-main);" />
+        </div>
+        <button type="submit" class="btn btn-primary" style="margin-top: 0.5rem; background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);">
+          Save Changes & Update Dashboard &rarr;
+        </button>
+      </form>
     </div>
   </div>
 

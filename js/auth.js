@@ -507,7 +507,7 @@ export function openOnboardingModal(userObj, role) {
 }
 
 /**
- * Quick Switcher for different demo / test accounts
+ * Quick Switcher for different demo / test accounts & Google Account Picker Dialog
  */
 export function initQuickAccountSwitcher() {
   const pills = document.querySelectorAll('.quick-acc-pill');
@@ -515,6 +515,64 @@ export function initQuickAccountSwitcher() {
   const emailInput = document.getElementById('loginEmail');
   const roleButtons = document.querySelectorAll('.role-btn');
 
+  const openPickerBtn = document.getElementById('btnOpenAccountPicker');
+  const closePickerBtn = document.getElementById('closeGooglePickerBtn');
+  const pickerOverlay = document.getElementById('googlePickerModalOverlay');
+  const googleSelectButtons = document.querySelectorAll('.google-acc-select-btn');
+  const useAnotherBtn = document.getElementById('btnUseAnotherCustomAccount');
+
+  // Open / Close Google Account Picker
+  if (openPickerBtn && pickerOverlay) {
+    openPickerBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      pickerOverlay.classList.add('active');
+    });
+  }
+
+  if (closePickerBtn && pickerOverlay) {
+    closePickerBtn.addEventListener('click', () => {
+      pickerOverlay.classList.remove('active');
+    });
+  }
+
+  // Handle Account Selection from Picker
+  googleSelectButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const name = btn.getAttribute('data-name');
+      const email = btn.getAttribute('data-email');
+      const role = btn.getAttribute('data-role');
+
+      if (nameInput && name) nameInput.value = name;
+      if (emailInput && email) emailInput.value = email;
+
+      if (role) {
+        LifeProofAuth.setRole(role);
+        roleButtons.forEach(b => {
+          const isActive = b.getAttribute('data-role') === role;
+          b.classList.toggle('active', isActive);
+          b.setAttribute('aria-selected', String(isActive));
+        });
+      }
+
+      if (pickerOverlay) pickerOverlay.classList.remove('active');
+      showAuthAlert(`Account Selected: <strong>${name}</strong> (${email}). You can edit your name or sign in directly.`, 'info');
+    });
+  });
+
+  // Handle "Use another account" button
+  if (useAnotherBtn && pickerOverlay) {
+    useAnotherBtn.addEventListener('click', () => {
+      if (nameInput) {
+        nameInput.value = '';
+        nameInput.focus();
+      }
+      if (emailInput) emailInput.value = '';
+      pickerOverlay.classList.remove('active');
+      showAuthAlert('Type your custom Name and Email address in the fields below.', 'info');
+    });
+  }
+
+  // Quick pills on main login card
   pills.forEach(pill => {
     pill.addEventListener('click', () => {
       const name = pill.getAttribute('data-name');

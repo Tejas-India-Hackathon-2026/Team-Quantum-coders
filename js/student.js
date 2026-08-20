@@ -22,7 +22,66 @@ document.addEventListener('DOMContentLoaded', () => {
   initResumeActions();
   initNotificationToast();
   initStudentAssessmentFlow();
+  initEditProfileModal();
 });
+
+/**
+ * Edit Student Profile & Name Modal Controller
+ */
+function initEditProfileModal() {
+  const openBtn = document.getElementById('btnOpenEditProfileModal');
+  const closeBtn = document.getElementById('closeEditProfileModalBtn');
+  const modalOverlay = document.getElementById('editProfileModalOverlay');
+  const form = document.getElementById('editProfileForm');
+  const nameInput = document.getElementById('editProfileNameInput');
+  const collegeInput = document.getElementById('editProfileCollegeInput');
+  const branchInput = document.getElementById('editProfileBranchInput');
+
+  if (!modalOverlay) return;
+
+  const openModal = () => {
+    try {
+      const savedSession = JSON.parse(sessionStorage.getItem('lp_active_session') || '{}');
+      if (nameInput) nameInput.value = savedSession.displayName || savedSession.name || 'Akrit Sharma';
+      if (collegeInput) collegeInput.value = savedSession.college || 'BITS Pilani';
+      if (branchInput) branchInput.value = savedSession.branch || 'Computer Science';
+    } catch (e) {}
+
+    modalOverlay.classList.add('active');
+  };
+
+  const closeModal = () => {
+    modalOverlay.classList.remove('active');
+  };
+
+  if (openBtn) openBtn.addEventListener('click', openModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const newName = nameInput ? nameInput.value.trim() : '';
+      const newCollege = collegeInput ? collegeInput.value.trim() : '';
+      const newBranch = branchInput ? branchInput.value.trim() : '';
+
+      if (!newName) return;
+
+      try {
+        const savedSession = JSON.parse(sessionStorage.getItem('lp_active_session') || '{}');
+        savedSession.name = newName;
+        savedSession.displayName = newName;
+        if (newCollege) savedSession.college = newCollege;
+        if (newBranch) savedSession.branch = newBranch;
+        sessionStorage.setItem('lp_active_session', JSON.stringify(savedSession));
+
+        renderStudentProfile(savedSession, savedSession);
+      } catch (err) {}
+
+      closeModal();
+      showToast(`Profile name updated to '${newName}'!`, '✨');
+    });
+  }
+}
 
 /**
  * 10. Student Recruiter Assessment Suite & Badge Verification

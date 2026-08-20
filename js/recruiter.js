@@ -489,7 +489,7 @@ function initJobManagement() {
  */
 function initPostJobModal() {
   const modalOverlay = document.getElementById('postJobModalOverlay');
-  const openButtons = document.querySelectorAll('#topbarPostJobBtn, #btnOpenPostJobModal, #btnSidebarPostJob, #sidebarPostJobBtn');
+  const openButtons = document.querySelectorAll('#btnPostJobTop, #topbarPostJobBtn, #btnOpenPostJobModal, #btnSidebarPostJob, #sidebarPostJobBtn');
   const closeBtn = document.getElementById('closePostJobModalBtn');
   const form = document.getElementById('postJobForm');
 

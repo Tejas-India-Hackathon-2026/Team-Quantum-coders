@@ -234,14 +234,16 @@ export async function logoutUser(redirectUrl) {
   try {
     sessionStorage.removeItem('lp_active_session');
     sessionStorage.removeItem('lp_user_role');
+    sessionStorage.clear();
+    localStorage.removeItem('lp_active_session');
+    localStorage.removeItem('lp_user_role');
     try { await signOut(auth); } catch (e) {}
-    window.location.replace(targetRedirect);
-    return true;
   } catch (error) {
-    sessionStorage.removeItem('lp_active_session');
-    window.location.replace(targetRedirect);
-    return false;
+    console.warn('[LifeProof] Sign out notice:', error);
+  } finally {
+    window.location.href = targetRedirect;
   }
+  return true;
 }
 
 // ==========================================================================

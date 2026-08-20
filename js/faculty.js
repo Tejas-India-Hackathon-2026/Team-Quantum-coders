@@ -14,6 +14,7 @@ import {
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
   initFacultyAuthGuard();
+  initLogoutAction();
   initSidebarNavigation();
   initMobileSidebarToggle();
   initGlobalSearch();

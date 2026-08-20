@@ -189,3 +189,57 @@ function initMockupTelemetry() {
     scoreFill.style.width = '94%';
   }, 300);
 }
+
+/**
+ * Syncs Homepage Header Navigation with Active User Session
+ */
+function initHeaderAuthSync() {
+  const navActions = document.querySelector('.nav-actions');
+  if (!navActions) return;
+
+  let activeSession = null;
+  try {
+    const raw = sessionStorage.getItem('lp_active_session');
+    if (raw) activeSession = JSON.parse(raw);
+  } catch (e) {}
+
+  if (activeSession && activeSession.email) {
+    const role = activeSession.role || sessionStorage.getItem('lp_user_role') || 'student';
+    let dashboardPath = 'pages/student.html';
+    if (role === 'recruiter') dashboardPath = 'pages/recruiter.html';
+    else if (role === 'faculty') dashboardPath = 'pages/faculty.html';
+
+    const displayName = activeSession.displayName || activeSession.name || 'My Dashboard';
+
+    navActions.innerHTML = `
+      <a href="${dashboardPath}" class="btn btn-primary btn-sm" style="display: inline-flex; align-items: center; gap: 0.35rem;">
+        <span>📊 ${escapeHtml(displayName)}</span>
+      </a>
+      <button type="button" class="btn btn-secondary btn-sm" id="btnMainSignOut" style="cursor: pointer;">
+        Sign Out 🚪
+      </button>
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation menu">☰</button>
+    `;
+
+    const signoutBtn = document.getElementById('btnMainSignOut');
+    if (signoutBtn) {
+      signoutBtn.addEventListener('click', () => {
+        sessionStorage.clear();
+        localStorage.removeItem('lp_active_session');
+        localStorage.removeItem('lp_user_role');
+        window.location.reload();
+      });
+    }
+  }
+}
+
+// Ensure initHeaderAuthSync runs on DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+  initHeaderAuthSync();
+});
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+

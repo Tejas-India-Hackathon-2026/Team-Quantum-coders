@@ -248,24 +248,25 @@ function closeMobileSidebar() {
  * 6. Global Search Filter for Candidates & Applications
  */
 function initGlobalSearch() {
-  const searchInput = document.getElementById('dashboardSearchInput');
-  if (!searchInput) return;
+  const searchInputs = document.querySelectorAll('#dashboardSearchInput, #topbarSearch');
+  
+  searchInputs.forEach(searchInput => {
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase().trim();
+      const candidateCards = document.querySelectorAll('.candidate-card');
+      const applicationRows = document.querySelectorAll('#applicationsTable tbody tr');
 
-  searchInput.addEventListener('input', (e) => {
-    const query = e.target.value.toLowerCase().trim();
-    const candidateCards = document.querySelectorAll('.candidate-card');
-    const applicationRows = document.querySelectorAll('#applicationsTable tbody tr');
+      // Filter Candidate Cards
+      candidateCards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        card.style.display = text.includes(query) ? 'flex' : 'none';
+      });
 
-    // Filter Candidate Cards
-    candidateCards.forEach(card => {
-      const text = card.textContent.toLowerCase();
-      card.style.display = text.includes(query) ? 'flex' : 'none';
-    });
-
-    // Filter Application Rows
-    applicationRows.forEach(row => {
-      const text = row.textContent.toLowerCase();
-      row.style.display = text.includes(query) ? '' : 'none';
+      // Filter Application Rows
+      applicationRows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(query) ? '' : 'none';
+      });
     });
   });
 }

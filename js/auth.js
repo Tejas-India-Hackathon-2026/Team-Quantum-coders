@@ -646,8 +646,8 @@ export function openOnboardingModal(userObj, role) {
  */
 export function initQuickAccountSwitcher() {
   const pills = document.querySelectorAll('.quick-acc-pill');
-  const nameInput = document.getElementById('loginName');
-  const emailInput = document.getElementById('loginEmail');
+  const nameInput = document.getElementById('loginName') || document.getElementById('signupName');
+  const emailInput = document.getElementById('loginEmail') || document.getElementById('signupEmail');
   const roleButtons = document.querySelectorAll('.role-btn');
 
   const openPickerBtn = document.getElementById('btnOpenAccountPicker');
@@ -676,7 +676,7 @@ export function initQuickAccountSwitcher() {
     });
   }
 
-  // Handle Account Selection from Picker
+  // Handle Account Selection from Google Account Chooser Picker
   googleSelectButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       const name = btn.getAttribute('data-name');
@@ -693,10 +693,27 @@ export function initQuickAccountSwitcher() {
           b.classList.toggle('active', isActive);
           b.setAttribute('aria-selected', String(isActive));
         });
+
+        const studentFields = document.getElementById('signupStudentFields');
+        const recruiterFields = document.getElementById('signupRecruiterFields');
+        const facultyFields = document.getElementById('signupFacultyFields');
+
+        if (studentFields) studentFields.style.display = role === 'student' ? 'block' : 'none';
+        if (recruiterFields) recruiterFields.style.display = role === 'recruiter' ? 'block' : 'none';
+        if (facultyFields) facultyFields.style.display = role === 'faculty' ? 'block' : 'none';
       }
 
       if (pickerOverlay) pickerOverlay.classList.remove('active');
-      showAuthAlert(`Account Selected: <strong>${name}</strong> (${email}). You can edit your name or sign in directly.`, 'info');
+
+      const isLoginPage = !!document.getElementById('loginForm');
+      if (isLoginPage) {
+        showAuthAlert(`Selected Google Account: <strong>${escapeHtml(name)}</strong> (${escapeHtml(email)}). Verifying credentials...`, 'info');
+        setTimeout(() => {
+          triggerGoogleSignIn();
+        }, 400);
+      } else {
+        showAuthAlert(`Selected Google Account: <strong>${escapeHtml(name)}</strong> (${escapeHtml(email)}). Please complete your profile to register.`, 'info');
+      }
     });
   });
 
@@ -732,7 +749,7 @@ export function initQuickAccountSwitcher() {
         });
       }
 
-      showAuthAlert(`Selected Account: <strong>${name}</strong> (${email}). Ready to sign in.`, 'info');
+      showAuthAlert(`Selected Account: <strong>${escapeHtml(name)}</strong> (${escapeHtml(email)}). Ready to sign in.`, 'info');
     });
   });
 }
@@ -773,15 +790,32 @@ export function initRoleSelector() {
 }
 
 /**
- * Connects Google Authentication & Name Integration
+ * Connects Google Authentication Button to Account Chooser Dialog
  */
 export function initGoogleAuth() {
   const googleBtn = document.getElementById('btnGoogleAuth');
-  if (!googleBtn) return;
+  const googleSignupBtn = document.getElementById('btnGoogleSignup');
+  const pickerOverlay = document.getElementById('googlePickerModalOverlay');
 
-  googleBtn.addEventListener('click', async () => {
-    await triggerGoogleSignIn();
-  });
+  if (googleBtn) {
+    googleBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (pickerOverlay) {
+        pickerOverlay.classList.add('active');
+      } else {
+        triggerGoogleSignIn();
+      }
+    });
+  }
+
+  if (googleSignupBtn) {
+    googleSignupBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (pickerOverlay) {
+        pickerOverlay.classList.add('active');
+      }
+    });
+  }
 }
 
 /**

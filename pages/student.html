@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Dashboard - LifeProof</title>
+  <meta name="description"
+    content="LifeProof Student Career & Proof Hub - Verified academic credentials, personalized career roadmap, and top recruiter matching." />
+
+  <!-- Google Fonts: Outfit, Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <!-- Global & Dedicated Dashboard Stylesheets -->
+  <link rel="stylesheet" href="../css/variables.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+</head>
+
+<body class="dashboard-body">
+
+  <!-- Application Layout Wrapper -->
+  <div class="dashboard-app">
+
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <!-- ==========================================================================
+         1. LEFT SIDEBAR NAVIGATION
+         ========================================================================== -->
+    <aside class="dashboard-sidebar" id="dashboardSidebar">
+      <!-- Sidebar Header & Logo -->
+      <div class="sidebar-header">
+        <a href="../index.html" class="sidebar-logo" title="LifeProof Homepage">
+          <img src="../assets/logo/logo.svg" alt="LifeProof Logo" />
+          <span class="sidebar-logo-text">LifeProof</span>
+          <span class="sidebar-logo-badge">Student</span>
+        </a>
+        <button type="button" class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close sidebar">✕</button>
+      </div>
+
+      <!-- Navigation Menu Items -->
+      <nav class="sidebar-nav" aria-label="Dashboard Navigation">
+        <span class="sidebar-section-title">Main Portal</span>
+
+        <!-- 1. Dashboard (Active) -->
+        <a href="#dashboard" class="sidebar-item active" data-nav="dashboard">
+          <span class="sidebar-item-icon">📊</span>
+          <span>Dashboard</span>
+        </a>
+
+        <!-- 2. My Profile -->
+        <a href="#career-progress" class="sidebar-item" data-nav="profile">
+          <span class="sidebar-item-icon">👤</span>
+          <span>My Profile</span>
+          <span class="sidebar-item-badge badge-green">88%</span>
+        </a>
+
+        <!-- 3. Skills -->
+        <a href="#skills-section" class="sidebar-item" data-nav="skills">
+          <span class="sidebar-item-icon">⚡</span>
+          <span>Skills</span>
+          <span class="sidebar-item-badge">18</span>
+        </a>
+
+        <!-- 4. Resume -->
+        <a href="#resume-section" class="sidebar-item" data-nav="resume">
+          <span class="sidebar-item-icon">📄</span>
+          <span>Resume</span>
+          <span class="sidebar-item-badge badge-green">ATS 92</span>
+        </a>
+
+        <span class="sidebar-section-title">Opportunities</span>
+
+        <!-- 5. Jobs -->
+        <a href="#jobs-section" class="sidebar-item" data-nav="jobs">
+          <span class="sidebar-item-icon">💼</span>
+          <span>Jobs</span>
+          <span class="sidebar-item-badge">24</span>
+        </a>
+
+        <!-- 6. Internships -->
+        <a href="#internships-section" class="sidebar-item" data-nav="internships">
+          <span class="sidebar-item-icon">🎓</span>
+          <span>Internships</span>
+          <span class="sidebar-item-badge">Hot</span>
+        </a>
+
+        <!-- 7. Applications -->
+        <a href="#applications-section" class="sidebar-item" data-nav="applications">
+          <span class="sidebar-item-icon">📋</span>
+          <span>Applications</span>
+          <span class="sidebar-item-badge">14</span>
+        </a>
+
+        <!-- 8. Learning -->
+        <a href="#learning" class="sidebar-item" data-nav="learning">
+          <span class="sidebar-item-icon">📚</span>
+          <span>Learning</span>
+        </a>
+
+        <span class="sidebar-section-title">Account</span>
+
+        <!-- 9. Notifications -->
+        <a href="#notifications" class="sidebar-item" id="sidebarNotificationLink" data-nav="notifications">
+          <span class="sidebar-item-icon">🔔</span>
+          <span>Notifications</span>
+          <span class="sidebar-item-badge" style="background: rgba(244, 63, 94, 0.2); color: #fda4af;">3</span>
+        </a>
+
+        <!-- 10. Settings -->
+        <a href="#settings" class="sidebar-item" data-nav="settings">
+          <span class="sidebar-item-icon">⚙️</span>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <!-- Sidebar Footer with Logout Button -->
+      <div class="sidebar-footer">
+        <!-- 11. Logout -->
+        <button type="button" class="btn-sidebar-logout" id="sidebarLogoutBtn" title="Sign Out of LifeProof">
+          <span class="sidebar-item-icon">🚪</span>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ==========================================================================
+         2. MAIN CONTENT AREA & TOP BAR
+         ========================================================================== -->
+    <div class="dashboard-main">
+
+      <!-- --- TOP BAR --- -->
+      <header class="dashboard-topbar">
+        <div class="topbar-left">
+          <!-- Mobile Sidebar Toggle -->
+          <button type="button" class="mobile-sidebar-toggle" id="mobileSidebarToggle" aria-label="Open navigation menu">
+            ☰
+          </button>
+
+          <!-- Global Search Input -->
+          <div class="topbar-search-box">
+            <span class="topbar-search-icon">🔍</span>
+            <input type="text" class="topbar-search-input" id="dashboardSearchInput"
+              placeholder="Search jobs, skills, applications, internships..." />
+          </div>
+        </div>
+
+        <!-- Topbar Right Actions -->
+        <div class="topbar-right">
+          <!-- Notification Bell Icon with Badge -->
+          <button type="button" class="topbar-action-btn" id="topbarNotificationBtn" title="View Notifications">
+            <span>🔔</span>
+            <span class="notification-badge-dot" aria-label="New notifications"></span>
+          </button>
+
+          <!-- Student Profile Avatar & Name Pill -->
+          <a href="#career-progress" class="topbar-user-pill" title="My Profile">
+            <div class="student-photo-avatar auth-user-avatar" id="topbarAvatar">
+              LP
+            </div>
+            <div class="topbar-user-meta">
+              <span class="student-display-name auth-user-name" id="topbarStudentName">Student</span>
+              <span class="topbar-user-role">Student Portal</span>
+            </div>
+          </a>
+        </div>
+      </header>
+
+      <!-- --- MAIN DASHBOARD BODY --- -->
+      <main class="dashboard-content-body" id="dashboard">
+
+        <!-- ==========================================================================
+             WELCOME MESSAGE BANNER
+             ========================================================================== -->
+        <section class="welcome-banner">
+          <div class="welcome-banner-text">
+            <h1>Welcome back, <span class="gradient-text auth-user-name" id="welcomeStudentName">Student</span> 👋</h1>
+            <p>
+              Your verified academic proof portfolio and AI talent telemetry are live synchronized.
+            </p>
+            <div class="welcome-banner-meta">
+              <span class="banner-badge badge-live">
+                <span>●</span> Verified Student Session
+              </span>
+              <span class="banner-badge badge-uid">
+                UID: <span class="auth-user-uid" id="welcomeStudentUid">Authenticating...</span>
+              </span>
+              <span class="banner-badge">
+                ✉️ <span class="auth-user-email" id="welcomeStudentEmail">...</span>
+              </span>
+            </div>
+          </div>
+          <div class="welcome-banner-actions">
+            <a href="#resume-section" class="btn btn-secondary btn-sm">
+              <span>📄 ATS Resume</span>
+            </a>
+            <a href="#jobs-section" class="btn btn-primary btn-sm">
+              <span>🚀 Explore Jobs</span>
+            </a>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             TOP KPI METRIC CARDS (5 Cards)
+             ========================================================================== -->
+        <section class="metrics-kpi-grid" aria-label="Key Performance Indicators">
+
+          <!-- Card 1: Profile Completion -->
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <div class="metric-icon-box icon-emerald">👤</div>
+              <span class="metric-trend trend-up">● All Star</span>
+            </div>
+            <div class="metric-value">88%</div>
+            <div class="metric-label">Profile Completion</div>
+            <div class="metric-progress-wrapper">
+              <div class="metric-progress-bar">
+                <div class="metric-progress-fill" style="width: 88%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Applications -->
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <div class="metric-icon-box icon-blue">📋</div>
+              <span class="metric-trend trend-up">↑ +3 this week</span>
+            </div>
+            <div class="metric-value">14</div>
+            <div class="metric-label">Active Applications</div>
+            <div class="metric-progress-wrapper">
+              <div class="metric-progress-bar">
+                <div class="metric-progress-fill" style="width: 70%; background: linear-gradient(90deg, #3b82f6, #60a5fa);"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Saved Jobs -->
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <div class="metric-icon-box icon-purple">🔖</div>
+              <span class="metric-trend trend-info">4 closing soon</span>
+            </div>
+            <div class="metric-value">26</div>
+            <div class="metric-label">Saved Jobs & Internships</div>
+            <div class="metric-progress-wrapper">
+              <div class="metric-progress-bar">
+                <div class="metric-progress-fill" style="width: 55%; background: linear-gradient(90deg, #8b5cf6, #ec4899);"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Skills -->
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <div class="metric-icon-box icon-cyan">⚡</div>
+              <span class="metric-trend trend-up">Top 3% Index</span>
+            </div>
+            <div class="metric-value">18</div>
+            <div class="metric-label">Verified Skills & Proofs</div>
+            <div class="metric-progress-wrapper">
+              <div class="metric-progress-bar">
+                <div class="metric-progress-fill" style="width: 95%; background: linear-gradient(90deg, #06b6d4, #10b981);"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5: Interviews -->
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <div class="metric-icon-box icon-amber">🎯</div>
+              <span class="metric-trend trend-up">Next: Tomorrow</span>
+            </div>
+            <div class="metric-value">3</div>
+            <div class="metric-label">Scheduled Interviews</div>
+            <div class="metric-progress-wrapper">
+              <div class="metric-progress-bar">
+                <div class="metric-progress-fill" style="width: 60%; background: linear-gradient(90deg, #f59e0b, #fbbf24);"></div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ==========================================================================
+             SECTION 1: CAREER PROGRESS & PROOF RADAR
+             ========================================================================== -->
+        <section class="dashboard-section" id="career-progress">
+          <div class="section-title-row">
+            <div class="section-heading-group">
+              <span class="section-icon-badge">📈</span>
+              <div>
+                <h2 class="section-main-title">1. Career Progress & AI Readiness</h2>
+                <p class="section-subtitle">Real-time benchmark of your verified skill proofs against active recruiter requirements</p>
+              </div>
+            </div>
+            <a href="#skills-section" class="section-action-btn">
+              <span>View Skill Radar &rarr;</span>
+            </a>
+          </div>
+
+          <div class="career-progress-card">
+            <!-- Left: Circular Gauge -->
+            <div class="progress-score-col">
+              <div class="score-circle-wrapper">
+                <svg class="score-circle-svg" viewBox="0 0 140 140">
+                  <defs>
+                    <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#3b82f6" />
+                      <stop offset="50%" stop-color="#8b5cf6" />
+                      <stop offset="100%" stop-color="#06b6d4" />
+                    </linearGradient>
+                  </defs>
+                  <circle class="score-circle-bg" cx="70" cy="70" r="60"></circle>
+                  <circle class="score-circle-fill" id="scoreCircleFill" cx="70" cy="70" r="60"></circle>
+                </svg>
+                <div class="score-center-text">
+                  <span class="score-number">94.8</span>
+                  <span class="score-max">/ 100</span>
+                </div>
+              </div>
+              <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main);">Ecosystem Readiness Score</h3>
+              <p style="font-size: 0.8rem; color: var(--accent-emerald); font-weight: 600; margin-top: 0.2rem;">
+                ★ Ranked in top 3% for Software Engineering (Batch 2026)
+              </p>
+            </div>
+
+            <!-- Right: Milestone Roadmap -->
+            <div class="progress-milestones-col">
+              <!-- Milestone 1 -->
+              <div class="milestone-item">
+                <span class="milestone-status-icon">✅</span>
+                <div class="milestone-info">
+                  <div class="milestone-title">
+                    <span>University Academic Verification</span>
+                    <span class="badge-tag badge-user" style="font-size: 0.65rem; margin: 0;">VERIFIED</span>
+                  </div>
+                  <p class="milestone-desc">B.Tech Computer Science GPA 8.9 authenticated via institutional registry.</p>
+                </div>
+              </div>
+
+              <!-- Milestone 2 -->
+              <div class="milestone-item">
+                <span class="milestone-status-icon">✅</span>
+                <div class="milestone-info">
+                  <div class="milestone-title">
+                    <span>Cryptographic Proof Portfolio</span>
+                    <span class="badge-tag badge-user" style="font-size: 0.65rem; margin: 0;">3 BADGES</span>
+                  </div>
+                  <p class="milestone-desc">Full Stack System, Distributed Cache & Cloud microservice proofs attached.</p>
+                </div>
+              </div>
+
+              <!-- Milestone 3 -->
+              <div class="milestone-item">
+                <span class="milestone-status-icon">⏳</span>
+                <div class="milestone-info">
+                  <div class="milestone-title">
+                    <span>Enterprise Recruiter Match</span>
+                    <span class="badge-tag badge-partner" style="font-size: 0.65rem; margin: 0;">IN PROGRESS</span>
+                  </div>
+                  <p class="milestone-desc">Shortlisted by 4 Tier-1 enterprise recruiters for Campus Drive 2026.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             SECTION 2: RECOMMENDED JOBS
+             ========================================================================== -->
+        <section class="dashboard-section" id="jobs-section">
+          <div class="section-title-row">
+            <div class="section-heading-group">
+              <span class="section-icon-badge">💼</span>
+              <div>
+                <h2 class="section-main-title">2. Recommended Jobs</h2>
+                <p class="section-subtitle">AI-matched full-time engineering & product roles matching your verified skills</p>
+              </div>
+            </div>
+            <button type="button" class="section-action-btn" id="btnFilterJobs">
+              <span>Filter Roles</span>
+            </button>
+          </div>
+
+          <div class="cards-slider-grid" id="jobsContainer">
+            
+            <!-- Job Card 1 -->
+            <div class="opportunity-card" data-title="Frontend Engineer React" data-company="Stripe">
+              <div class="opportunity-header">
+                <div class="opportunity-company-box">
+                  <div class="company-logo-avatar" style="background: rgba(99, 102, 241, 0.15); color: #818cf8;">💳</div>
+                  <div class="company-details">
+                    <h4>Frontend Platform Engineer</h4>
+                    <span class="company-name">Stripe &bull; Bengaluru / Remote</span>
+                  </div>
+                </div>
+                <span class="match-badge">98% Match</span>
+              </div>
+              <div class="opportunity-tags">
+                <span class="tag-pill">React</span>
+                <span class="tag-pill">TypeScript</span>
+                <span class="tag-pill">Web Performance</span>
+                <span class="tag-pill">Full Time</span>
+              </div>
+              <div class="opportunity-footer">
+                <div class="opportunity-salary">₹24 - 32 LPA <small>/ Year</small></div>
+                <button type="button" class="btn-apply-action" data-action="apply" data-role="Frontend Engineer @ Stripe">
+                  Easy Apply &rarr;
+                </button>
+              </div>
+            </div>
+
+            <!-- Job Card 2 -->
+            <div class="opportunity-card" data-title="Full Stack Software Engineer" data-company="Razorpay">
+              <div class="opportunity-header">
+                <div class="opportunity-company-box">
+                  <div class="company-logo-avatar" style="background: rgba(6, 182, 212, 0.15); color: #22d3ee;">⚡</div>
+                  <div class="company-details">
+                    <h4>Full Stack Software Engineer</h4>
+                    <span class="company-name">Razorpay &bull; Hybrid (Bengaluru)</span>
+                  </div>
+                </div>
+                <span class="match-badge">96% Match</span>
+              </div>
+              <div class="opportunity-tags">
+                <span class="tag-pill">Node.js</span>
+                <span class="tag-pill">React</span>
+                <span class="tag-pill">PostgreSQL</span>
+                <span class="tag-pill">System Design</span>
+              </div>
+              <div class="opportunity-footer">
+                <div class="opportunity-salary">₹18 - 26 LPA <small>/ Year</small></div>
+                <button type="button" class="btn-apply-action" data-action="apply" data-role="Full Stack Engineer @ Razorpay">
+                  Easy Apply &rarr;
+                </button>
+              </div>
+            </div>
+
+            <!-- Job Card 3 -->
+            <div class="opportunity-card" data-title="Cloud & AI Infrastructure Engineer" data-company="Google">
+              <div class="opportunity-header">
+                <div class="opportunity-company-box">
+                  <div class="company-logo-avatar" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">🌐</div>
+                  <div class="company-details">
+                    <h4>Cloud & AI Systems Associate</h4>
+                    <span class="company-name">Google Cloud &bull; Hyderabad</span>
+                  </div>
+                </div>
+                <span class="match-badge">94% Match</span>
+              </div>
+              <div class="opportunity-tags">
+                <span class="tag-pill">Python</span>
+                <span class="tag-pill">GCP</span>
+                <span class="tag-pill">Kubernetes</span>
+                <span class="tag-pill">Microservices</span>
+              </div>
+              <div class="opportunity-footer">
+                <div class="opportunity-salary">₹28 - 36 LPA <small>/ Year</small></div>
+                <button type="button" class="btn-apply-action" data-action="apply" data-role="Cloud Associate @ Google">
+                  Easy Apply &rarr;
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             SECTION 3: RECOMMENDED INTERNSHIPS
+             ========================================================================== -->
+        <section class="dashboard-section" id="internships-section">
+          <div class="section-title-row">
+            <div class="section-heading-group">
+              <span class="section-icon-badge">🎓</span>
+              <div>
+                <h2 class="section-main-title">3. Recommended Internships</h2>
+                <p class="section-subtitle">Verified summer & pre-placement internships with top product companies</p>
+              </div>
+            </div>
+            <span class="badge-tag badge-user">Summer 2026 Batch</span>
+          </div>
+
+          <div class="cards-slider-grid" id="internshipsContainer">
+            
+            <!-- Internship Card 1 -->
+            <div class="opportunity-card" data-title="Software Engineering Intern" data-company="Microsoft">
+              <div class="opportunity-header">
+                <div class="opportunity-company-box">
+                  <div class="company-logo-avatar" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa;">💻</div>
+                  <div class="company-details">
+                    <h4>Software Engineering Intern</h4>
+                    <span class="company-name">Microsoft &bull; Hyderabad / Noida</span>
+                  </div>
+                </div>
+                <span class="match-badge">99% Match</span>
+              </div>
+              <div class="opportunity-tags">
+                <span class="tag-pill">C++ / Java</span>
+                <span class="tag-pill">Algorithms</span>
+                <span class="tag-pill">6 Months</span>
+                <span class="tag-pill">PPO Opportunity</span>
+              </div>
+              <div class="opportunity-footer">
+                <div class="opportunity-salary">₹85,000 <small>/ Month</small></div>
+                <button type="button" class="btn-apply-action" data-action="apply" data-role="SWE Intern @ Microsoft">
+                  Apply Now &rarr;
+                </button>
+              </div>
+            </div>
+
+            <!-- Internship Card 2 -->
+            <div class="opportunity-card" data-title="AI Research & ML Intern" data-company="Adobe">
+              <div class="opportunity-header">
+                <div class="opportunity-company-box">
+                  <div class="company-logo-avatar" style="background: rgba(244, 63, 94, 0.15); color: #fda4af;">🎨</div>
+                  <div class="company-details">
+                    <h4>AI Research & ML Intern</h4>
+                    <span class="company-name">Adobe &bull; Bengaluru</span>
+                  </div>
+                </div>
+                <span class="match-badge">95% Match</span>
+              </div>
+              <div class="opportunity-tags">
+                <span class="tag-pill">PyTorch</span>
+                <span class="tag-pill">Computer Vision</span>
+                <span class="tag-pill">3 Months</span>
+                <span class="tag-pill">Research</span>
+              </div>
+              <div class="opportunity-footer">
+                <div class="opportunity-salary">₹75,000 <small>/ Month</small></div>
+                <button type="button" class="btn-apply-action" data-action="apply" data-role="AI Intern @ Adobe">
+                  Apply Now &rarr;
+                </button>
+              </div>
+            </div>
+
+            <!-- Internship Card 3 -->
+            <div class="opportunity-card" data-title="Backend Engineering Intern" data-company="Swiggy">
+              <div class="opportunity-header">
+                <div class="opportunity-company-box">
+                  <div class="company-logo-avatar" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24;">🛵</div>
+                  <div class="company-details">
+                    <h4>Backend Engineering Intern</h4>
+                    <span class="company-name">Swiggy &bull; Remote</span>
+                  </div>
+                </div>
+                <span class="match-badge">92% Match</span>
+              </div>
+              <div class="opportunity-tags">
+                <span class="tag-pill">Go / Java</span>
+                <span class="tag-pill">Kafka</span>
+                <span class="tag-pill">Distributed Systems</span>
+                <span class="tag-pill">6 Months</span>
+              </div>
+              <div class="opportunity-footer">
+                <div class="opportunity-salary">₹55,000 <small>/ Month</small></div>
+                <button type="button" class="btn-apply-action" data-action="apply" data-role="Backend Intern @ Swiggy">
+                  Apply Now &rarr;
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             SECTION 4: SKILLS & VERIFIED PROOFS
+             ========================================================================== -->
+        <section class="dashboard-section" id="skills-section">
+          <div class="section-title-row">
+            <div class="section-heading-group">
+              <span class="section-icon-badge">⚡</span>
+              <div>
+                <h2 class="section-main-title">4. Skills & Verifications</h2>
+                <p class="section-subtitle">Verified proofs and competence indexes verified through LifeProof cryptographic telemetry</p>
+              </div>
+            </div>
+            <button type="button" class="section-action-btn" id="btnAddSkillBtn">
+              <span>+ Add New Skill</span>
+            </button>
+          </div>
+
+          <div class="skills-container-card">
+            <!-- Filter Tabs -->
+            <div class="skills-filter-row">
+              <div class="skill-category-tabs" id="skillCategoryTabs">
+                <button type="button" class="skill-tab-btn active" data-category="all">All (18)</button>
+                <button type="button" class="skill-tab-btn" data-category="engineering">Core Engineering</button>
+                <button type="button" class="skill-tab-btn" data-category="ai">AI & Data</button>
+                <button type="button" class="skill-tab-btn" data-category="cloud">Cloud & DevOps</button>
+              </div>
+              <span style="font-size: 0.8rem; color: var(--text-muted);">
+                Proof Hash: <code style="font-family: var(--font-mono); color: #38bdf8;">#LP-9482-VERIFIED</code>
+              </span>
+            </div>
+
+            <!-- Skills Grid -->
+            <div class="skills-grid" id="skillsGrid">
+
+              <!-- Skill 1 -->
+              <div class="skill-item-card" data-category="engineering">
+                <div class="skill-item-header">
+                  <span class="skill-name-title">⚛️ React & Next.js</span>
+                  <span class="skill-verified-tag">✓ VERIFIED</span>
+                </div>
+                <div class="skill-bar-track">
+                  <div class="skill-bar-progress" style="width: 95%;"></div>
+                </div>
+                <div class="skill-meta-footer">
+                  <span>Proficiency: Expert</span>
+                  <span>Score: 95%</span>
+                </div>
+              </div>
+
+              <!-- Skill 2 -->
+              <div class="skill-item-card" data-category="engineering">
+                <div class="skill-item-header">
+                  <span class="skill-name-title">🔷 TypeScript & Modern JS</span>
+                  <span class="skill-verified-tag">✓ VERIFIED</span>
+                </div>
+                <div class="skill-bar-track">
+                  <div class="skill-bar-progress" style="width: 92%;"></div>
+                </div>
+                <div class="skill-meta-footer">
+                  <span>Proficiency: Advanced</span>
+                  <span>Score: 92%</span>
+                </div>
+              </div>
+
+              <!-- Skill 3 -->
+              <div class="skill-item-card" data-category="engineering">
+                <div class="skill-item-header">
+                  <span class="skill-name-title">🟢 Node.js & Express</span>
+                  <span class="skill-verified-tag">✓ VERIFIED</span>
+                </div>
+                <div class="skill-bar-track">
+                  <div class="skill-bar-progress" style="width: 88%;"></div>
+                </div>
+                <div class="skill-meta-footer">
+                  <span>Proficiency: Advanced</span>
+                  <span>Score: 88%</span>
+                </div>
+              </div>
+
+              <!-- Skill 4 -->
+              <div class="skill-item-card" data-category="ai">
+                <div class="skill-item-header">
+                  <span class="skill-name-title">🤖 Python & Machine Learning</span>
+                  <span class="skill-verified-tag">✓ VERIFIED</span>
+                </div>
+                <div class="skill-bar-track">
+                  <div class="skill-bar-progress" style="width: 90%; background: linear-gradient(90deg, #8b5cf6, #ec4899);"></div>
+                </div>
+                <div class="skill-meta-footer">
+                  <span>Proficiency: Advanced</span>
+                  <span>Score: 90%</span>
+                </div>
+              </div>
+
+              <!-- Skill 5 -->
+              <div class="skill-item-card" data-category="cloud">
+                <div class="skill-item-header">
+                  <span class="skill-name-title">☁️ Firebase & Cloud Firestore</span>
+                  <span class="skill-verified-tag">✓ VERIFIED</span>
+                </div>
+                <div class="skill-bar-track">
+                  <div class="skill-bar-progress" style="width: 96%; background: linear-gradient(90deg, #f59e0b, #fbbf24);"></div>
+                </div>
+                <div class="skill-meta-footer">
+                  <span>Proficiency: Master</span>
+                  <span>Score: 96%</span>
+                </div>
+              </div>
+
+              <!-- Skill 6 -->
+              <div class="skill-item-card" data-category="cloud">
+                <div class="skill-item-header">
+                  <span class="skill-name-title">🐳 Docker & CI/CD Pipelines</span>
+                  <span class="skill-verified-tag">✓ VERIFIED</span>
+                </div>
+                <div class="skill-bar-track">
+                  <div class="skill-bar-progress" style="width: 85%;"></div>
+                </div>
+                <div class="skill-meta-footer">
+                  <span>Proficiency: Intermediate</span>
+                  <span>Score: 85%</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             SECTION 5: RESUME & ATS OPTIMIZER
+             ========================================================================== -->
+        <section class="dashboard-section" id="resume-section">
+          <div class="section-title-row">
+            <div class="section-heading-group">
+              <span class="section-icon-badge">📄</span>
+              <div>
+                <h2 class="section-main-title">5. Resume & ATS Optimizer</h2>
+                <p class="section-subtitle">Live resume parser with recruiter keyword matching and PDF exporter</p>
+              </div>
+            </div>
+            <span class="badge-tag badge-admin">AI Scanner Active</span>
+          </div>
+
+          <div class="resume-section-card">
+            <!-- Left: Uploaded Resume Info -->
+            <div class="resume-preview-box">
+              <div class="resume-file-info">
+                <div class="pdf-icon-box">PDF</div>
+                <div class="file-name-meta">
+                  <h4>Student_Resume_2026_Verified.pdf</h4>
+                  <p>Uploaded 2 days ago &bull; 412 KB &bull; Verified ATS Format</p>
+                </div>
+              </div>
+              <div class="resume-cta-row">
+                <button type="button" class="btn-resume-download" id="btnDownloadResume">
+                  <span>⬇️ Download PDF</span>
+                </button>
+                <button type="button" class="btn-resume-download" id="btnUploadResume">
+                  <span>🔄 Update Resume</span>
+                </button>
+                <button type="button" class="btn-resume-download" id="btnScanResume" style="border-color: rgba(99, 102, 241, 0.4); color: #a5b4fc;">
+                  <span>⚡ Rescan with AI</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Right: ATS Match Score Card -->
+            <div class="ats-score-box">
+              <div class="ats-header-row">
+                <div>
+                  <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main);">ATS Compatibility Index</h4>
+                  <span style="font-size: 0.78rem; color: var(--text-muted);">Benchmarked for Top Tier Tech Roles</span>
+                </div>
+                <span class="ats-score-badge">92 / 100</span>
+              </div>
+              <ul class="ats-tips-list">
+                <li><span style="color: #34d399;">✓</span> Formatted with clean single-column structure</li>
+                <li><span style="color: #34d399;">✓</span> High keyword density for React, Node, Python & Cloud</li>
+                <li><span style="color: #60a5fa;">ℹ</span> Tip: Add metric quantifiable outcomes to your project bullets</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             SECTION 6: RECENT APPLICATIONS
+             ========================================================================== -->
+        <section class="dashboard-section" id="applications-section">
+          <div class="section-title-row">
+            <div class="section-heading-group">
+              <span class="section-icon-badge">📋</span>
+              <div>
+                <h2 class="section-main-title">6. Recent Applications</h2>
+                <p class="section-subtitle">Real-time status updates on submitted recruiter drives and shortlists</p>
+              </div>
+            </div>
+            <span class="badge-tag badge-partner">14 Total Applied</span>
+          </div>
+
+          <div class="applications-table-wrapper">
+            <div class="table-responsive">
+              <table class="applications-table">
+                <thead>
+                  <tr>
+                    <th>Company & Role</th>
+                    <th>Applied Date</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Row 1 -->
+                  <tr>
+                    <td>
+                      <div class="table-company-cell">
+                        <div class="company-logo-avatar" style="width: 36px; height: 36px; font-size: 1.1rem;">💳</div>
+                        <div>
+                          <strong style="color: var(--text-main);">Stripe</strong>
+                          <div style="font-size: 0.78rem; color: var(--text-muted);">Frontend Platform Engineer</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Aug 18, 2026</td>
+                    <td><span class="tag-pill">Full Time</span></td>
+                    <td><span class="status-pill status-interviewing">● Technical Round 2</span></td>
+                    <td><button type="button" class="btn btn-secondary btn-sm" style="padding: 0.3rem 0.7rem; font-size: 0.75rem;">View Details</button></td>
+                  </tr>
+
+                  <!-- Row 2 -->
+                  <tr>
+                    <td>
+                      <div class="table-company-cell">
+                        <div class="company-logo-avatar" style="width: 36px; height: 36px; font-size: 1.1rem;">💻</div>
+                        <div>
+                          <strong style="color: var(--text-main);">Microsoft</strong>
+                          <div style="font-size: 0.78rem; color: var(--text-muted);">Software Engineering Intern</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Aug 15, 2026</td>
+                    <td><span class="tag-pill">Internship</span></td>
+                    <td><span class="status-pill status-shortlisted">● Final Round Scheduled</span></td>
+                    <td><button type="button" class="btn btn-secondary btn-sm" style="padding: 0.3rem 0.7rem; font-size: 0.75rem;">View Details</button></td>
+                  </tr>
+
+                  <!-- Row 3 -->
+                  <tr>
+                    <td>
+                      <div class="table-company-cell">
+                        <div class="company-logo-avatar" style="width: 36px; height: 36px; font-size: 1.1rem;">⚡</div>
+                        <div>
+                          <strong style="color: var(--text-main);">Razorpay</strong>
+                          <div style="font-size: 0.78rem; color: var(--text-muted);">Full Stack Software Engineer</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Aug 12, 2026</td>
+                    <td><span class="tag-pill">Full Time</span></td>
+                    <td><span class="status-pill status-review">● Under Recruiter Review</span></td>
+                    <td><button type="button" class="btn btn-secondary btn-sm" style="padding: 0.3rem 0.7rem; font-size: 0.75rem;">View Details</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             SECTION 7: UPCOMING INTERVIEWS
+             ========================================================================== -->
+        <section class="dashboard-section" id="interviews-section">
+          <div class="section-title-row">
+            <div class="section-heading-group">
+              <span class="section-icon-badge">🎯</span>
+              <div>
+                <h2 class="section-main-title">7. Upcoming Interviews</h2>
+                <p class="section-subtitle">Upcoming technical coding, system design, and recruiter culture screenings</p>
+              </div>
+            </div>
+            <span class="badge-tag badge-user">3 Confirmed</span>
+          </div>
+
+          <div class="interviews-timeline-grid">
+            
+            <!-- Interview 1 -->
+            <div class="interview-card">
+              <div>
+                <div class="interview-header-row">
+                  <div class="interview-date-badge">
+                    <span class="day">21</span>
+                    <span class="month">AUG</span>
+                  </div>
+                  <span class="interview-stage-tag">Technical Round 2</span>
+                </div>
+                <div style="margin-top: 1rem;">
+                  <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main);">Stripe &bull; Live Coding & Architecture</h4>
+                  <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">Interviewer: Staff Engineer (UI Infrastructure)</p>
+                </div>
+              </div>
+              <div class="interview-meta-row">
+                <span>⏰ 02:30 PM - 03:30 PM IST</span>
+                <span>📹 Google Meet</span>
+              </div>
+              <button type="button" class="btn-join-call" data-meet="https://meet.google.com">
+                <span>🎥 Join Video Call</span>
+              </button>
+            </div>
+
+            <!-- Interview 2 -->
+            <div class="interview-card">
+              <div>
+                <div class="interview-header-row">
+                  <div class="interview-date-badge">
+                    <span class="day">23</span>
+                    <span class="month">AUG</span>
+                  </div>
+                  <span class="interview-stage-tag">Final Culture & Fit</span>
+                </div>
+                <div style="margin-top: 1rem;">
+                  <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main);">Microsoft &bull; Partner Director Round</h4>
+                  <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">Interviewer: Engineering Director</p>
+                </div>
+              </div>
+              <div class="interview-meta-row">
+                <span>⏰ 11:00 AM - 11:45 AM IST</span>
+                <span>📹 MS Teams</span>
+              </div>
+              <button type="button" class="btn-join-call" data-meet="https://teams.microsoft.com">
+                <span>🎥 Join Video Call</span>
+              </button>
+            </div>
+
+            <!-- Interview 3 -->
+            <div class="interview-card">
+              <div>
+                <div class="interview-header-row">
+                  <div class="interview-date-badge">
+                    <span class="day">25</span>
+                    <span class="month">AUG</span>
+                  </div>
+                  <span class="interview-stage-tag">System Design</span>
+                </div>
+                <div style="margin-top: 1rem;">
+                  <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main);">Razorpay &bull; High Scale Microservices</h4>
+                  <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">Interviewer: Principal Architect</p>
+                </div>
+              </div>
+              <div class="interview-meta-row">
+                <span>⏰ 04:00 PM - 05:00 PM IST</span>
+                <span>📹 Zoom Meeting</span>
+              </div>
+              <button type="button" class="btn-join-call" data-meet="https://zoom.us">
+                <span>🎥 Join Video Call</span>
+              </button>
+            </div>
+
+          </div>
+        </section>
+
+      </main>
+
+      <!-- Dashboard Footer -->
+      <footer class="site-footer" style="margin-top: auto; border-top: 1px solid var(--border-subtle); padding: 1.5rem 2rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+          <div style="display: flex; align-items: center; gap: 0.6rem;">
+            <img src="../assets/logo/logo.svg" alt="LifeProof" style="height: 24px;" />
+            <span style="font-size: 0.85rem; color: var(--text-muted);">&copy; 2026 LifeProof. Authenticated Student Portal.</span>
+          </div>
+          <span style="font-size: 0.78rem; color: var(--text-subtle);">Powered by Firebase Authentication & Firestore Telemetry</span>
+        </div>
+      </footer>
+
+    </div>
+
+  </div>
+
+  <!-- Interactive Toast Notification Element -->
+  <div class="dashboard-toast" id="dashboardToast">
+    <span id="toastIcon">✨</span>
+    <span id="toastMessage">Action completed successfully!</span>
+  </div>
+
+  <!-- Modular Scripts -->
+  <script src="../js/config.js"></script>
+  <script type="module" src="../js/student.js"></script>
+</body>
+
+</html>

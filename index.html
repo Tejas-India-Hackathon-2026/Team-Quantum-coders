@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LifeProof - Intelligent University & Career Platform</title>
+  <meta name="description" content="LifeProof connects students, recruiters, and faculty into a single intelligent career and verification ecosystem." />
+  
+  <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <!-- Global Stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Ambient Light Orbs -->
+  <div class="ambient-glow-1"></div>
+
+  <!-- Site Navigation Header -->
+  <header class="site-header" id="siteHeader">
+    <div class="container nav-wrapper">
+      <a href="index.html" class="brand-logo" id="logoLink" aria-label="LifeProof Home">
+        <img src="assets/logo/logo.svg" alt="LifeProof Logo" />
+      </a>
+      
+      <nav aria-label="Main Navigation">
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="index.html" class="nav-link active">Home</a></li>
+          <li><a href="#features" class="nav-link">Features</a></li>
+          <li><a href="#students" class="nav-link">Students</a></li>
+          <li><a href="#recruiters" class="nav-link">Recruiters</a></li>
+          <li><a href="#faculty" class="nav-link">Faculty</a></li>
+          <li><a href="pages/about.html" class="nav-link">About</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="login.html" class="btn btn-primary btn-sm" id="headerLoginBtn">Login</a>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ==================== HERO SECTION ==================== -->
+    <section class="hero-section" id="hero">
+      <div class="container">
+        <div class="hero-content">
+          <div class="badge-pill">
+            <span class="pulse-indicator"></span>
+            <span>Next-Gen University & Career Ecosystem</span>
+          </div>
+          
+          <h1 class="hero-title">
+            Build Your Future with <br />
+            <span class="gradient-text">LifeProof</span>
+          </h1>
+          
+          <p class="hero-description">
+            Connecting students, recruiters, and faculty into a unified intelligent career ecosystem. Verified credentials, real-time hiring drives, and academic intelligence in one single place.
+          </p>
+          
+          <div class="hero-cta-group">
+            <a href="login.html" class="btn btn-primary btn-lg" id="heroGetStartedBtn">
+              Get Started &rarr;
+            </a>
+            <a href="#features" class="btn btn-secondary btn-lg" id="heroExploreBtn">
+              Explore Platform
+            </a>
+          </div>
+        </div>
+
+        <!-- Modern Dashboard / Technology Visual Mockup -->
+        <div class="hero-visual-wrapper">
+          <!-- Floating Badges -->
+          <div class="floating-badge floating-badge-left">
+            <span>🛡️</span>
+            <span>Verified Proof: <strong>#LP-9482</strong></span>
+          </div>
+
+          <div class="floating-badge floating-badge-right">
+            <span>⚡</span>
+            <span>Instant Recruiter Match: <strong>98%</strong></span>
+          </div>
+
+          <div class="dashboard-mockup-frame">
+            <!-- Mockup Header -->
+            <div class="mockup-header">
+              <div class="mockup-dots">
+                <span class="dot-red"></span>
+                <span class="dot-yellow"></span>
+                <span class="dot-green"></span>
+              </div>
+              <div class="mockup-title-bar">
+                <span>lifeproof-ecosystem.io/hub</span>
+                <span class="badge-tag badge-user" style="margin: 0; font-size: 0.68rem;">LIVE SYNCHRONIZED</span>
+              </div>
+              <div style="font-size: 0.8rem; color: var(--accent-secondary); font-weight: 600;">
+                v1.0 Ready
+              </div>
+            </div>
+
+            <!-- Mockup Body (3-Column Ecosystem Telemetry) -->
+            <div class="mockup-body">
+              
+              <!-- Left Column: Student Readiness -->
+              <div class="mockup-col">
+                <div class="mockup-card">
+                  <div class="mockup-card-title">
+                    <span>Student Readiness</span>
+                    <span style="color: var(--accent-emerald);">● Top 3%</span>
+                  </div>
+                  <div class="mockup-stat-val">94.8 <small style="font-size: 0.9rem; color: var(--text-muted);">/ 100</small></div>
+                  <div class="mockup-progress-bar">
+                    <div class="mockup-progress-fill" id="mockupScoreFill" style="width: 0%;"></div>
+                  </div>
+                  <div class="mockup-tag-list">
+                    <span class="mockup-tag">Full-Stack AI</span>
+                    <span class="mockup-tag">Distributed Systems</span>
+                    <span class="mockup-tag">Verified Proof</span>
+                  </div>
+                </div>
+
+                <div class="mockup-card">
+                  <div class="mockup-card-title">
+                    <span>Active Credentials</span>
+                  </div>
+                  <div style="display: flex; gap: 0.5rem; align-items: center;">
+                    <div style="font-size: 1.2rem;">🏅</div>
+                    <div>
+                      <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-main);">Stanford AI Lab Cert</div>
+                      <div style="font-size: 0.72rem; color: var(--text-subtle);">Blockchain-Verified Hash</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Middle Column: Recruiter Live Hiring Pipeline -->
+              <div class="mockup-col">
+                <div class="mockup-card" style="height: 100%;">
+                  <div class="mockup-card-title">
+                    <span>Live Recruiter Pipeline</span>
+                    <span class="badge-tag badge-partner" style="margin: 0; font-size: 0.65rem;">Active Drive</span>
+                  </div>
+
+                  <div class="mockup-activity-item">
+                    <div class="activity-avatar" style="background: linear-gradient(135deg, #4285F4, #34A853);">G</div>
+                    <div style="flex: 1;">
+                      <div style="font-weight: 600; color: var(--text-main);">Google Cloud • AI Fellow</div>
+                      <div style="font-size: 0.75rem; color: var(--text-muted);">Shortlisted 14 Candidates • Match 96%</div>
+                    </div>
+                    <span style="font-size: 0.75rem; color: #34d399; font-weight: 700;">Direct Offer</span>
+                  </div>
+
+                  <div class="mockup-activity-item">
+                    <div class="activity-avatar" style="background: linear-gradient(135deg, #00A4EF, #7FBA00);">M</div>
+                    <div style="flex: 1;">
+                      <div style="font-weight: 600; color: var(--text-main);">Microsoft • Azure Systems</div>
+                      <div style="font-size: 0.75rem; color: var(--text-muted);">Batch 2026 Campus Drive Open</div>
+                    </div>
+                    <span style="font-size: 0.75rem; color: #60a5fa; font-weight: 700;">Interviewing</span>
+                  </div>
+
+                  <div class="mockup-activity-item">
+                    <div class="activity-avatar" style="background: linear-gradient(135deg, #a855f7, #ec4899);">A</div>
+                    <div style="flex: 1;">
+                      <div style="font-weight: 600; color: var(--text-main);">Amazon Robotics • ML Intern</div>
+                      <div style="font-size: 0.75rem; color: var(--text-muted);">Skill Gap Score: 0.00 (Perfect)</div>
+                    </div>
+                    <span style="font-size: 0.75rem; color: #f59e0b; font-weight: 700;">Assessment</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Column: Faculty & University Intelligence -->
+              <div class="mockup-col">
+                <div class="mockup-card">
+                  <div class="mockup-card-title">
+                    <span>Faculty Telemetry</span>
+                    <span class="badge-tag badge-admin" style="margin: 0; font-size: 0.65rem;">Dept Sync</span>
+                  </div>
+                  <div class="mockup-stat-val" style="color: #c084fc;">98.2%</div>
+                  <p style="font-size: 0.78rem; margin-top: 0.2rem;">Curriculum-to-Industry Alignment Index</p>
+                </div>
+
+                <div class="mockup-card">
+                  <div class="mockup-card-title">
+                    <span>Placement Statistics</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                    <div style="font-size: 1.1rem; font-weight: 700; color: var(--text-main);">184 / 190</div>
+                    <div style="font-size: 0.78rem; color: var(--accent-emerald); font-weight: 600;">+18% vs Last Year</div>
+                  </div>
+                  <p style="font-size: 0.72rem; color: var(--text-subtle); margin-top: 0.25rem;">Automated Accreditation Export Ready</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== FEATURES SECTION ==================== -->
+    <section class="features-section" id="features">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Powerful Ecosystem</span>
+          <h2 class="section-title">Designed for Modern <span class="gradient-text">Career Growth</span></h2>
+          <p class="section-desc">Six unified pillars empowering higher education, talent acquisition, and student career lifecycles.</p>
+        </div>
+
+        <div class="features-grid">
+          
+          <!-- Feature 1: Student Career Management -->
+          <div class="feature-box" id="featCareerManagement">
+            <div class="feature-icon-box">🎓</div>
+            <h3 class="feature-box-title">Student Career Management</h3>
+            <p class="feature-box-desc">
+              Comprehensive student profile builder with verified certificates, dynamically calculated career readiness scores, and milestone tracking.
+            </p>
+            <div class="feature-box-meta">
+              <span>Verified Portfolios &bull; Digital Badging</span>
+            </div>
+          </div>
+
+          <!-- Feature 2: Job & Internship Opportunities -->
+          <div class="feature-box" id="featJobInternships">
+            <div class="feature-icon-box">💼</div>
+            <h3 class="feature-box-title">Job & Internship Opportunities</h3>
+            <p class="feature-box-desc">
+              Smart matching algorithms connect students with top-tier internships, remote fellowships, and full-time campus placements without intermediaries.
+            </p>
+            <div class="feature-box-meta">
+              <span>AI Matching &bull; Direct Applications</span>
+            </div>
+          </div>
+
+          <!-- Feature 3: Recruiter Hiring -->
+          <div class="feature-box" id="featRecruiterHiring">
+            <div class="feature-icon-box">🎯</div>
+            <h3 class="feature-box-title">Recruiter Hiring</h3>
+            <p class="feature-box-desc">
+              Streamlined talent discovery with instant skill filtering, verified test scores, and one-click campus recruitment drive management.
+            </p>
+            <div class="feature-box-meta">
+              <span>Shortlisting &bull; Campus Drives</span>
+            </div>
+          </div>
+
+          <!-- Feature 4: Faculty Monitoring -->
+          <div class="feature-box" id="featFacultyMonitoring">
+            <div class="feature-icon-box">📊</div>
+            <h3 class="feature-box-title">Faculty Monitoring</h3>
+            <p class="feature-box-desc">
+              Real-time student progress dashboards, project evaluations, mentorship tracking, and instant university accreditation reports.
+            </p>
+            <div class="feature-box-meta">
+              <span>Academic Telemetry &bull; Mentorship Hub</span>
+            </div>
+          </div>
+
+          <!-- Feature 5: Skill Development -->
+          <div class="feature-box" id="featSkillDev">
+            <div class="feature-icon-box">⚡</div>
+            <h3 class="feature-box-title">Skill Development</h3>
+            <p class="feature-box-desc">
+              Industry-aligned roadmap recommendations, automated skill gap analysis, and peer-reviewed project verifications.
+            </p>
+            <div class="feature-box-meta">
+              <span>Skill Radar &bull; Learning Pathways</span>
+            </div>
+          </div>
+
+          <!-- Feature 6: Career Analytics -->
+          <div class="feature-box" id="featCareerAnalytics">
+            <div class="feature-icon-box">📈</div>
+            <h3 class="feature-box-title">Career Analytics</h3>
+            <p class="feature-box-desc">
+              Predictive hiring insights, salary trends by domain, and institutional placement benchmarking with rich interactive visualizations.
+            </p>
+            <div class="feature-box-meta">
+              <span>Market Intelligence &bull; Placement Trends</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== HOW LIFEPROOF WORKS ==================== -->
+    <section class="how-it-works-section" id="how-it-works">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Seamless Process</span>
+          <h2 class="section-title">How <span class="gradient-text-cyan">LifeProof Works</span></h2>
+          <p class="section-desc">From university admission to dream career placement in four transparent steps.</p>
+        </div>
+
+        <div class="workflow-steps-grid">
+          
+          <div class="step-card">
+            <div class="step-number">01</div>
+            <h3 class="step-title">Verified Onboarding</h3>
+            <p class="step-desc">Students, faculty, and recruiters join with authenticated credentials. Student academic records are tied directly to university verification.</p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">02</div>
+            <h3 class="step-title">Skill Mapping</h3>
+            <p class="step-desc">AI algorithms evaluate coursework, personal projects, and technical tests to generate an authenticated Career Readiness Score.</p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">03</div>
+            <h3 class="step-title">Recruiter Match</h3>
+            <p class="step-desc">Enterprise recruiters search and filter candidates by verified competencies, initiating direct interviews and campus drives.</p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">04</div>
+            <h3 class="step-title">Placement & Sync</h3>
+            <p class="step-desc">Offers and verification certificates are automatically recorded. Faculty and administration receive instantaneous placement data.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== AUDIENCE SECTIONS ==================== -->
+    <section class="audience-section" id="audiences">
+      <div class="container">
+
+        <!-- 1. Student Section -->
+        <div class="audience-showcase" id="students">
+          <div class="audience-text-content">
+            <span class="audience-badge-tag tag-student">For Students</span>
+            <h2 class="audience-heading">Launch Your Dream Career with <span class="gradient-text-cyan">Verified Proof</span></h2>
+            <p>
+              Traditional resumes often get lost in recruitment black holes. LifeProof equips students with verifiable credentials, AI-powered skill evaluations, and direct recruiter access.
+            </p>
+            <ul class="audience-points">
+              <li>
+                <span class="point-check">✓</span>
+                <span><strong>Verified Career Portfolio:</strong> Showcase tamper-proof project proofs and university accomplishments.</span>
+              </li>
+              <li>
+                <span class="point-check">✓</span>
+                <span><strong>AI Skill Gap Analysis:</strong> Receive instant recommendations on which skills will unlock higher-paying roles.</span>
+              </li>
+              <li>
+                <span class="point-check">✓</span>
+                <span><strong>Direct Internship Placement:</strong> Bypass third-party portals with campus-approved corporate hiring drives.</span>
+              </li>
+            </ul>
+            <div style="margin-top: var(--spacing-sm);">
+              <a href="login.html" class="btn btn-outline-cyan">Join as a Student &rarr;</a>
+            </div>
+          </div>
+
+          <div class="audience-preview-card">
+            <div class="mockup-card-title">
+              <span style="color: var(--accent-secondary);">Student Profile Preview</span>
+              <span class="badge-tag badge-user" style="margin:0;">VERIFIED</span>
+            </div>
+            <div style="display: flex; gap: 1rem; align-items: center; margin: 1rem 0;">
+              <div class="activity-avatar" style="width: 48px; height: 48px; font-size: 1.1rem;">AM</div>
+              <div>
+                <h4 style="font-size: 1.1rem; color: #fff;">Aarav Mehta</h4>
+                <p style="font-size: 0.85rem;">B.Tech Computer Science &bull; Batch 2026</p>
+              </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 1rem;">
+              <div class="mockup-card" style="padding: 0.75rem;">
+                <div style="font-size: 0.75rem; color: var(--text-subtle);">Readiness Score</div>
+                <div style="font-size: 1.3rem; font-weight: 700; color: #38bdf8;">94.8%</div>
+              </div>
+              <div class="mockup-card" style="padding: 0.75rem;">
+                <div style="font-size: 0.75rem; color: var(--text-subtle);">Recruiter Views</div>
+                <div style="font-size: 1.3rem; font-weight: 700; color: #34d399;">240+</div>
+              </div>
+            </div>
+            <div class="mockup-tag-list" style="margin-top: 1rem;">
+              <span class="mockup-tag">Python Core</span>
+              <span class="mockup-tag">PyTorch</span>
+              <span class="mockup-tag">Next.js</span>
+              <span class="mockup-tag">Docker</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Recruiter Section -->
+        <div class="audience-showcase reverse" id="recruiters">
+          <div class="audience-text-content">
+            <span class="audience-badge-tag tag-recruiter">For Recruiters</span>
+            <h2 class="audience-heading">Hire Verified Talent at <span class="gradient-text-purple">10x Speed</span></h2>
+            <p>
+              Eliminate resume fraud and endless manual screenings. Access verified university cohorts with validated technical scores, coding assessments, and direct campus collaboration tools.
+            </p>
+            <ul class="audience-points">
+              <li>
+                <span class="point-check">✓</span>
+                <span><strong>Pre-Vetted Talent Pool:</strong> Every candidate's academic and technical skills are verified at source.</span>
+              </li>
+              <li>
+                <span class="point-check">✓</span>
+                <span><strong>1-Click Campus Hiring Drives:</strong> Launch university recruitment campaigns across 140+ partner institutions simultaneously.</span>
+              </li>
+              <li>
+                <span class="point-check">✓</span>
+                <span><strong>Precise Skill-Based Filters:</strong> Search candidates by specific framework mastery, GPA benchmarks, or live project proofs.</span>
+              </li>
+            </ul>
+            <div style="margin-top: var(--spacing-sm);">
+              <a href="login.html" class="btn btn-primary">Start Hiring Now &rarr;</a>
+            </div>
+          </div>
+
+          <div class="audience-preview-card">
+            <div class="mockup-card-title">
+              <span style="color: #c084fc;">Recruiter Pipeline Dashboard</span>
+              <span class="badge-tag badge-partner" style="margin:0;">ENTERPRISE</span>
+            </div>
+            <div style="margin: 1rem 0;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.4rem;">
+                <span style="color: var(--text-muted);">Active Campus Drive</span>
+                <span style="color: #c084fc; font-weight: 600;">840 Candidates Screened</span>
+              </div>
+              <div class="mockup-progress-bar">
+                <div class="mockup-progress-fill" style="width: 78%; background: var(--grad-purple-pink);"></div>
+              </div>
+            </div>
+            <div class="mockup-card" style="margin-top: 1rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <div style="font-weight: 600; color: #fff; font-size: 0.9rem;">AI & Machine Learning Batch</div>
+                  <div style="font-size: 0.78rem; color: var(--text-muted);">Top Match Candidates: 42 Shortlisted</div>
+                </div>
+                <button class="btn btn-sm btn-primary" style="font-size: 0.75rem; padding: 0.35rem 0.8rem;">View List</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Faculty Section -->
+        <div class="audience-showcase" id="faculty">
+          <div class="audience-text-content">
+            <span class="audience-badge-tag tag-faculty">For Faculty & Universities</span>
+            <h2 class="audience-heading">Empower Higher Education with <span class="gradient-text">Live Intelligence</span></h2>
+            <p>
+              Bridge the gap between academic curriculum and industrial demand. Track batch performance, placement records, and automate institutional accreditation effortlessly.
+            </p>
+            <ul class="audience-points">
+              <li>
+                <span class="point-check">✓</span>
+                <span><strong>Real-Time Placement Tracking:</strong> Continuous telemetry on student offers, interviews, and department placement percentages.</span>
+              </li>
+              <li>
+                <span class="point-check">✓</span>
+                <span><strong>Curriculum-to-Industry Alignment:</strong> Discover which trending industry skills are missing from current coursework.</span>
+              </li>
+              <li>
+                <span class="point-check">✓</span>
+                <span><strong>Automated Accreditation Reports:</strong> Export 1-click NAAC/ABET-compliant placement and skill validation dossiers.</span>
+              </li>
+            </ul>
+            <div style="margin-top: var(--spacing-sm);">
+              <a href="login.html" class="btn btn-secondary">Faculty Portal &rarr;</a>
+            </div>
+          </div>
+
+          <div class="audience-preview-card">
+            <div class="mockup-card-title">
+              <span style="color: #34d399;">Department Overview</span>
+              <span class="badge-tag badge-admin" style="margin:0;">FACULTY VIEW</span>
+            </div>
+            <div style="margin: 1rem 0;">
+              <div style="font-size: 1.6rem; font-weight: 800; color: #fff; font-family: var(--font-heading);">
+                94.6% <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 400;">Placed / In Final Round</span>
+              </div>
+              <p style="font-size: 0.8rem; color: var(--text-subtle); margin-top: 0.2rem;">Computer Science & Engineering (2022–2026)</p>
+            </div>
+            <div class="mockup-card">
+              <div style="font-size: 0.8rem; font-weight: 600; color: #fff; margin-bottom: 0.4rem;">Top Recruiting Partners</div>
+              <div style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.6;">
+                Google, Microsoft, Amazon, NVIDIA, Goldman Sachs
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== STATISTICS SECTION ==================== -->
+    <section class="stats-section" id="stats">
+      <div class="container">
+        <div class="stats-grid">
+          
+          <div class="stat-box">
+            <div class="stat-number" data-target="98.4" data-suffix="%">0%</div>
+            <div class="stat-label">Placement Success Rate</div>
+            <div class="stat-sublabel">Across partner cohorts</div>
+          </div>
+
+          <div class="stat-box">
+            <div class="stat-number" data-target="500" data-suffix="+">0</div>
+            <div class="stat-label">Enterprise Recruiters</div>
+            <div class="stat-sublabel">Hiring directly via platform</div>
+          </div>
+
+          <div class="stat-box">
+            <div class="stat-number" data-target="65000" data-suffix="+">0</div>
+            <div class="stat-label">Active Students</div>
+            <div class="stat-sublabel">With verified portfolios</div>
+          </div>
+
+          <div class="stat-box">
+            <div class="stat-number" data-target="140" data-suffix="+">0</div>
+            <div class="stat-label">University Partners</div>
+            <div class="stat-sublabel">Connected & accredited</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== CALL TO ACTION (CTA) ==================== -->
+    <section class="cta-section" id="cta">
+      <div class="container">
+        <div class="cta-banner">
+          <div class="badge-pill" style="margin-bottom: var(--spacing-md);">
+            <span>🚀 Join the Network</span>
+          </div>
+          
+          <h2 class="cta-title">
+            Ready to Transform Your <span class="gradient-text">Career Ecosystem</span>?
+          </h2>
+          
+          <p class="cta-description">
+            Whether you are a student striving for your dream placement, a recruiter hunting top verified talent, or faculty empowering your department — LifeProof is built for you.
+          </p>
+          
+          <div class="cta-btn-group">
+            <a href="login.html" class="btn btn-primary btn-lg" id="ctaStudentBtn">
+              Join as Student
+            </a>
+            <a href="login.html" class="btn btn-secondary btn-lg" id="ctaPartnerBtn">
+              Hire Talent / Partner
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== GLOBAL FOOTER ==================== -->
+  <footer class="site-footer" id="siteFooter">
+    <div class="container">
+      <div class="footer-top">
+        
+        <!-- Brand Info -->
+        <div class="footer-brand">
+          <a href="index.html" class="brand-logo">
+            <img src="assets/logo/logo.svg" alt="LifeProof Logo" />
+          </a>
+          <p>
+            LifeProof is the single, unified university & career platform connecting students, recruiters, and faculty into an intelligent verification ecosystem.
+          </p>
+        </div>
+
+        <!-- Column: Platform -->
+        <div>
+          <h4 class="footer-col-title">Platform</h4>
+          <ul class="footer-nav-list">
+            <li><a href="#features">Features Overview</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#stats">Ecosystem Stats</a></li>
+            <li><a href="pages/about.html">About LifeProof</a></li>
+          </ul>
+        </div>
+
+        <!-- Column: Solutions -->
+        <div>
+          <h4 class="footer-col-title">Solutions</h4>
+          <ul class="footer-nav-list">
+            <li><a href="#students">For Students</a></li>
+            <li><a href="#recruiters">For Recruiters</a></li>
+            <li><a href="#faculty">For Faculty</a></li>
+            <li><a href="login.html">Role Portals</a></li>
+          </ul>
+        </div>
+
+        <!-- Column: Account -->
+        <div>
+          <h4 class="footer-col-title">Account</h4>
+          <ul class="footer-nav-list">
+            <li><a href="login.html">Sign In</a></li>
+            <li><a href="login.html">Student Registration</a></li>
+            <li><a href="login.html">Recruiter Portal</a></li>
+            <li><a href="login.html">Faculty Access</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 LifeProof. All rights reserved. One unified platform.</p>
+        <div class="footer-status-pill">
+          <span class="pulse-indicator" style="width: 6px; height: 6px;"></span>
+          <span>All Systems Operational</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modular Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/main.js"></script>
+  <script type="module" src="js/navbar-auth.js"></script>
+</body>
+</html>

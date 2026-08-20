@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About - LifeProof</title>
+  <meta name="description" content="Learn about LifeProof - the unified platform for verified digital proofs and identity management." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <!-- Navigation Header -->
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="../index.html" class="brand-logo">
+        <img src="../assets/logo/logo.svg" alt="LifeProof Logo" />
+      </a>
+      <nav>
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="../index.html" class="nav-link">Home</a></li>
+          <li><a href="../index.html#features" class="nav-link">Features</a></li>
+          <li><a href="about.html" class="nav-link active">About</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <a href="../login.html" class="btn btn-primary btn-sm">Get Started</a>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: var(--spacing-3xl); padding-bottom: var(--spacing-3xl);">
+    <div class="section-header" style="text-align: center; max-width: 760px; margin: 0 auto var(--spacing-3xl);">
+      <span class="hero-badge">Our Mission</span>
+      <h1 class="section-title">Built for Trust, Security, and <span class="gradient-text">Speed</span></h1>
+      <p class="section-desc">LifeProof provides individuals, enterprises, and administrators with a verifiable, encrypted, and frictionless verification foundation.</p>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon-wrapper">🔒</div>
+        <h3 class="feature-title">End-to-End Security</h3>
+        <p class="feature-text">Built on Firebase Auth and Firestore with granular rule-based security tokens ensuring strict isolation of records.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon-wrapper">⚡</div>
+        <h3 class="feature-title">Real-Time Sync</h3>
+        <p class="feature-text">Instant state synchronization across all connected dashboards and devices without lag.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon-wrapper">🌐</div>
+        <h3 class="feature-title">Unified Architecture</h3>
+        <p class="feature-text">One clean codebase designed for scale, maintainability, and modular expansion.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div class="brand-logo">
+        <img src="../assets/logo/logo.svg" alt="LifeProof Logo" style="height: 32px;" />
+      </div>
+      <ul class="footer-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="../login.html">Login</a></li>
+      </ul>
+      <p class="copyright-text">&copy; 2026 LifeProof. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/main.js"></script>
+  <script type="module" src="../js/navbar-auth.js"></script>
+</body>
+</html>

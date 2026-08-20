@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Faculty Portal & Institutional Telemetry - LifeProof</title>
+  <meta name="description"
+    content="LifeProof Faculty Portal - Academic telemetry, batch placement analytics, curriculum skill alignment, and institutional accreditation reports." />
+
+  <!-- Google Fonts: Outfit, Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <!-- Global & Dedicated Dashboard Stylesheets -->
+  <link rel="stylesheet" href="../css/variables.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+</head>
+
+<body class="dashboard-body">
+
+  <!-- Application Layout Wrapper -->
+  <div class="dashboard-app">
+
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <!-- ==========================================================================
+         1. LEFT SIDEBAR NAVIGATION
+         ========================================================================== -->
+    <aside class="dashboard-sidebar" id="dashboardSidebar">
+      <!-- Sidebar Header & Logo -->
+      <div class="sidebar-header">
+        <a href="../index.html" class="sidebar-logo" title="LifeProof Homepage">
+          <img src="../assets/logo/logo.svg" alt="LifeProof Logo" />
+          <span class="sidebar-logo-text">LifeProof</span>
+          <span class="sidebar-logo-badge" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border-color: rgba(16, 185, 129, 0.3);">Faculty</span>
+        </a>
+        <button type="button" class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close sidebar">✕</button>
+      </div>
+
+      <!-- Navigation Menu Items -->
+      <nav class="sidebar-nav" aria-label="Faculty Navigation">
+        <span class="sidebar-section-title">Academic Telemetry</span>
+
+        <!-- 1. Dashboard (Active) -->
+        <a href="#dashboard" class="sidebar-item active" data-nav="dashboard">
+          <span class="sidebar-item-icon">📊</span>
+          <span>Dashboard</span>
+        </a>
+
+        <!-- 2. Students -->
+        <a href="#student-overview" class="sidebar-item" data-nav="students">
+          <span class="sidebar-item-icon">👥</span>
+          <span>Students</span>
+          <span class="sidebar-item-badge">1,240</span>
+        </a>
+
+        <!-- 3. Student Performance -->
+        <a href="#student-performance" class="sidebar-item" data-nav="performance">
+          <span class="sidebar-item-icon">📈</span>
+          <span>Student Performance</span>
+          <span class="sidebar-item-badge badge-green">Top 3%</span>
+        </a>
+
+        <!-- 4. Attendance -->
+        <a href="#student-overview" class="sidebar-item" data-nav="attendance">
+          <span class="sidebar-item-icon">📅</span>
+          <span>Attendance</span>
+          <span class="sidebar-item-badge badge-green">91.4%</span>
+        </a>
+
+        <span class="sidebar-section-title">Outcomes & Careers</span>
+
+        <!-- 5. Skills -->
+        <a href="#student-skills" class="sidebar-item" data-nav="skills">
+          <span class="sidebar-item-icon">⚡</span>
+          <span>Skills</span>
+          <span class="sidebar-item-badge">98.2%</span>
+        </a>
+
+        <!-- 6. Placements -->
+        <a href="#placement-analytics" class="sidebar-item" data-nav="placements">
+          <span class="sidebar-item-icon">🎓</span>
+          <span>Placements</span>
+          <span class="sidebar-item-badge badge-green">94.6%</span>
+        </a>
+
+        <!-- 7. Jobs -->
+        <a href="#placement-analytics" class="sidebar-item" data-nav="jobs">
+          <span class="sidebar-item-icon">💼</span>
+          <span>Jobs</span>
+          <span class="sidebar-item-badge">84 Drives</span>
+        </a>
+
+        <span class="sidebar-section-title">Institutional Administration</span>
+
+        <!-- 8. Reports -->
+        <a href="#placement-reports" class="sidebar-item" data-nav="reports">
+          <span class="sidebar-item-icon">📑</span>
+          <span>Reports</span>
+          <span class="sidebar-item-badge" style="background: rgba(6, 182, 212, 0.2); color: #22d3ee;">NAAC Ready</span>
+        </a>
+
+        <!-- 9. Notifications -->
+        <a href="#recent-activities" class="sidebar-item" id="sidebarNotificationLink" data-nav="notifications">
+          <span class="sidebar-item-icon">🔔</span>
+          <span>Notifications</span>
+          <span class="sidebar-item-badge" style="background: rgba(244, 63, 94, 0.2); color: #fda4af;">4</span>
+        </a>
+
+        <!-- 10. Settings -->
+        <a href="#settings" class="sidebar-item" data-nav="settings">
+          <span class="sidebar-item-icon">⚙️</span>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <!-- Sidebar Footer with Logout Button -->
+      <div class="sidebar-footer">
+        <!-- 11. Logout -->
+        <button type="button" class="btn-sidebar-logout" id="sidebarLogoutBtn" title="Sign Out of Faculty Portal">
+          <span class="sidebar-item-icon">🚪</span>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ==========================================================================
+         2. MAIN CONTENT AREA & TOP BAR
+         ========================================================================== -->
+    <div class="dashboard-main">
+
+      <!-- --- TOP BAR --- -->
+      <header class="dashboard-topbar">
+        <div class="topbar-left">
+          <!-- Mobile Sidebar Toggle -->
+          <button type="button" class="mobile-sidebar-toggle" id="mobileSidebarToggle" aria-label="Open navigation menu">
+            ☰
+          </button>
+
+          <!-- Global Student / Roll Search Input -->
+          <div class="topbar-search-box">
+            <span class="topbar-search-icon">🔍</span>
+            <input type="text" class="topbar-search-input" id="dashboardSearchInput"
+              placeholder="Search student roll, name, branch, skill proofs, placement status..." />
+          </div>
+        </div>
+
+        <!-- Topbar Right Actions -->
+        <div class="topbar-right">
+          <!-- Export Report Fast CTA Button -->
+          <button type="button" class="btn btn-secondary btn-sm" id="topbarExportReportBtn" style="font-size: 0.82rem; padding: 0.45rem 0.9rem; border-color: rgba(16, 185, 129, 0.35); color: #34d399;">
+            <span>📑 Export NAAC Report</span>
+          </button>
+
+          <!-- Notification Bell Icon with Badge -->
+          <button type="button" class="topbar-action-btn" id="topbarNotificationBtn" title="View Notifications">
+            <span>🔔</span>
+            <span class="notification-badge-dot" aria-label="New notifications"></span>
+          </button>
+
+          <!-- Faculty Profile Avatar & Name Pill -->
+          <a href="#student-performance" class="topbar-user-pill" title="Faculty Account">
+            <div class="student-photo-avatar auth-user-avatar" id="topbarAvatar" style="background: linear-gradient(135deg, #10b981, #06b6d4);">
+              FC
+            </div>
+            <div class="topbar-user-meta">
+              <span class="student-display-name auth-user-name" id="topbarFacultyName">Professor</span>
+              <span class="topbar-user-role" style="color: #34d399;">Faculty Authority</span>
+            </div>
+          </a>
+        </div>
+      </header>
+
+      <!-- --- MAIN DASHBOARD BODY --- -->
+      <main class="dashboard-content-body" id="dashboard">
+
+        <!-- ==========================================================================
+             WELCOME MESSAGE BANNER
+             ========================================================================== -->
+        <section class="welcome-banner" style="background: linear-gradient(135deg, rgba(13, 19, 34, 0.92) 0%, rgba(20, 28, 46, 0.85) 60%, rgba(16, 185, 129, 0.12) 100%);">
+          <div class="welcome-banner-text">
+            <h1>Welcome back, Professor <span class="gradient-text-cyan auth-user-name" id="welcomeFacultyName">Faculty</span> 👋</h1>
+            <p>
+              Batch 2026 academic telemetry, skill proof verifications, and NIRF/NAAC accreditation metrics are live synchronized.
+            </p>
+            <div class="welcome-banner-meta">
+              <span class="banner-badge badge-faculty">
+                <span>●</span> Institutional Authority Active
+              </span>
+              <span class="banner-badge badge-uid">
+                UID: <span class="auth-user-uid" id="welcomeFacultyUid">Authenticating...</span>
+              </span>
+              <span class="banner-badge">
+                ✉️ <span class="auth-user-email" id="welcomeFacultyEmail">...</span>
+              </span>
+            </div>
+          </div>
+          <div class="welcome-banner-actions">
+            <button type="button" class="btn btn-secondary btn-sm" id="btnViewBatchReport">
+              <span>📊 Batch Dossier</span>
+            </button>
+            <button type="button" class="btn btn-primary btn-sm" id="btnVerifyProofs" style="background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);">
+              <span>🛡️ Verify Student Proofs</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             DASHBOARD STATISTICS (4 KPI CARDS)
+             ========================================================================== -->
+        <section class="metrics-kpi-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));" aria-label="Faculty Key Performance Indicators">
+
+          <!-- Card 1: Total Students -->
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <div class="metric-icon-box icon-emerald">👥</div>
+              <span class="metric-trend trend-up">All Branches</span>
+            </div>
+            <div class="metric-value">1,240</div>
+            <div class="metric-label">Total Students Enrolled</div>
+            <div class="metric-progress-wrapper">
+              <div class="metric-progress-bar">
+                <div class="metric-progress-fill" style="width: 100%; background: linear-gradient(90deg, #10b981, #34d399);"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Active Students -->
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <div class="metric-icon-box icon-cyan">⚡</div>
+              <span class="metric-trend trend-up">95.6% Active</span>
+            </div>
+            <div class="metric-value">1,186</div>
+            <div class="metric-label">Active Students in Pipeline</div>
+            <div class="metric-progress-wrapper">
+              <div class="metric-progress-bar">
+                <div class="metric-progress-fill" style="width: 95.6%; background: linear-gradient(90deg, #06b6d4, #38bdf8);"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Placement Rate -->
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <div class="metric-icon-box icon-purple">🎓</div>
+              <span class="metric-trend trend-up">↑ +4.2% YoY</span>
+            </div>
+            <div class="metric-value">94.6%</div>
+            <div class="metric-label">Batch Placement Rate</div>
+            <div class="metric-progress-wrapper">
+              <div class="metric-progress-bar">
+                <div class="metric-progress-fill" style="width: 94.6%; background: linear-gradient(90deg, #8b5cf6, #ec4899);"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Students Looking for Jobs -->
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <div class="metric-icon-box icon-amber">🔍</div>
+              <span class="metric-trend trend-info">In Final Drives</span>
+            </div>
+            <div class="metric-value">68</div>
+            <div class="metric-label">Students Looking for Jobs</div>
+            <div class="metric-progress-wrapper">
+              <div class="metric-progress-bar">
+                <div class="metric-progress-fill" style="width: 25%; background: linear-gradient(90deg, #f59e0b, #fbbf24);"></div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ==========================================================================
+             SECTION 1: STUDENT PERFORMANCE
+             ========================================================================== -->
+        <section class="dashboard-section" id="student-performance">
+          <div class="section-title-row">
+            <div class="section-heading-group">
+              <span class="section-icon-badge">📈</span>
+              <div>
+                <h2 class="section-main-title">1. Student Performance & Academic Telemetry</h2>
+                <p class="section-subtitle">Aggregate GPA distribution, internal assessments, and continuous semester telemetry</p>
+              </div>
+            </div>
+            <span class="badge-tag badge-user">Avg CGPA: 8.64</span>
+          </div>
+
+          <div class="analytics-grid-two">
+            <!-- GPA Distribution -->
+            <div class="analytics-panel">
+              <div class="analytics-stat-row">
+                <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main);">CGPA Grade Bands (Batch 2026)</h4>
+                <span style="font-size: 0.8rem; color: #34d399; font-weight: 700;">412 Honors (9.0+)</span>
+              </div>
+
+              <!-- Band 9.0+ -->
+              <div class="funnel-step">
+                <div class="funnel-step-label">
+                  <span>Distinction / Honors (&gt; 9.0 CGPA)</span>
+                  <span>412 Students (33.2%)</span>
+                </div>
+                <div class="funnel-bar-track">
+                  <div class="funnel-bar-fill" style="width: 33.2%; background: linear-gradient(90deg, #10b981, #34d399);"></div>
+                </div>
+              </div>
+
+              <!-- Band 8.0 - 8.9 -->
+              <div class="funnel-step">
+                <div class="funnel-step-label">
+                  <span>First Class with Merit (8.0 - 8.9 CGPA)</span>
+                  <span>620 Students (50.0%)</span>
+                </div>
+                <div class="funnel-bar-track">
+                  <div class="funnel-bar-fill" style="width: 50.0%; background: linear-gradient(90deg, #06b6d4, #38bdf8);"></div>
+                </div>
+              </div>
+
+              <!-- Band 7.0 - 7.9 -->
+              <div class="funnel-step">
+                <div class="funnel-step-label">
+                  <span>First Class (7.0 - 7.9 CGPA)</span>
+                  <span>184 Students (14.8%)</span>
+                </div>
+                <div class="funnel-bar-track">
+                  <div class="funnel-bar-fill" style="width: 14.8%; background: linear-gradient(90deg, #f59e0b, #fbbf24);"></div>
+                </div>
+              </div>
+
+              <!-- Band < 7.0 -->
+              <div class="funnel-step">
+                <div class="funnel-step-label">
+                  <span>Second Class (&lt; 7.0 CGPA)</span>
+                  <span>24 Students (1.9%)</span>
+                </div>
+                <div class="funnel-bar-track">
+                  <div class="funnel-bar-fill" style="width: 1.9%; background: linear-gradient(90deg, #f43f5e, #fda4af);"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Attendance & Academic Health -->
+            <div class="analytics-panel">
+              <div class="analytics-stat-row">
+                <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main);">Institutional Attendance & Compliance</h4>
+                <span style="font-size: 0.8rem; color: #38bdf8; font-weight: 700;">Overall: 91.4%</span>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+                <div style="display: flex; justify-content: space-between; padding: 0.65rem 0.85rem; background: rgba(255, 255, 255, 0.03); border-radius: var(--radius-md);">
+                  <span style="font-size: 0.85rem; color: var(--text-main);">💻 Computer Science & Engineering</span>
+                  <span class="attendance-pill att-good">94.2% Attendance</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.65rem 0.85rem; background: rgba(255, 255, 255, 0.03); border-radius: var(--radius-md);">
+                  <span style="font-size: 0.85rem; color: var(--text-main);">🤖 Artificial Intelligence & Data</span>
+                  <span class="attendance-pill att-good">93.8% Attendance</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.65rem 0.85rem; background: rgba(255, 255, 255, 0.03); border-radius: var(--radius-md);">
+                  <span style="font-size: 0.85rem; color: var(--text-main);">⚡ Electronics & Communication</span>
+                  <span class="attendance-pill att-good">89.6% Attendance</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.65rem 0.85rem; background: rgba(255, 255, 255, 0.03); border-radius: var(--radius-md);">
+                  <span style="font-size: 0.85rem; color: var(--text-main);">⚙️ Mechanical & Systems</span>
+                  <span class="attendance-pill att-warn">87.1% Attendance</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             SECTION 2: PLACEMENT ANALYTICS
+             ========================================================================== -->
+        <section class="dashboard-section" id="placement-analytics">
+          <div class="section-title-row">
+            <div class="section-heading-group">
+              <span class="section-icon-badge">🎓</span>
+              <div>
+                <h2 class="section-main-title">2. Placement Analytics & Drive Telemetry</h2>
+                <p class="section-subtitle">Department-wise placement conversion, average CTC packages, and top visiting recruiters</p>
+              </div>
+            </div>
+            <span class="badge-tag badge-faculty">Highest CTC: ₹54 LPA</span>
+          </div>
+
+          <div class="cards-slider-grid">
+            
+            <!-- Department 1 -->
+            <div class="opportunity-card">
+              <div class="opportunity-header">
+                <div class="opportunity-company-box">
+                  <div class="company-logo-avatar" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">💻</div>
+                  <div class="company-details">
+                    <h4>Computer Science (CSE)</h4>
+                    <span class="company-name">420 Students &bull; 98.2% Placed</span>
+                  </div>
+                </div>
+                <span class="badge-tag badge-user" style="font-size: 0.68rem; margin: 0;">TOP TIER</span>
+              </div>
+              <div style="font-size: 0.82rem; color: var(--text-muted); display: flex; justify-content: space-between;">
+                <span>Avg CTC: <strong>₹21.4 LPA</strong></span>
+                <span>Offers: <strong>512</strong></span>
+              </div>
+              <div class="opportunity-tags">
+                <span class="tag-pill">Microsoft</span>
+                <span class="tag-pill">Google</span>
+                <span class="tag-pill">Stripe</span>
+                <span class="tag-pill">Razorpay</span>
+              </div>
+            </div>
+
+            <!-- Department 2 -->
+            <div class="opportunity-card">
+              <div class="opportunity-header">
+                <div class="opportunity-company-box">
+                  <div class="company-logo-avatar" style="background: rgba(6, 182, 212, 0.15); color: #22d3ee;">🤖</div>
+                  <div class="company-details">
+                    <h4>AI & Machine Learning (AIML)</h4>
+                    <span class="company-name">280 Students &bull; 96.0% Placed</span>
+                  </div>
+                </div>
+                <span class="badge-tag badge-user" style="font-size: 0.68rem; margin: 0;">HIGH DEMAND</span>
+              </div>
+              <div style="font-size: 0.82rem; color: var(--text-muted); display: flex; justify-content: space-between;">
+                <span>Avg CTC: <strong>₹23.8 LPA</strong></span>
+                <span>Offers: <strong>340</strong></span>
+              </div>
+              <div class="opportunity-tags">
+                <span class="tag-pill">Adobe</span>
+                <span class="tag-pill">NVIDIA</span>
+                <span class="tag-pill">Amazon</span>
+                <span class="tag-pill">OpenAI Labs</span>
+              </div>
+            </div>
+
+            <!-- Department 3 -->
+            <div class="opportunity-card">
+              <div class="opportunity-header">
+                <div class="opportunity-company-box">
+                  <div class="company-logo-avatar" style="background: rgba(139, 92, 246, 0.15); color: #c084fc;">⚡</div>
+                  <div class="company-details">
+                    <h4>Electronics & Comm (ECE)</h4>
+                    <span class="company-name">340 Students &bull; 93.4% Placed</span>
+                  </div>
+                </div>
+                <span class="badge-tag badge-partner" style="font-size: 0.68rem; margin: 0;">STEADY</span>
+              </div>
+              <div style="font-size: 0.82rem; color: var(--text-muted); display: flex; justify-content: space-between;">
+                <span>Avg CTC: <strong>₹16.2 LPA</strong></span>
+                <span>Offers: <strong>380</strong></span>
+              </div>
+              <div class="opportunity-tags">
+                <span class="tag-pill">Qualcomm</span>
+                <span class="tag-pill">Intel</span>
+                <span class="tag-pill">Texas Inst</span>
+                <span class="tag-pill">Samsung</span>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             SECTION 3: STUDENT SKILLS
+             ========================================================================== -->
+        <section class="dashboard-section" id="student-skills">
+          <div class="section-title-row">
+            <div class="section-heading-group">
+              <span class="section-icon-badge">⚡</span>
+              <div>
+                <h2 class="section-main-title">3. Student Skills & Curriculum Alignment</h2>
+                <p class="section-subtitle">AI benchmark comparing active syllabus mastery with live enterprise hiring skill requirements</p>
+              </div>
+            </div>
+            <span class="badge-tag badge-user">Alignment Score: 98.2%</span>
+          </div>
+
+          <div class="skills-container-card">
+            <div class="skills-grid">
+              
+              <!-- Skill Telemetry 1 -->
+              <div class="skill-item-card">
+                <div class="skill-item-header">
+                  <span class="skill-name-title">⚛️ Full Stack Web (React & Node)</span>
+                  <span class="skill-verified-tag">✓ 940 Students</span>
+                </div>
+                <div class="skill-bar-track">
+                  <div class="skill-bar-progress" style="width: 96%; background: var(--grad-primary);"></div>
+                </div>
+                <div class="skill-meta-footer">
+                  <span>Batch Readiness: High</span>
+                  <span>Market Demand: 98%</span>
+                </div>
+              </div>
+
+              <!-- Skill Telemetry 2 -->
+              <div class="skill-item-card">
+                <div class="skill-item-header">
+                  <span class="skill-name-title">🤖 AI, NLP & Deep Learning</span>
+                  <span class="skill-verified-tag">✓ 720 Students</span>
+                </div>
+                <div class="skill-bar-track">
+                  <div class="skill-bar-progress" style="width: 92%; background: linear-gradient(90deg, #8b5cf6, #ec4899);"></div>
+                </div>
+                <div class="skill-meta-footer">
+                  <span>Batch Readiness: High</span>
+                  <span>Market Demand: 95%</span>
+                </div>
+              </div>
+
+              <!-- Skill Telemetry 3 -->
+              <div class="skill-item-card">
+                <div class="skill-item-header">
+                  <span class="skill-name-title">☁️ Cloud, Docker & Kubernetes</span>
+                  <span class="skill-verified-tag">✓ 680 Students</span>
+                </div>
+                <div class="skill-bar-track">
+                  <div class="skill-bar-progress" style="width: 88%; background: linear-gradient(90deg, #06b6d4, #10b981);"></div>
+                </div>
+                <div class="skill-meta-footer">
+                  <span>Batch Readiness: Moderate</span>
+                  <span>Market Demand: 92%</span>
+                </div>
+              </div>
+
+              <!-- Skill Telemetry 4 -->
+              <div class="skill-item-card">
+                <div class="skill-item-header">
+                  <span class="skill-name-title">🔐 Cryptographic Proofs & Security</span>
+                  <span class="skill-verified-tag">✓ 890 Students</span>
+                </div>
+                <div class="skill-bar-track">
+                  <div class="skill-bar-progress" style="width: 95%; background: linear-gradient(90deg, #f59e0b, #fbbf24);"></div>
+                </div>
+                <div class="skill-meta-footer">
+                  <span>Batch Readiness: High</span>
+                  <span>Market Demand: 94%</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             SECTION 4: RECENT ACTIVITIES
+             ========================================================================== -->
+        <section class="dashboard-section" id="recent-activities">
+          <div class="section-title-row">
+            <div class="section-heading-group">
+              <span class="section-icon-badge">🕒</span>
+              <div>
+                <h2 class="section-main-title">4. Recent Activities & Institutional Stream</h2>
+                <p class="section-subtitle">Real-time log of verified proofs, interview completions, and placement offer letters</p>
+              </div>
+            </div>
+            <button type="button" class="section-action-btn" id="btnRefreshFeed">
+              <span>🔄 Refresh Feed</span>
+            </button>
+          </div>
+
+          <div class="activity-feed-list" id="activityFeedList">
+            
+            <!-- Activity 1 -->
+            <div class="activity-feed-item">
+              <div class="activity-icon-box" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">🎉</div>
+              <div class="activity-meta-content">
+                <div class="activity-title-text">
+                  <strong>Akrit Sharma (B.Tech CSE)</strong> received verified offer from <strong>Stripe (₹32 LPA)</strong>
+                </div>
+                <div class="activity-time-stamp">15 minutes ago &bull; Verified via Institutional Registry &bull; Proof #LP-9482-SYS</div>
+              </div>
+            </div>
+
+            <!-- Activity 2 -->
+            <div class="activity-feed-item">
+              <div class="activity-icon-box" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa;">🛡️</div>
+              <div class="activity-meta-content">
+                <div class="activity-title-text">
+                  <strong>Priya Patel (BITS Pilani)</strong> submitted new Cryptographic Proof for <strong>Distributed Microservices</strong>
+                </div>
+                <div class="activity-time-stamp">1 hour ago &bull; Automated CI/CD validation passed &bull; Score: 96.2%</div>
+              </div>
+            </div>
+
+            <!-- Activity 3 -->
+            <div class="activity-feed-item">
+              <div class="activity-icon-box" style="background: rgba(168, 85, 247, 0.15); color: #c084fc;">💼</div>
+              <div class="activity-meta-content">
+                <div class="activity-title-text">
+                  <strong>Google Cloud Hiring Drive</strong> shortlisted <strong>42 students</strong> for Final Technical Round
+                </div>
+                <div class="activity-time-stamp">3 hours ago &bull; Campus Drive 2026 Batch</div>
+              </div>
+            </div>
+
+            <!-- Activity 4 -->
+            <div class="activity-feed-item">
+              <div class="activity-icon-box" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24;">📑</div>
+              <div class="activity-meta-content">
+                <div class="activity-title-text">
+                  <strong>NAAC SSR Accreditation Dossier</strong> automatically exported by Department of Computer Science
+                </div>
+                <div class="activity-time-stamp">5 hours ago &bull; Outcome Index: 3.84 / 4.00 (A++ Grade Projection)</div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             SECTION 5: PLACEMENT REPORTS
+             ========================================================================== -->
+        <section class="dashboard-section" id="placement-reports">
+          <div class="section-title-row">
+            <div class="section-heading-group">
+              <span class="section-icon-badge">📑</span>
+              <div>
+                <h2 class="section-main-title">5. Placement Reports & Institutional Dossiers</h2>
+                <p class="section-subtitle">1-Click compliant exports formatted for NAAC, NIRF, ABET, and Senate Reviews</p>
+              </div>
+            </div>
+            <span class="badge-tag badge-user">Instant PDF / CSV Export</span>
+          </div>
+
+          <div class="reports-download-grid">
+            
+            <!-- Report 1 -->
+            <div class="report-export-card">
+              <div class="report-header-box">
+                <div class="report-icon-box">📊</div>
+                <div class="report-info">
+                  <h4>NAAC SSR Criterion V Dossier</h4>
+                  <p>Student support, career progression & placement records</p>
+                </div>
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm btn-export-report" data-report="NAAC SSR Criterion V" style="width: 100%;">
+                <span>⬇️ Download NAAC Dossier (PDF)</span>
+              </button>
+            </div>
+
+            <!-- Report 2 -->
+            <div class="report-export-card">
+              <div class="report-header-box">
+                <div class="report-icon-box" style="background: rgba(6, 182, 212, 0.15); color: #22d3ee;">🏛️</div>
+                <div class="report-info">
+                  <h4>NIRF Graduation Outcomes (GO)</h4>
+                  <p>Median salary, higher education ratio & placement metrics</p>
+                </div>
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm btn-export-report" data-report="NIRF GO Report" style="width: 100%;">
+                <span>⬇️ Download NIRF Report (CSV)</span>
+              </button>
+            </div>
+
+            <!-- Report 3 -->
+            <div class="report-export-card">
+              <div class="report-header-box">
+                <div class="report-icon-box" style="background: rgba(139, 92, 246, 0.15); color: #c084fc;">📈</div>
+                <div class="report-info">
+                  <h4>Annual Placement Senate Audit</h4>
+                  <p>Company-wise hiring statistics, CTC bands & diversity SLA</p>
+                </div>
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm btn-export-report" data-report="Senate Audit Report" style="width: 100%;">
+                <span>⬇️ Download Senate Audit (PDF)</span>
+              </button>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             SECTION 6: STUDENT OVERVIEW
+             ========================================================================== -->
+        <section class="dashboard-section" id="student-overview">
+          <div class="section-title-row">
+            <div class="section-heading-group">
+              <span class="section-icon-badge">👥</span>
+              <div>
+                <h2 class="section-main-title">6. Student Overview & Telemetry Roster</h2>
+                <p class="section-subtitle">Real-time student database with verified CGPA, attendance, cryptographic proofs, and placement state</p>
+              </div>
+            </div>
+            <span class="badge-tag badge-faculty">1,240 Total Students</span>
+          </div>
+
+          <div class="applications-table-wrapper">
+            <div class="table-responsive">
+              <table class="applications-table" id="studentRosterTable">
+                <thead>
+                  <tr>
+                    <th>Student Name & Roll</th>
+                    <th>Branch / Batch</th>
+                    <th>CGPA</th>
+                    <th>Attendance</th>
+                    <th>Proof Status</th>
+                    <th>Placement Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Row 1 -->
+                  <tr>
+                    <td>
+                      <div class="table-company-cell">
+                        <div class="candidate-avatar" style="width: 36px; height: 36px; font-size: 0.88rem; background: var(--grad-primary);">AS</div>
+                        <div>
+                          <strong style="color: var(--text-main);">Akrit Sharma</strong>
+                          <div style="font-size: 0.76rem; color: var(--text-muted);">Roll: 2022CSB1042</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>B.Tech CSE (2026)</td>
+                    <td><strong style="color: #34d399;">8.92</strong></td>
+                    <td><span class="attendance-pill att-good">95.4%</span></td>
+                    <td><span class="badge-tag badge-user" style="font-size: 0.7rem; margin: 0;">#LP-9482-SYS</span></td>
+                    <td><span class="status-pill status-shortlisted">● Placed @ Stripe</span></td>
+                    <td><button type="button" class="btn btn-secondary btn-sm btn-student-details" data-name="Akrit Sharma" style="padding: 0.3rem 0.65rem; font-size: 0.75rem;">View Profile</button></td>
+                  </tr>
+
+                  <!-- Row 2 -->
+                  <tr>
+                    <td>
+                      <div class="table-company-cell">
+                        <div class="candidate-avatar" style="width: 36px; height: 36px; font-size: 0.88rem; background: linear-gradient(135deg, #ec4899, #8b5cf6);">PP</div>
+                        <div>
+                          <strong style="color: var(--text-main);">Priya Patel</strong>
+                          <div style="font-size: 0.76rem; color: var(--text-muted);">Roll: 2022CSB1098</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>B.Tech CSE (2026)</td>
+                    <td><strong style="color: #34d399;">9.24</strong></td>
+                    <td><span class="attendance-pill att-good">98.1%</span></td>
+                    <td><span class="badge-tag badge-user" style="font-size: 0.7rem; margin: 0;">#LP-8819-DIST</span></td>
+                    <td><span class="status-pill status-interviewing">● Final Interview (MS)</span></td>
+                    <td><button type="button" class="btn btn-secondary btn-sm btn-student-details" data-name="Priya Patel" style="padding: 0.3rem 0.65rem; font-size: 0.75rem;">View Profile</button></td>
+                  </tr>
+
+                  <!-- Row 3 -->
+                  <tr>
+                    <td>
+                      <div class="table-company-cell">
+                        <div class="candidate-avatar" style="width: 36px; height: 36px; font-size: 0.88rem; background: linear-gradient(135deg, #10b981, #06b6d4);">TR</div>
+                        <div>
+                          <strong style="color: var(--text-main);">Tanmay Roy</strong>
+                          <div style="font-size: 0.76rem; color: var(--text-muted);">Roll: 2022AIB1015</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>B.Tech AIML (2026)</td>
+                    <td><strong style="color: #34d399;">9.40</strong></td>
+                    <td><span class="attendance-pill att-good">96.0%</span></td>
+                    <td><span class="badge-tag badge-user" style="font-size: 0.7rem; margin: 0;">#LP-7201-ML</span></td>
+                    <td><span class="status-pill status-shortlisted">● Placed @ Adobe AI</span></td>
+                    <td><button type="button" class="btn btn-secondary btn-sm btn-student-details" data-name="Tanmay Roy" style="padding: 0.3rem 0.65rem; font-size: 0.75rem;">View Profile</button></td>
+                  </tr>
+
+                  <!-- Row 4 -->
+                  <tr>
+                    <td>
+                      <div class="table-company-cell">
+                        <div class="candidate-avatar" style="width: 36px; height: 36px; font-size: 0.88rem; background: linear-gradient(135deg, #f59e0b, #ec4899);">RM</div>
+                        <div>
+                          <strong style="color: var(--text-main);">Rohan Mehta</strong>
+                          <div style="font-size: 0.76rem; color: var(--text-muted);">Roll: 2022ECB1056</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>B.Tech ECE (2026)</td>
+                    <td><strong style="color: #60a5fa;">8.72</strong></td>
+                    <td><span class="attendance-pill att-good">91.5%</span></td>
+                    <td><span class="badge-tag badge-user" style="font-size: 0.7rem; margin: 0;">#LP-6102-SYS</span></td>
+                    <td><span class="status-pill status-review">● In Hiring Pipeline</span></td>
+                    <td><button type="button" class="btn btn-secondary btn-sm btn-student-details" data-name="Rohan Mehta" style="padding: 0.3rem 0.65rem; font-size: 0.75rem;">View Profile</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+      </main>
+
+      <!-- Dashboard Footer -->
+      <footer class="site-footer" style="margin-top: auto; border-top: 1px solid var(--border-subtle); padding: 1.5rem 2rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+          <div style="display: flex; align-items: center; gap: 0.6rem;">
+            <img src="../assets/logo/logo.svg" alt="LifeProof" style="height: 24px;" />
+            <span style="font-size: 0.85rem; color: var(--text-muted);">&copy; 2026 LifeProof. Faculty & Institutional Portal.</span>
+          </div>
+          <span style="font-size: 0.78rem; color: var(--text-subtle);">NAAC / NIRF Telemetry Powered by Firebase Authentication</span>
+        </div>
+      </footer>
+
+    </div>
+
+  </div>
+
+  <!-- Interactive Toast Notification Element -->
+  <div class="dashboard-toast" id="dashboardToast">
+    <span id="toastIcon">✨</span>
+    <span id="toastMessage">Action completed successfully!</span>
+  </div>
+
+  <!-- Modular Scripts -->
+  <script src="../js/config.js"></script>
+  <script type="module" src="../js/faculty.js"></script>
+</body>
+
+</html>

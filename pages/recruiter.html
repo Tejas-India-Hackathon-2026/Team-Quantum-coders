@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recruiter Portal & Talent Hub - LifeProof</title>
+  <meta name="description"
+    content="LifeProof Recruiter Hub - Discover verified university cohorts, manage campus hiring drives, and recruit pre-vetted engineers." />
+
+  <!-- Google Fonts: Outfit, Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <!-- Global & Dedicated Dashboard Stylesheets -->
+  <link rel="stylesheet" href="../css/variables.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+</head>
+
+<body class="dashboard-body">
+
+  <!-- Application Layout Wrapper -->
+  <div class="dashboard-app">
+
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <!-- ==========================================================================
+         1. LEFT SIDEBAR NAVIGATION
+         ========================================================================== -->
+    <aside class="dashboard-sidebar" id="dashboardSidebar">
+      <!-- Sidebar Header & Logo -->
+      <div class="sidebar-header">
+        <a href="../index.html" class="sidebar-logo" title="LifeProof Homepage">
+          <img src="../assets/logo/logo.svg" alt="LifeProof Logo" />
+          <span class="sidebar-logo-text">LifeProof</span>
+          <span class="sidebar-logo-badge" style="background: rgba(168, 85, 247, 0.15); color: #c084fc; border-color: rgba(168, 85, 247, 0.3);">Recruiter</span>
+        </a>
+        <button type="button" class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close sidebar">✕</button>
+      </div>
+
+      <!-- Navigation Menu Items -->
+      <nav class="sidebar-nav" aria-label="Recruiter Navigation">
+        <span class="sidebar-section-title">Hiring Pipeline</span>
+
+        <!-- 1. Dashboard (Active) -->
+        <a href="#dashboard" class="sidebar-item active" data-nav="dashboard">
+          <span class="sidebar-item-icon">📊</span>
+          <span>Dashboard</span>
+        </a>
+
+        <!-- 2. Company Profile -->
+        <a href="#company-profile" class="sidebar-item" data-nav="company">
+          <span class="sidebar-item-icon">🏢</span>
+          <span>Company Profile</span>
+          <span class="sidebar-item-badge badge-green">Verified</span>
+        </a>
+
+        <!-- 3. Post Job -->
+        <a href="#post-job" class="sidebar-item" id="sidebarPostJobBtn" data-nav="post-job" style="color: #c084fc;">
+          <span class="sidebar-item-icon">➕</span>
+          <span>Post Job</span>
+          <span class="sidebar-item-badge" style="background: rgba(168, 85, 247, 0.2); color: #e9d5ff;">New</span>
+        </a>
+
+        <!-- 4. Manage Jobs -->
+        <a href="#active-jobs" class="sidebar-item" data-nav="manage-jobs">
+          <span class="sidebar-item-icon">📁</span>
+          <span>Manage Jobs</span>
+          <span class="sidebar-item-badge">8</span>
+        </a>
+
+        <span class="sidebar-section-title">Talent Discovery</span>
+
+        <!-- 5. Candidates -->
+        <a href="#candidate-profiles" class="sidebar-item" data-nav="candidates">
+          <span class="sidebar-item-icon">👥</span>
+          <span>Candidates</span>
+          <span class="sidebar-item-badge badge-green">840+</span>
+        </a>
+
+        <!-- 6. Applications -->
+        <a href="#recent-applications" class="sidebar-item" data-nav="applications">
+          <span class="sidebar-item-icon">📋</span>
+          <span>Applications</span>
+          <span class="sidebar-item-badge" style="background: rgba(59, 130, 246, 0.2); color: #93c5fd;">342</span>
+        </a>
+
+        <!-- 7. Interviews -->
+        <a href="#interview-schedule" class="sidebar-item" data-nav="interviews">
+          <span class="sidebar-item-icon">🎯</span>
+          <span>Interviews</span>
+          <span class="sidebar-item-badge" style="background: rgba(245, 158, 11, 0.2); color: #fde68a;">12</span>
+        </a>
+
+        <!-- 8. Messages -->
+        <a href="#messages" class="sidebar-item" id="sidebarMessagesBtn" data-nav="messages">
+          <span class="sidebar-item-icon">💬</span>
+          <span>Messages</span>
+          <span class="sidebar-item-badge" style="background: rgba(244, 63, 94, 0.2); color: #fda4af;">5</span>
+        </a>
+
+        <span class="sidebar-section-title">Intelligence</span>
+
+        <!-- 9. Analytics -->
+        <a href="#recruitment-analytics" class="sidebar-item" data-nav="analytics">
+          <span class="sidebar-item-icon">📈</span>
+          <span>Analytics</span>
+          <span class="sidebar-item-badge badge-green">96% SLA</span>
+        </a>
+
+        <!-- 10. Settings -->
+        <a href="#settings" class="sidebar-item" data-nav="settings">
+          <span class="sidebar-item-icon">⚙️</span>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <!-- Sidebar Footer with Logout Button -->
+      <div class="sidebar-footer">
+        <!-- 11. Logout -->
+        <button type="button" class="btn-sidebar-logout" id="sidebarLogoutBtn" title="Sign Out of Recruiter Portal">
+          <span class="sidebar-item-icon">🚪</span>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ==========================================================================
+         2. MAIN CONTENT AREA & TOP BAR
+         ========================================================================== -->
+    <div class="dashboard-main">
+
+      <!-- --- TOP BAR --- -->
+      <header class="dashboard-topbar">
+        <div class="topbar-left">
+          <!-- Mobile Sidebar Toggle -->
+          <button type="button" class="mobile-sidebar-toggle" id="mobileSidebarToggle" aria-label="Open navigation menu">
+            ☰
+          </button>
+
+          <!-- Global Candidate / Job Search Input -->
+          <div class="topbar-search-box">
+            <span class="topbar-search-icon">🔍</span>
+            <input type="text" class="topbar-search-input" id="dashboardSearchInput"
+              placeholder="Search candidate skills, proofs, applications, active jobs..." />
+          </div>
+        </div>
+
+        <!-- Topbar Right Actions -->
+        <div class="topbar-right">
+          <!-- Post Job Fast CTA Button -->
+          <button type="button" class="btn btn-primary btn-sm" id="topbarPostJobBtn" style="background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%); font-size: 0.82rem; padding: 0.45rem 0.9rem;">
+            <span>+ Post Job</span>
+          </button>
+
+          <!-- Notification Bell Icon with Badge -->
+          <button type="button" class="topbar-action-btn" id="topbarNotificationBtn" title="View Notifications">
+            <span>🔔</span>
+            <span class="notification-badge-dot" aria-label="New notifications"></span>
+          </button>
+
+          <!-- Recruiter Profile Avatar & Name Pill -->
+          <a href="#recruitment-analytics" class="topbar-user-pill" title="Recruiter Account">
+            <div class="student-photo-avatar auth-user-avatar" id="topbarAvatar" style="background: linear-gradient(135deg, #a855f7, #ec4899);">
+              RC
+            </div>
+            <div class="topbar-user-meta">
+              <span class="student-display-name auth-user-name" id="topbarRecruiterName">Recruiter</span>
+              <span class="topbar-user-role" style="color: #c084fc;">Enterprise Recruiter</span>
+            </div>
+          </a>
+        </div>
+      </header>
+
+      <!-- --- MAIN DASHBOARD BODY --- -->
+      <main class="dashboard-content-body" id="dashboard">
+
+        <!-- ==========================================================================
+             WELCOME MESSAGE BANNER
+             ========================================================================== -->
+        <section class="welcome-banner" style="background: linear-gradient(135deg, rgba(13, 19, 34, 0.92) 0%, rgba(20, 28, 46, 0.85) 60%, rgba(168, 85, 247, 0.12) 100%);">
+          <div class="welcome-banner-text">
+            <h1>Welcome back, <span class="gradient-text-purple auth-user-name" id="welcomeRecruiterName">Recruiter</span> 👋</h1>
+            <p>
+              Your campus talent pipeline across 140+ accredited universities is active with 840+ verified candidates.
+            </p>
+            <div class="welcome-banner-meta">
+              <span class="banner-badge badge-recruiter">
+                <span>●</span> Enterprise Verified Recruiter
+              </span>
+              <span class="banner-badge badge-uid">
+                UID: <span class="auth-user-uid" id="welcomeRecruiterUid">Authenticating...</span>
+              </span>
+              <span class="banner-badge">
+                ✉️ <span class="auth-user-email" id="welcomeRecruiterEmail">...</span>
+              </span>
+            </div>
+          </div>
+          <div class="welcome-banner-actions">
+            <button type="button" class="btn btn-secondary btn-sm" id="btnBrowseTalent">
+              <span>👥 Browse Talent</span>
+            </button>
+            <button type="button" class="btn btn-primary btn-sm" id="btnLaunchDrive" style="background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);">
+              <span>🚀 Launch Hiring Drive</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             DASHBOARD CARDS (4 KPI CARDS)
+             ========================================================================== -->
+        <section class="metrics-kpi-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));" aria-label="Recruiter Key Metrics">
+
+          <!-- Card 1: Active Jobs -->
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <div class="metric-icon-box icon-purple">💼</div>
+              <span class="metric-trend trend-up">8 Live Drives</span>
+            </div>
+            <div class="metric-value">8</div>
+            <div class="metric-label">Active Job Posts</div>
+            <div class="metric-progress-wrapper">
+              <div class="metric-progress-bar">
+                <div class="metric-progress-fill" style="width: 80%; background: linear-gradient(90deg, #8b5cf6, #ec4899);"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Total Applications -->
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <div class="metric-icon-box icon-blue">📋</div>
+              <span class="metric-trend trend-up">↑ +28 this week</span>
+            </div>
+            <div class="metric-value">342</div>
+            <div class="metric-label">Total Applications</div>
+            <div class="metric-progress-wrapper">
+              <div class="metric-progress-bar">
+                <div class="metric-progress-fill" style="width: 65%; background: linear-gradient(90deg, #3b82f6, #60a5fa);"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Shortlisted Candidates -->
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <div class="metric-icon-box icon-emerald">⭐</div>
+              <span class="metric-trend trend-up">Top 5% Cohort</span>
+            </div>
+            <div class="metric-value">48</div>
+            <div class="metric-label">Shortlisted Candidates</div>
+            <div class="metric-progress-wrapper">
+              <div class="metric-progress-bar">
+                <div class="metric-progress-fill" style="width: 50%; background: linear-gradient(90deg, #10b981, #34d399);"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Interviews -->
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <div class="metric-icon-box icon-amber">🎯</div>
+              <span class="metric-trend trend-info">4 Today</span>
+            </div>
+            <div class="metric-value">12</div>
+            <div class="metric-label">Scheduled Interviews</div>
+            <div class="metric-progress-wrapper">
+              <div class="metric-progress-bar">
+                <div class="metric-progress-fill" style="width: 75%; background: linear-gradient(90deg, #f59e0b, #fbbf24);"></div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ==========================================================================
+             SECTION 1: RECENT APPLICATIONS
+             ========================================================================== -->
+        <section class="dashboard-section" id="recent-applications">
+          <div class="section-title-row">
+            <div class="section-heading-group">
+              <span class="section-icon-badge">📋</span>
+              <div>
+                <h2 class="section-main-title">1. Recent Applications</h2>
+                <p class="section-subtitle">Real-time candidate submissions with verified institutional proof ratings</p>
+              </div>
+            </div>
+            <span class="badge-tag badge-partner">342 Total Submissions</span>
+          </div>
+
+          <div class="applications-table-wrapper">
+            <div class="table-responsive">
+              <table class="applications-table" id="applicationsTable">
+                <thead>
+                  <tr>
+                    <th>Candidate</th>
+                    <th>Applied Role</th>
+                    <th>Verified Skills</th>
+                    <th>Readiness Score</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Row 1 -->
+                  <tr data-applicant="Akrit Sharma">
+                    <td>
+                      <div class="table-company-cell">
+                        <div class="candidate-avatar" style="width: 38px; height: 38px; font-size: 0.9rem; background: var(--grad-primary);">AS</div>
+                        <div>
+                          <strong style="color: var(--text-main);">Akrit Sharma</strong>
+                          <div style="font-size: 0.76rem; color: var(--text-muted);">IIT Delhi &bull; B.Tech CSE (GPA 8.9)</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <strong>Frontend Platform Engineer</strong>
+                      <div style="font-size: 0.76rem; color: var(--text-subtle);">Applied 2 hrs ago</div>
+                    </td>
+                    <td>
+                      <span class="tag-pill">React</span>
+                      <span class="tag-pill">TypeScript</span>
+                      <span class="tag-pill">Node</span>
+                    </td>
+                    <td><span class="badge-tag badge-user" style="font-size: 0.72rem; margin: 0;">98.4% Match</span></td>
+                    <td><span class="status-pill status-interviewing">● Technical Round 2</span></td>
+                    <td>
+                      <div style="display: flex; gap: 0.4rem;">
+                        <button type="button" class="btn btn-secondary btn-sm btn-app-action" data-action="shortlist" data-name="Akrit Sharma" style="padding: 0.3rem 0.6rem; font-size: 0.74rem;">Shortlist</button>
+                        <button type="button" class="btn btn-secondary btn-sm btn-app-action" data-action="schedule" data-name="Akrit Sharma" style="padding: 0.3rem 0.6rem; font-size: 0.74rem; color: #38bdf8;">Interview</button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- Row 2 -->
+                  <tr data-applicant="Priya Patel">
+                    <td>
+                      <div class="table-company-cell">
+                        <div class="candidate-avatar" style="width: 38px; height: 38px; font-size: 0.9rem; background: linear-gradient(135deg, #ec4899, #8b5cf6);">PP</div>
+                        <div>
+                          <strong style="color: var(--text-main);">Priya Patel</strong>
+                          <div style="font-size: 0.76rem; color: var(--text-muted);">BITS Pilani &bull; B.Tech CS (GPA 9.2)</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <strong>Full Stack Software Engineer</strong>
+                      <div style="font-size: 0.76rem; color: var(--text-subtle);">Applied 5 hrs ago</div>
+                    </td>
+                    <td>
+                      <span class="tag-pill">Python</span>
+                      <span class="tag-pill">PostgreSQL</span>
+                      <span class="tag-pill">Go</span>
+                    </td>
+                    <td><span class="badge-tag badge-user" style="font-size: 0.72rem; margin: 0;">96.2% Match</span></td>
+                    <td><span class="status-pill status-shortlisted">● Shortlisted</span></td>
+                    <td>
+                      <div style="display: flex; gap: 0.4rem;">
+                        <button type="button" class="btn btn-secondary btn-sm btn-app-action" data-action="schedule" data-name="Priya Patel" style="padding: 0.3rem 0.6rem; font-size: 0.74rem; color: #38bdf8;">Interview</button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- Row 3 -->
+                  <tr data-applicant="Rohan Mehta">
+                    <td>
+                      <div class="table-company-cell">
+                        <div class="candidate-avatar" style="width: 38px; height: 38px; font-size: 0.9rem; background: linear-gradient(135deg, #10b981, #06b6d4);">RM</div>
+                        <div>
+                          <strong style="color: var(--text-main);">Rohan Mehta</strong>
+                          <div style="font-size: 0.76rem; color: var(--text-muted);">NIT Trichy &bull; B.Tech ECE (GPA 8.7)</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <strong>Cloud & AI Systems Associate</strong>
+                      <div style="font-size: 0.76rem; color: var(--text-subtle);">Applied 1 day ago</div>
+                    </td>
+                    <td>
+                      <span class="tag-pill">Docker</span>
+                      <span class="tag-pill">Kubernetes</span>
+                      <span class="tag-pill">GCP</span>
+                    </td>
+                    <td><span class="badge-tag badge-user" style="font-size: 0.72rem; margin: 0;">94.8% Match</span></td>
+                    <td><span class="status-pill status-review">● Under Review</span></td>
+                    <td>
+                      <div style="display: flex; gap: 0.4rem;">
+                        <button type="button" class="btn btn-secondary btn-sm btn-app-action" data-action="shortlist" data-name="Rohan Mehta" style="padding: 0.3rem 0.6rem; font-size: 0.74rem;">Shortlist</button>
+                        <button type="button" class="btn btn-secondary btn-sm btn-app-action" data-action="reject" data-name="Rohan Mehta" style="padding: 0.3rem 0.6rem; font-size: 0.74rem; color: #fda4af;">Pass</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             SECTION 2: ACTIVE JOB POSTS
+             ========================================================================== -->
+        <section class="dashboard-section" id="active-jobs">
+          <div class="section-title-row">
+            <div class="section-heading-group">
+              <span class="section-icon-badge">💼</span>
+              <div>
+                <h2 class="section-main-title">2. Active Job Posts</h2>
+                <p class="section-subtitle">Manage live university hiring pipelines, applicants, and candidate shortlists</p>
+              </div>
+            </div>
+            <button type="button" class="section-action-btn" id="btnOpenPostJobModal">
+              <span>+ Create Job Posting</span>
+            </button>
+          </div>
+
+          <div class="cards-slider-grid" id="recruiterJobsGrid">
+            
+            <!-- Job Card 1 -->
+            <div class="opportunity-card" data-title="Frontend Platform Engineer">
+              <div class="opportunity-header">
+                <div class="opportunity-company-box">
+                  <div class="company-logo-avatar" style="background: rgba(168, 85, 247, 0.15); color: #c084fc;">⚡</div>
+                  <div class="company-details">
+                    <h4>Frontend Platform Engineer</h4>
+                    <span class="company-name">Bengaluru &bull; ₹24 - 32 LPA</span>
+                  </div>
+                </div>
+                <span class="badge-tag badge-user" style="font-size: 0.68rem; margin: 0;">ACTIVE</span>
+              </div>
+              <div class="opportunity-tags">
+                <span class="tag-pill">React</span>
+                <span class="tag-pill">TypeScript</span>
+                <span class="tag-pill">Full Time</span>
+              </div>
+              <div style="font-size: 0.82rem; color: var(--text-muted); display: flex; justify-content: space-between;">
+                <span>👥 128 Applicants</span>
+                <span>⭐ 18 Shortlisted</span>
+              </div>
+              <div class="opportunity-footer">
+                <button type="button" class="btn btn-secondary btn-sm" style="font-size: 0.8rem; padding: 0.35rem 0.8rem;">
+                  Manage Pipeline
+                </button>
+                <button type="button" class="btn btn-primary btn-sm btn-job-status" data-status="active" style="font-size: 0.8rem; padding: 0.35rem 0.8rem;">
+                  Pause Drive
+                </button>
+              </div>
+            </div>
+
+            <!-- Job Card 2 -->
+            <div class="opportunity-card" data-title="Full Stack Software Engineer">
+              <div class="opportunity-header">
+                <div class="opportunity-company-box">
+                  <div class="company-logo-avatar" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa;">💻</div>
+                  <div class="company-details">
+                    <h4>Full Stack Software Engineer</h4>
+                    <span class="company-name">Hyderabad &bull; ₹18 - 26 LPA</span>
+                  </div>
+                </div>
+                <span class="badge-tag badge-user" style="font-size: 0.68rem; margin: 0;">ACTIVE</span>
+              </div>
+              <div class="opportunity-tags">
+                <span class="tag-pill">Node.js</span>
+                <span class="tag-pill">PostgreSQL</span>
+                <span class="tag-pill">Cloud</span>
+              </div>
+              <div style="font-size: 0.82rem; color: var(--text-muted); display: flex; justify-content: space-between;">
+                <span>👥 142 Applicants</span>
+                <span>⭐ 22 Shortlisted</span>
+              </div>
+              <div class="opportunity-footer">
+                <button type="button" class="btn btn-secondary btn-sm" style="font-size: 0.8rem; padding: 0.35rem 0.8rem;">
+                  Manage Pipeline
+                </button>
+                <button type="button" class="btn btn-primary btn-sm btn-job-status" data-status="active" style="font-size: 0.8rem; padding: 0.35rem 0.8rem;">
+                  Pause Drive
+                </button>
+              </div>
+            </div>
+
+            <!-- Job Card 3 -->
+            <div class="opportunity-card" data-title="Software Engineering Intern 2026">
+              <div class="opportunity-header">
+                <div class="opportunity-company-box">
+                  <div class="company-logo-avatar" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">🎓</div>
+                  <div class="company-details">
+                    <h4>Software Engineering Intern 2026</h4>
+                    <span class="company-name">Remote &bull; ₹75,000 / mo</span>
+                  </div>
+                </div>
+                <span class="badge-tag badge-partner" style="font-size: 0.68rem; margin: 0;">INTERNSHIP</span>
+              </div>
+              <div class="opportunity-tags">
+                <span class="tag-pill">Data Structures</span>
+                <span class="tag-pill">Algorithms</span>
+                <span class="tag-pill">PPO Track</span>
+              </div>
+              <div style="font-size: 0.82rem; color: var(--text-muted); display: flex; justify-content: space-between;">
+                <span>👥 72 Applicants</span>
+                <span>⭐ 8 Shortlisted</span>
+              </div>
+              <div class="opportunity-footer">
+                <button type="button" class="btn btn-secondary btn-sm" style="font-size: 0.8rem; padding: 0.35rem 0.8rem;">
+                  Manage Pipeline
+                </button>
+                <button type="button" class="btn btn-primary btn-sm btn-job-status" data-status="active" style="font-size: 0.8rem; padding: 0.35rem 0.8rem;">
+                  Pause Drive
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             SECTION 3: CANDIDATE SEARCH
+             ========================================================================== -->
+        <section class="dashboard-section" id="candidate-search">
+          <div class="section-title-row">
+            <div class="section-heading-group">
+              <span class="section-icon-badge">🔍</span>
+              <div>
+                <h2 class="section-main-title">3. Candidate Search & Proof Filter</h2>
+                <p class="section-subtitle">Search pre-vetted students filtered by verified proof hashes, GPA, and skill proficiency</p>
+              </div>
+            </div>
+            <span class="badge-tag badge-admin">Live Registry Synced</span>
+          </div>
+
+          <div class="candidate-filter-bar">
+            <!-- Filter: Role -->
+            <div class="filter-group">
+              <select class="filter-select" id="filterRoleSelect">
+                <option value="all">All Roles (Any)</option>
+                <option value="frontend">Frontend Engineer</option>
+                <option value="fullstack">Full Stack Engineer</option>
+                <option value="backend">Backend & Distributed</option>
+                <option value="ai">AI / Machine Learning</option>
+              </select>
+            </div>
+
+            <!-- Filter: University -->
+            <div class="filter-group">
+              <select class="filter-select" id="filterUnivSelect">
+                <option value="all">All Universities</option>
+                <option value="iit">IITs / NITs</option>
+                <option value="bits">BITS Pilani</option>
+                <option value="iiit">IIITs</option>
+                <option value="top">Top 50 NIRF</option>
+              </select>
+            </div>
+
+            <!-- Filter: Verified Proof Hash -->
+            <div class="filter-group">
+              <select class="filter-select" id="filterProofSelect">
+                <option value="all">Proof Status: All</option>
+                <option value="verified">Verified Proof Only (#LP)</option>
+                <option value="top3">Top 3% Index</option>
+              </select>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-sm" id="btnExecuteSearch" style="background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);">
+              Apply Filters
+            </button>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             SECTION 4: CANDIDATE PROFILES
+             ========================================================================== -->
+        <section class="dashboard-section" id="candidate-profiles">
+          <div class="section-title-row">
+            <div class="section-heading-group">
+              <span class="section-icon-badge">👤</span>
+              <div>
+                <h2 class="section-main-title">4. Candidate Profiles</h2>
+                <p class="section-subtitle">Pre-vetted engineering talent cohorts with verifiable project proofs</p>
+              </div>
+            </div>
+            <span class="badge-tag badge-recruiter">840 Candidates Available</span>
+          </div>
+
+          <div class="candidates-grid" id="candidatesList">
+            
+            <!-- Candidate 1 -->
+            <div class="candidate-card" data-role="frontend" data-name="Akrit Sharma">
+              <div class="candidate-header">
+                <div class="candidate-avatar">AS</div>
+                <div class="candidate-meta">
+                  <h4>Akrit Sharma</h4>
+                  <div class="candidate-university">IIT Delhi &bull; B.Tech CSE (Batch 2026)</div>
+                </div>
+                <span class="candidate-score-pill">98.4% Match</span>
+              </div>
+              <div class="candidate-proof-strip">
+                <span>🛡️</span>
+                <span>Verified Proof: <strong>#LP-9482-SYS</strong></span>
+              </div>
+              <div class="opportunity-tags">
+                <span class="tag-pill">React</span>
+                <span class="tag-pill">TypeScript</span>
+                <span class="tag-pill">GraphQL</span>
+                <span class="tag-pill">GPA 8.9</span>
+              </div>
+              <div class="candidate-actions-row">
+                <button type="button" class="btn-candidate-action btn-candidate-primary btn-invite-candidate" data-name="Akrit Sharma">
+                  Invite to Interview
+                </button>
+                <button type="button" class="btn-candidate-action btn-candidate-secondary btn-view-profile" data-name="Akrit Sharma">
+                  View Proofs
+                </button>
+              </div>
+            </div>
+
+            <!-- Candidate 2 -->
+            <div class="candidate-card" data-role="fullstack" data-name="Priya Patel">
+              <div class="candidate-header">
+                <div class="candidate-avatar" style="background: linear-gradient(135deg, #ec4899, #8b5cf6);">PP</div>
+                <div class="candidate-meta">
+                  <h4>Priya Patel</h4>
+                  <div class="candidate-university">BITS Pilani &bull; B.Tech CS (Batch 2026)</div>
+                </div>
+                <span class="candidate-score-pill">96.2% Match</span>
+              </div>
+              <div class="candidate-proof-strip">
+                <span>🛡️</span>
+                <span>Verified Proof: <strong>#LP-8819-DIST</strong></span>
+              </div>
+              <div class="opportunity-tags">
+                <span class="tag-pill">Node.js</span>
+                <span class="tag-pill">PostgreSQL</span>
+                <span class="tag-pill">Docker</span>
+                <span class="tag-pill">GPA 9.2</span>
+              </div>
+              <div class="candidate-actions-row">
+                <button type="button" class="btn-candidate-action btn-candidate-primary btn-invite-candidate" data-name="Priya Patel">
+                  Invite to Interview
+                </button>
+                <button type="button" class="btn-candidate-action btn-candidate-secondary btn-view-profile" data-name="Priya Patel">
+                  View Proofs
+                </button>
+              </div>
+            </div>
+
+            <!-- Candidate 3 -->
+            <div class="candidate-card" data-role="ai" data-name="Tanmay Roy">
+              <div class="candidate-header">
+                <div class="candidate-avatar" style="background: linear-gradient(135deg, #10b981, #06b6d4);">TR</div>
+                <div class="candidate-meta">
+                  <h4>Tanmay Roy</h4>
+                  <div class="candidate-university">IIIT Hyderabad &bull; B.Tech AI (Batch 2026)</div>
+                </div>
+                <span class="candidate-score-pill">95.0% Match</span>
+              </div>
+              <div class="candidate-proof-strip">
+                <span>🛡️</span>
+                <span>Verified Proof: <strong>#LP-7201-ML</strong></span>
+              </div>
+              <div class="opportunity-tags">
+                <span class="tag-pill">PyTorch</span>
+                <span class="tag-pill">Python</span>
+                <span class="tag-pill">NLP</span>
+                <span class="tag-pill">GPA 9.4</span>
+              </div>
+              <div class="candidate-actions-row">
+                <button type="button" class="btn-candidate-action btn-candidate-primary btn-invite-candidate" data-name="Tanmay Roy">
+                  Invite to Interview
+                </button>
+                <button type="button" class="btn-candidate-action btn-candidate-secondary btn-view-profile" data-name="Tanmay Roy">
+                  View Proofs
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             SECTION 5: RECRUITMENT ANALYTICS
+             ========================================================================== -->
+        <section class="dashboard-section" id="recruitment-analytics">
+          <div class="section-title-row">
+            <div class="section-heading-group">
+              <span class="section-icon-badge">📈</span>
+              <div>
+                <h2 class="section-main-title">5. Recruitment Analytics</h2>
+                <p class="section-subtitle">Real-time candidate conversion funnels, interview velocity, and hiring SLA telemetry</p>
+              </div>
+            </div>
+            <span class="badge-tag badge-user">Offer Acceptance: 96%</span>
+          </div>
+
+          <div class="analytics-grid-two">
+            <!-- Panel 1: Hiring Conversion Funnel -->
+            <div class="analytics-panel">
+              <div class="analytics-stat-row">
+                <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main);">Hiring Pipeline Funnel</h4>
+                <span style="font-size: 0.8rem; color: #34d399; font-weight: 700;">+14% Conversion</span>
+              </div>
+
+              <!-- Funnel Step 1 -->
+              <div class="funnel-step">
+                <div class="funnel-step-label">
+                  <span>Applications Received</span>
+                  <span>342 Candidates (100%)</span>
+                </div>
+                <div class="funnel-bar-track">
+                  <div class="funnel-bar-fill" style="width: 100%; background: linear-gradient(90deg, #3b82f6, #60a5fa);"></div>
+                </div>
+              </div>
+
+              <!-- Funnel Step 2 -->
+              <div class="funnel-step">
+                <div class="funnel-step-label">
+                  <span>Verified Proof Screening</span>
+                  <span>148 Candidates (43.2%)</span>
+                </div>
+                <div class="funnel-bar-track">
+                  <div class="funnel-bar-fill" style="width: 43.2%; background: linear-gradient(90deg, #8b5cf6, #c084fc);"></div>
+                </div>
+              </div>
+
+              <!-- Funnel Step 3 -->
+              <div class="funnel-step">
+                <div class="funnel-step-label">
+                  <span>Technical & Director Interviews</span>
+                  <span>48 Candidates (14.0%)</span>
+                </div>
+                <div class="funnel-bar-track">
+                  <div class="funnel-bar-fill" style="width: 14%; background: linear-gradient(90deg, #06b6d4, #22d3ee);"></div>
+                </div>
+              </div>
+
+              <!-- Funnel Step 4 -->
+              <div class="funnel-step">
+                <div class="funnel-step-label">
+                  <span>Offers Extended</span>
+                  <span>18 Offers (96% Accepted)</span>
+                </div>
+                <div class="funnel-bar-track">
+                  <div class="funnel-bar-fill" style="width: 8.5%; background: linear-gradient(90deg, #10b981, #34d399);"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel 2: Telemetry SLA & Top University Cohorts -->
+            <div class="analytics-panel">
+              <div class="analytics-stat-row">
+                <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main);">Recruitment SLAs & Cohorts</h4>
+                <span style="font-size: 0.8rem; color: #a5b4fc; font-weight: 700;">Avg Time-to-Hire: 12 Days</span>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+                <div style="display: flex; justify-content: space-between; padding: 0.6rem 0.8rem; background: rgba(255, 255, 255, 0.03); border-radius: var(--radius-md);">
+                  <span style="font-size: 0.85rem; color: var(--text-main);">🏛️ IIT Delhi & IIT Bombay</span>
+                  <strong style="color: #c084fc; font-size: 0.85rem;">42 Shortlisted</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.6rem 0.8rem; background: rgba(255, 255, 255, 0.03); border-radius: var(--radius-md);">
+                  <span style="font-size: 0.85rem; color: var(--text-main);">🏛️ BITS Pilani & IIIT-H</span>
+                  <strong style="color: #38bdf8; font-size: 0.85rem;">36 Shortlisted</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.6rem 0.8rem; background: rgba(255, 255, 255, 0.03); border-radius: var(--radius-md);">
+                  <span style="font-size: 0.85rem; color: var(--text-main);">🏛️ Top NITs & State Unis</span>
+                  <strong style="color: #34d399; font-size: 0.85rem;">28 Shortlisted</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             SECTION 6: INTERVIEW SCHEDULE
+             ========================================================================== -->
+        <section class="dashboard-section" id="interview-schedule">
+          <div class="section-title-row">
+            <div class="section-heading-group">
+              <span class="section-icon-badge">🎯</span>
+              <div>
+                <h2 class="section-main-title">6. Interview Schedule</h2>
+                <p class="section-subtitle">Coordinate technical live coding, system design, and managerial interviews</p>
+              </div>
+            </div>
+            <span class="badge-tag badge-user">12 Scheduled</span>
+          </div>
+
+          <div class="interviews-timeline-grid">
+            
+            <!-- Interview 1 -->
+            <div class="interview-card">
+              <div>
+                <div class="interview-header-row">
+                  <div class="interview-date-badge" style="background: rgba(168, 85, 247, 0.15); border-color: rgba(168, 85, 247, 0.35);">
+                    <span class="day" style="color: #c084fc;">21</span>
+                    <span class="month">AUG</span>
+                  </div>
+                  <span class="interview-stage-tag" style="color: #c084fc; background: rgba(168, 85, 247, 0.12); border-color: rgba(168, 85, 247, 0.3);">Technical Round 2</span>
+                </div>
+                <div style="margin-top: 1rem;">
+                  <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main);">Akrit Sharma &bull; Frontend Architecture</h4>
+                  <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">Candidate: IIT Delhi (Score: 98.4%)</p>
+                </div>
+              </div>
+              <div class="interview-meta-row">
+                <span>⏰ 02:30 PM - 03:30 PM IST</span>
+                <span>📹 Google Meet</span>
+              </div>
+              <button type="button" class="btn-join-call btn-start-interview" data-meet="https://meet.google.com" style="background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);">
+                <span>🎥 Start Video Interview</span>
+              </button>
+            </div>
+
+            <!-- Interview 2 -->
+            <div class="interview-card">
+              <div>
+                <div class="interview-header-row">
+                  <div class="interview-date-badge" style="background: rgba(168, 85, 247, 0.15); border-color: rgba(168, 85, 247, 0.35);">
+                    <span class="day" style="color: #c084fc;">22</span>
+                    <span class="month">AUG</span>
+                  </div>
+                  <span class="interview-stage-tag" style="color: #38bdf8; background: rgba(6, 182, 212, 0.12); border-color: rgba(6, 182, 212, 0.3);">System Design</span>
+                </div>
+                <div style="margin-top: 1rem;">
+                  <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main);">Priya Patel &bull; Distributed Microservices</h4>
+                  <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">Candidate: BITS Pilani (Score: 96.2%)</p>
+                </div>
+              </div>
+              <div class="interview-meta-row">
+                <span>⏰ 04:00 PM - 05:00 PM IST</span>
+                <span>📹 Zoom Meeting</span>
+              </div>
+              <button type="button" class="btn-join-call btn-start-interview" data-meet="https://zoom.us" style="background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);">
+                <span>🎥 Start Video Interview</span>
+              </button>
+            </div>
+
+            <!-- Interview 3 -->
+            <div class="interview-card">
+              <div>
+                <div class="interview-header-row">
+                  <div class="interview-date-badge" style="background: rgba(168, 85, 247, 0.15); border-color: rgba(168, 85, 247, 0.35);">
+                    <span class="day" style="color: #c084fc;">24</span>
+                    <span class="month">AUG</span>
+                  </div>
+                  <span class="interview-stage-tag" style="color: #34d399; background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.3);">Final Culture & Fit</span>
+                </div>
+                <div style="margin-top: 1rem;">
+                  <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main);">Tanmay Roy &bull; Director Culture Fit</h4>
+                  <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">Candidate: IIIT Hyderabad (Score: 95.0%)</p>
+                </div>
+              </div>
+              <div class="interview-meta-row">
+                <span>⏰ 11:30 AM - 12:15 PM IST</span>
+                <span>📹 MS Teams</span>
+              </div>
+              <button type="button" class="btn-join-call btn-start-interview" data-meet="https://teams.microsoft.com" style="background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);">
+                <span>🎥 Start Video Interview</span>
+              </button>
+            </div>
+
+          </div>
+        </section>
+
+      </main>
+
+      <!-- Dashboard Footer -->
+      <footer class="site-footer" style="margin-top: auto; border-top: 1px solid var(--border-subtle); padding: 1.5rem 2rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+          <div style="display: flex; align-items: center; gap: 0.6rem;">
+            <img src="../assets/logo/logo.svg" alt="LifeProof" style="height: 24px;" />
+            <span style="font-size: 0.85rem; color: var(--text-muted);">&copy; 2026 LifeProof. Enterprise Recruiter Portal.</span>
+          </div>
+          <span style="font-size: 0.78rem; color: var(--text-subtle);">Verified Cohorts Powered by Firebase Authentication</span>
+        </div>
+      </footer>
+
+    </div>
+
+  </div>
+
+  <!-- Interactive Post Job Modal -->
+  <div class="post-job-modal-overlay" id="postJobModalOverlay">
+    <div class="post-job-modal">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main);">Create New Job Posting</h3>
+        <button type="button" id="closePostJobModalBtn" style="background: transparent; border: none; color: var(--text-muted); font-size: 1.3rem; cursor: pointer;">✕</button>
+      </div>
+      <form id="postJobForm" style="display: flex; flex-direction: column; gap: 1rem;">
+        <div>
+          <label style="font-size: 0.82rem; color: var(--text-muted); display: block; margin-bottom: 0.3rem;">Role Title</label>
+          <input type="text" id="jobTitleInput" class="form-input" placeholder="e.g. Senior Backend Engineer" required style="width: 100%; padding: 0.6rem 0.9rem; background: rgba(10, 14, 26, 0.9); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); color: var(--text-main);" />
+        </div>
+        <div>
+          <label style="font-size: 0.82rem; color: var(--text-muted); display: block; margin-bottom: 0.3rem;">Location / Type</label>
+          <input type="text" id="jobLocationInput" class="form-input" placeholder="e.g. Bengaluru (Hybrid) / Remote" required style="width: 100%; padding: 0.6rem 0.9rem; background: rgba(10, 14, 26, 0.9); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); color: var(--text-main);" />
+        </div>
+        <div>
+          <label style="font-size: 0.82rem; color: var(--text-muted); display: block; margin-bottom: 0.3rem;">CTC / Salary Package (LPA)</label>
+          <input type="text" id="jobSalaryInput" class="form-input" placeholder="e.g. ₹22 - 30 LPA" required style="width: 100%; padding: 0.6rem 0.9rem; background: rgba(10, 14, 26, 0.9); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); color: var(--text-main);" />
+        </div>
+        <div>
+          <label style="font-size: 0.82rem; color: var(--text-muted); display: block; margin-bottom: 0.3rem;">Required Skills (Comma separated)</label>
+          <input type="text" id="jobSkillsInput" class="form-input" placeholder="e.g. React, Node.js, TypeScript, PostgreSQL" required style="width: 100%; padding: 0.6rem 0.9rem; background: rgba(10, 14, 26, 0.9); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); color: var(--text-main);" />
+        </div>
+        <button type="submit" class="btn btn-primary" style="margin-top: 0.5rem; background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);">
+          Publish Job Drive &rarr;
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Interactive Toast Notification Element -->
+  <div class="dashboard-toast" id="dashboardToast">
+    <span id="toastIcon">✨</span>
+    <span id="toastMessage">Action completed successfully!</span>
+  </div>
+
+  <!-- Modular Scripts -->
+  <script src="../js/config.js"></script>
+  <script type="module" src="../js/recruiter.js"></script>
+</body>
+
+</html>

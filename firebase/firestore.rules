@@ -1,0 +1,53 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Check if request is sent by an authenticated user
+    function isAuthenticated() {
+      return request.auth != null && request.auth.uid != null;
+    }
+    
+    // Check if the authenticated user is the strict owner of the document
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Validate allowed portal roles
+    function isValidRole(role) {
+      return role in ['student', 'recruiter', 'faculty'];
+    }
+
+    // ==========================================================================
+    // USERS COLLECTION (Document ID == Firebase Auth UID)
+    // Enforces strict per-user data isolation and zero cross-user access
+    // ==========================================================================
+    match /users/{userId} {
+      
+      // User can ONLY read their OWN private profile document
+      // No user can read another user's profile data
+      allow read: if isOwner(userId);
+      
+      // User can ONLY create their own profile document
+      allow create: if isOwner(userId)
+                    && request.resource.data.role is string
+                    && isValidRole(request.resource.data.role)
+                    && request.resource.data.email is string
+                    && !('password' in request.resource.data);
+      
+      // User can ONLY update their own allowed profile data
+      // Role cannot be manipulated to arbitrary strings; passwords cannot be stored
+      allow update: if isOwner(userId)
+                    && request.resource.data.role is string
+                    && isValidRole(request.resource.data.role)
+                    && !('password' in request.resource.data);
+      
+      // Prevent deleting user profiles from client
+      allow delete: if false;
+    }
+    
+    // Default fallback: deny all other collections and operations
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" width="240" height="60" fill="none">
+  <defs>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366F1" />
+      <stop offset="50%" stop-color="#8B5CF6" />
+      <stop offset="100%" stop-color="#06B6D4" />
+    </linearGradient>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#E2E8F0" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#6366F1" flood-opacity="0.35" />
+    </filter>
+  </defs>
+
+  <!-- Shield Icon with Pulse/Proof Mark -->
+  <g transform="translate(10, 8)" filter="url(#glow)">
+    <path d="M22 2L4 9V22C4 33.5 11.6 44.1 22 47C32.4 44.1 40 33.5 40 22V9L22 2Z" 
+          fill="url(#shieldGrad)" />
+    <!-- Inner Keyhole / Check / Pulse -->
+    <path d="M16 23.5L20 27.5L28 19.5" 
+          stroke="#FFFFFF" 
+          stroke-width="3" 
+          stroke-linecap="round" 
+          stroke-linejoin="round" />
+  </g>
+
+  <!-- Brand Typography -->
+  <text x="68" y="38" font-family="'Outfit', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="28" font-weight="800" fill="url(#textGrad)" letter-spacing="-0.5">
+    Life<tspan fill="#06B6D4">Proof</tspan>
+  </text>
+</svg>

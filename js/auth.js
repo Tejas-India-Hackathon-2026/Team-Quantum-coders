@@ -388,14 +388,14 @@ export function initOnboardingFlow() {
   if (closeBtn && backdrop) {
     closeBtn.addEventListener('click', () => {
       backdrop.classList.remove('active');
-      // If closed, proceed with standard session
-      if (window._pendingOnboardingUser) {
-        const u = window._pendingOnboardingUser;
-        sessionStorage.setItem('lp_active_session', JSON.stringify(u));
-        const targetPage = LifeProofAuth.dashboardRoutes[u.role] || 'pages/student.html';
-        const isInsidePagesDir = window.location.pathname.includes('/pages/');
-        const redirectUrl = isInsidePagesDir ? targetPage.replace('pages/', '') : targetPage;
-        window.location.href = redirectUrl;
+      window._pendingOnboardingUser = null;
+      showAuthAlert('Onboarding cancelled. You can sign in when ready.', 'info');
+    });
+
+    backdrop.addEventListener('click', (e) => {
+      if (e.target === backdrop) {
+        backdrop.classList.remove('active');
+        window._pendingOnboardingUser = null;
       }
     });
   }
@@ -534,6 +534,12 @@ export function initQuickAccountSwitcher() {
   if (closePickerBtn && pickerOverlay) {
     closePickerBtn.addEventListener('click', () => {
       pickerOverlay.classList.remove('active');
+    });
+
+    pickerOverlay.addEventListener('click', (e) => {
+      if (e.target === pickerOverlay) {
+        pickerOverlay.classList.remove('active');
+      }
     });
   }
 

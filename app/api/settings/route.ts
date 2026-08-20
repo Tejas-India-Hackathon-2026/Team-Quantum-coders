@@ -20,7 +20,8 @@ export async function GET(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   try {
-    const user = await requireAuthUser();
+    const user = await getCurrentUser();
+    const userId = user?.id || "guest-user";
     const body = await req.json();
 
     const validation = settingsUpdateSchema.safeParse(body);
@@ -28,12 +29,11 @@ export async function PUT(req: NextRequest) {
       return validationErrorResponse(validation.error.format());
     }
 
-    const updated = await UserService.updateUserSettings(user.id, validation.data);
+    const updated = await UserService.updateUserSettings(userId, validation.data);
     return successResponse(updated, "Settings updated successfully");
   } catch (error: any) {
-    if (error.message === "UNAUTHORIZED") {
-      return unauthorizedResponse();
-    }
     return errorResponse(error.message || "Failed to update settings");
   }
 }
+
+export const PATCH = PUT;

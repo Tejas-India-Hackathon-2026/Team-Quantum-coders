@@ -29,6 +29,7 @@ interface SkillDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
   onLaunchChallenge: (challenge: Challenge) => void;
+  onVerifyCheck?: (skill: Skill) => void;
 }
 
 const ICONS: Record<string, React.ElementType> = {
@@ -45,6 +46,7 @@ export function SkillDetailModal({
   isOpen,
   onClose,
   onLaunchChallenge,
+  onVerifyCheck,
 }: SkillDetailModalProps) {
   if (!isOpen || !skill) return null;
 
@@ -133,6 +135,30 @@ export function SkillDetailModal({
               style={{ width: `${skill.level}%` }}
             />
           </div>
+        </div>
+
+        {/* Verification Trigger */}
+        <div className="p-4 rounded-2xl bg-indigo-50/80 dark:bg-slate-900 border border-indigo-100 dark:border-white/10 flex items-center justify-between">
+          <div>
+            <span className="text-xs font-bold text-slate-900 dark:text-white block">
+              {skill.verified ? "Skill Cryptographically Certified" : "Ready for Skill Verification Audit"}
+            </span>
+            <span className="text-[11px] text-slate-500 dark:text-muted-foreground">
+              {skill.verified ? "100% Consensus Proof generated." : "Run automated AST drill to upgrade rank and earn XP."}
+            </span>
+          </div>
+          <Button
+            variant="glow"
+            size="sm"
+            onClick={() => {
+              onClose();
+              onVerifyCheck?.(skill);
+            }}
+            className="text-xs gap-1.5 font-bold shadow-xs cursor-pointer"
+          >
+            <Sparkles className="h-3.5 w-3.5" />
+            {skill.verified ? "Re-Check Skill" : "Check & Verify Skill"}
+          </Button>
         </div>
 
         {/* Available Specific Challenges for this skill */}

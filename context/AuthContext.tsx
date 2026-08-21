@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { UserProfile } from "@/types";
+import { UserProfile, Skill, SkillCategory } from "@/types";
 import { STARTER_USER, MOCK_USER } from "@/data/mockAchievements";
 
 interface AuthContextType {
@@ -12,6 +12,8 @@ interface AuthContextType {
   logout: () => void;
   requireAuth: (onSuccess?: () => void) => void;
   completeChallenge: (challengeId: string, xp: number) => Promise<void>;
+  addCustomSkill: (skill: Partial<Skill>) => Skill;
+  verifySkill: (skillId: string, level?: number, score?: number) => void;
   loadDemoGrandmasterProfile: () => void;
   showAuthModal: boolean;
   setShowAuthModal: (open: boolean) => void;
@@ -50,7 +52,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       completedChallengesCount: 0,
       rank: "Challenger I",
       verifiedSince: new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" }),
-      skills: STARTER_USER.skills.map((s) => ({ ...s, level: 0, score: 0, challengesCompleted: 0, verified: false })),
+      skills: STARTER_USER.skills.map((s) => ({ ...s, level: 0, score: 0, challengesCompleted: 0, verified: false, topPercentile: 99 })),
       achievements: [],
     };
 
@@ -117,7 +119,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         completedChallengesCount: 0,
         rank: "Challenger I",
         verifiedSince: new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" }),
-        skills: STARTER_USER.skills.map((s) => ({ ...s, level: 0, score: 0, challengesCompleted: 0, verified: false })),
+        skills: STARTER_USER.skills.map((s) => ({ ...s, level: 0, score: 0, challengesCompleted: 0, verified: false, topPercentile: 99 })),
         achievements: [],
       };
 
@@ -155,16 +157,78 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const completeChallenge = async (challengeId: string, xp: number) => {
-    if (!user) return;
+    const currentUser = user || STARTER_USER;
 
-    const updatedXp = (user.totalXp || 0) + xp;
-    const updatedCount = (user.completedChallengesCount || 0) + 1;
+    const updatedXp = (currentUser.totalXp || 0) + xp;
+    const updatedCount = (currentUser.completedChallengesCount || 0) + 1;
 
     const updatedUser: UserProfile = {
-      ...user,
+      ...currentUser,
       totalXp: updatedXp,
       completedChallengesCount: updatedCount,
       rank: updatedCount >= 5 ? "Senior Specialist" : updatedCount >= 1 ? "Verified Explorer" : "Challenger I",
+    };
+
+    setUser(updatedUser);
+    try {
+      localStorage.setItem("lifeproof_user", JSON.stringify(updatedUser));
+    } catch {}
+  };
+
+  const addCustomSkill = (newSkillData: Partial<Skill>): Skill => {
+    const currentUser = user || STARTER_USER;
+    // New skill starts strictly unverified at 0% until assessment test is passed!
+    const newSkill: Skill = {
+      id: `skill-custom-${Date.now().toString(36)}`,
+      name: newSkillData.name?.trim() || "Custom Engineering Skill",
+      category: (newSkillData.category as SkillCategory) || "Backend & Distributed Systems",
+      level: 0,
+      score: 0,
+      verified: false,
+      challengesCompleted: 0,
+      totalChallenges: 3,
+      iconName: newSkillData.iconName || "Code2",
+      topPercentile: 99,
+    };
+
+    const updatedSkills = [newSkill, ...currentUser.skills];
+    const updatedUser: UserProfile = {
+      ...currentUser,
+      skills: updatedSkills,
+    };
+
+    setUser(updatedUser);
+    try {
+      localStorage.setItem("lifeproof_user", JSON.stringify(updatedUser));
+    } catch {}
+
+    return newSkill;
+  };
+
+  const verifySkill = (skillId: string, level: number = 85, score: number = 850) => {
+    const currentUser = user || STARTER_USER;
+    const isPassing = level >= 60;
+
+    const updatedSkills = currentUser.skills.map((s) => {
+      if (s.id === skillId) {
+        return {
+          ...s,
+          level: level,
+          score: score,
+          verified: isPassing,
+          verificationDate: isPassing ? "Verified Today" : undefined,
+          challengesCompleted: isPassing ? (s.challengesCompleted || 0) + 1 : s.challengesCompleted,
+          topPercentile: isPassing ? Math.max(3, 100 - level) : 99,
+        };
+      }
+      return s;
+    });
+
+    const xpBonus = isPassing ? 250 : 50;
+    const updatedUser: UserProfile = {
+      ...currentUser,
+      skills: updatedSkills,
+      totalXp: (currentUser.totalXp || 0) + xpBonus,
     };
 
     setUser(updatedUser);
@@ -180,7 +244,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (onSuccess) {
         setPendingAction(() => onSuccess);
       }
-      // Redirect new / unauthenticated user to signup page to create account first
       window.location.replace("/signup");
     }
   };
@@ -195,6 +258,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         logout,
         requireAuth,
         completeChallenge,
+        addCustomSkill,
+        verifySkill,
         loadDemoGrandmasterProfile,
         showAuthModal,
         setShowAuthModal,

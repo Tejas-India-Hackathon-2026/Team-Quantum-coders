@@ -6,15 +6,21 @@ import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { VerifiedBadge } from "@/components/profile/VerifiedBadge";
 import { SkillRadar } from "@/components/profile/SkillRadar";
 import { AchievementCard } from "@/components/dashboard/AchievementCard";
+import { AddSkillModal } from "@/components/dashboard/AddSkillModal";
+import { SkillCheckModal } from "@/components/dashboard/SkillCheckModal";
 import { STARTER_USER } from "@/data/mockAchievements";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/Button";
-import { Trophy, ShieldCheck, Sparkles, Award } from "lucide-react";
+import { Trophy, ShieldCheck, Sparkles, Award, Plus } from "lucide-react";
+import { Skill } from "@/types";
 
 export default function ProfilePage() {
   const { user, loadDemoGrandmasterProfile } = useAuth();
   const currentUser = user || STARTER_USER;
   const isNew = (currentUser.totalXp ?? 0) === 0;
+
+  const [showAddSkillModal, setShowAddSkillModal] = React.useState(false);
+  const [checkingSkill, setCheckingSkill] = React.useState<Skill | null>(null);
 
   return (
     <div className="flex-1 flex min-h-[calc(100vh-4rem)]">
@@ -42,7 +48,7 @@ export default function ProfilePage() {
                   variant="outline"
                   size="sm"
                   onClick={loadDemoGrandmasterProfile}
-                  className="text-xs border-indigo-200 dark:border-indigo-500/30 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-50 font-semibold"
+                  className="text-xs border-indigo-200 dark:border-indigo-500/30 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-50 font-semibold cursor-pointer"
                 >
                   <Sparkles className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
                   Preview Grandmaster
@@ -59,11 +65,22 @@ export default function ProfilePage() {
 
           {/* Skill Radar / Breakdown */}
           <div className="space-y-3">
-            <div className="flex items-center gap-2">
-              <ShieldCheck className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
-              <h2 className="text-base font-bold text-slate-900 dark:text-white uppercase tracking-wider">
-                Multi-Vector Proficiency Radar
-              </h2>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+                <h2 className="text-base font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                  Multi-Vector Proficiency Radar
+                </h2>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowAddSkillModal(true)}
+                className="text-xs gap-1.5 font-bold shadow-xs cursor-pointer"
+              >
+                <Plus className="h-3.5 w-3.5 text-indigo-600" />
+                Add Skill
+              </Button>
             </div>
             <SkillRadar skills={currentUser.skills} />
           </div>
@@ -100,6 +117,22 @@ export default function ProfilePage() {
           )}
         </div>
       </main>
+
+      {/* Add Custom Skill Modal */}
+      <AddSkillModal
+        isOpen={showAddSkillModal}
+        onClose={() => setShowAddSkillModal(false)}
+        onTakeVerificationDrill={(newSkill) => {
+          setCheckingSkill(newSkill);
+        }}
+      />
+
+      {/* Instant Skill Check & AST Evaluation Modal */}
+      <SkillCheckModal
+        skill={checkingSkill}
+        isOpen={!!checkingSkill}
+        onClose={() => setCheckingSkill(null)}
+      />
     </div>
   );
 }
